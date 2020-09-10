@@ -1,8 +1,3 @@
-*-------------------------------------------------------------------------------
-* This code is originally written by Hiroaki Miyamoto
-* (C) Hiroaki Miyamoto
-* Please do not circulate this code without author's permission
-*-------------------------------------------------------------------------------
 
 capture log close
 clear *
