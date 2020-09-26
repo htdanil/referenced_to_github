@@ -1,0 +1,186 @@
+                                                       ___  ____  ____  ____  ____(R)
+                                                      /__    /   ____/   /   ____/   
+                                                     ___/   /   /___/   /   /___/    
+                                                       Statistics/Data Analysis      
+      
+      -------------------------------------------------------------------------------
+            name:  <unnamed>
+             log:  C:\MyFiles\IUJ\Teaching\Stata\stata-tutorial\tutorial3\answer3.smc
+      > l
+        log type:  smcl
+       opened on:  17 Apr 2012, 23:04:26
+      
+     1 . * Name
+     2 . * Student ID
+     3 . clear
+      
+     4 . 
+     5 . * (i)
+     6 . use palau_hh_2000
+      
+     7 . rename h17 toilet
+      
+     8 . label variable toilet "Access to flush toilet"
+      
+     9 . 
+    10 . * I write the next command in two lines.
+    11 . * So far, we have written one command in one line.
+    12 . * However, we sometimes need to write a long command,
+    13 . * which is easy to see if written in two or multiple lines.
+    14 . * Here is how to do this.
+    15 . * Stata ignores anything between /* and */, literally
+    16 . * anything including line break (return). For example,
+    17 . * Stata ignores the following message.
+    18 . 
+    19 . /*
+      > This is Stata Tutorial 3. Only two more Tutorials left.
+      > */
+    20 . 
+    21 . * Likewise, we can write the following long command in three lines.
+    22 . 
+    23 . label define TOILET 1 "Yes, in this unit" 2 "Yes, in this building" /*
+      > */ 3 "Yes, outside this building" 4 "No, outhouse or privy" /*
+      > */ 5 "No, other or none"
+      
+    24 . label values toilet TOILET
+      
+    25 . save household_labeled, replace
+      file household_labeled.dta saved
+      
+    26 . 
+    27 . * (ii)
+    28 . clear
+      
+    29 . use palau_individual_2000
+      
+    30 . 
+    31 . * First, you should check the original values used by /*
+      > */ the variable religion. To do so, type /*
+      > */ label list RELIGION /*
+      > */ in the command line. You can find the name of the value label RELIGION /*
+      > */ by "describe religion" 
+    32 . 
+    33 . des religion
+      
+                    storage  display     value
+      variable name   type   format      label      variable label
+      -------------------------------------------------------------------------------
+      religion        byte   %16.0g      RELIGION   RELIGION
+      
+    34 . label list RELIGION
+      RELIGION:
+                 1 Modekngei
+                 2 Catholic
+                 3 Protestant
+                 4 Seventh Day Adv
+                 5 Mormons (LDS)
+                 6 Jehovah Witness
+                 7 Other Protestant
+                 8 Other religion
+                 9 None or refused
+      
+    35 . gen religious_group=3 if religion<.
+      
+    36 . replace religious_group=1 if religion==2 | religion==3
+      (12280 real changes made)
+      
+    37 . replace religious_group=2 if religion==9
+      (3104 real changes made)
+      
+    38 . 
+    39 . * (iii)
+    40 . label variable religious_group "Religious group"
+      
+    41 . label define RELIGIOUS_GROUP 1 "Catholic or Protestant" /*
+      > */ 2 "None or Refused to answer" 3 "Other religions"
+      
+    42 . label values religious_group RELIGIOUS_GROUP
+      
+    43 . 
+    44 . * (iv)
+    45 . save individual_labeled, replace
+      (note: file individual_labeled.dta not found)
+      file individual_labeled.dta saved
+      
+    46 . clear
+      
+    47 . 
+    48 . use household_labeled
+      
+    49 . merge 1:m CASE_ID using individual_labeled
+      
+          Result                           # of obs.
+          -----------------------------------------
+          not matched                           114
+              from master                       114  (_merge==1)
+              from using                          0  (_merge==2)
+      
+          matched                            19,049  (_merge==3)
+          -----------------------------------------
+      
+    50 . 
+    51 . * You could tabulate _merge, if you like, /*
+      > */ to see how the merge was done.
+    52 . tab _merge,m
+      
+                       _merge |      Freq.     Percent        Cum.
+      ------------------------+-----------------------------------
+              master only (1) |        114        0.59        0.59
+                  matched (3) |     19,049       99.41      100.00
+      ------------------------+-----------------------------------
+                        Total |     19,163      100.00
+      
+    53 . 
+    54 . * It is a good idea to confirm that variables you use /*
+      > */ in your analysis do not contain irrelevant values. /*
+      > */ You can use the command summarize and quickly check /*
+      > */ whether the income variable fam_income does not contain /*
+      > */ obvious irrelevant values (such as negative values or /*
+      > */ extremetly large positive values) by simply checking /*
+      > */ its min and max values.
+    55 . 
+    56 . su fam_income
+      
+          Variable |       Obs        Mean    Std. Dev.       Min        Max
+      -------------+--------------------------------------------------------
+        fam_income |     19049    22628.93    41692.65          0     996400
+      
+    57 . bysort religious_group: su fam_income
+      
+      -------------------------------------------------------------------------------
+      -> religious_group = Catholic or Protestant
+      
+          Variable |       Obs        Mean    Std. Dev.       Min        Max
+      -------------+--------------------------------------------------------
+        fam_income |     12280    23102.03    41107.32          0     996400
+      
+      -------------------------------------------------------------------------------
+      -> religious_group = None or Refused to answer
+      
+          Variable |       Obs        Mean    Std. Dev.       Min        Max
+      -------------+--------------------------------------------------------
+        fam_income |      3104    21255.31    51412.63          0     704000
+      
+      -------------------------------------------------------------------------------
+      -> religious_group = Other religions
+      
+          Variable |       Obs        Mean    Std. Dev.       Min        Max
+      -------------+--------------------------------------------------------
+        fam_income |      3665    22207.15    33655.63          0     996400
+      
+      -------------------------------------------------------------------------------
+      -> religious_group = .
+      
+          Variable |       Obs        Mean    Std. Dev.       Min        Max
+      -------------+--------------------------------------------------------
+        fam_income |         0
+      
+      
+    58 . 
+    59 . log close
+            name:  <unnamed>
+             log:  C:\MyFiles\IUJ\Teaching\Stata\stata-tutorial\tutorial3\answer3.smc
+      > l
+        log type:  smcl
+       closed on:  17 Apr 2012, 23:04:26
+      -------------------------------------------------------------------------------

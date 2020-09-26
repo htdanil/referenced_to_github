@@ -1,0 +1,250 @@
+                                                        ___  ____  ____  ____  ____tm
+                                                       /__    /   ____/   /   ____/  
+                                                      ___/   /   /___/   /   /___/   
+                                                        Statistics/Data Analysis     
+      
+      -------------------------------------------------------------------------------
+             log:  C:\MyFiles\IUJ\Teaching\Stata\stata-tutorial\Stata_Exam\Exam_10\ex
+      > am.smcl
+        log type:  smcl
+       opened on:  21 May 2010, 17:32:36
+      
+     1 . 
+     2 . * 1
+     3 . use data
+      (Per Capita Expenditure 2000)
+      
+     4 . su
+      
+          Variable |       Obs        Mean    Std. Dev.       Min        Max
+      -------------+--------------------------------------------------------
+            hhid00 |         0
+            island |      9800    3.157245    1.555278          1          7
+             urban |      9800    .4587755    .4983231          0          1
+          lnhhsize |      9800    1.485286    .5847963          0   3.610918
+             wm0_6 |      9800     .051068    .1021552          0         .6
+      -------------+--------------------------------------------------------
+             wf0_6 |      9800    .0485201    .0987802          0   .6666667
+            wm6_19 |      9800    .1141017    .1639126          0          1
+            wf6_19 |      9800    .1185865    .1626674          0          1
+           wm19_60 |      9800    .2801063    .1920906          0          1
+           wf19_60 |      9800    .2916175    .1861723          0          1
+      -------------+--------------------------------------------------------
+             wm60p |      9800    .0397448    .1081355          0          1
+             wf60p |      9800     .056255    .1460994          0          1
+           rpce_pl |      9771    333293.8    430137.4   10800.16   1.73e+07
+             waltb |      9771    .0569384    .0719876          0   .7638038
+            wfdout |      9771    .0233228    .0691867          0   .8954734
+      
+     5 . 
+     6 . * 2
+     7 . gen no_prime_female=0 if wf19_60<.
+      
+     8 . replace no_prime_female=1 if wf19_60==0
+      (1064 real changes made)
+      
+     9 . 
+    10 . * 3
+    11 . bysort no_prime_female: su wfdout
+      
+      -------------------------------------------------------------------------------
+      -> no_prime_female = 0
+      
+          Variable |       Obs        Mean    Std. Dev.       Min        Max
+      -------------+--------------------------------------------------------
+            wfdout |      8708    .0180283    .0524636          0   .8954734
+      
+      -------------------------------------------------------------------------------
+      -> no_prime_female = 1
+      
+          Variable |       Obs        Mean    Std. Dev.       Min        Max
+      -------------+--------------------------------------------------------
+            wfdout |      1063    .0666948    .1391323          0   .8458843
+      
+      
+    12 . * Households without prime-age females, on average, have
+    13 . * a higher ratio of expenditure on food out of home to
+    14 . * total household expenditure in comparison with
+    15 . * households with prime-age females.
+    16 .  
+    17 . * 4
+    18 . gen lnrpce_pl=log(rpce_pl)
+      (29 missing values generated)
+      
+    19 . 
+    20 . * 5
+    21 . des island
+      
+                    storage  display     value
+      variable name   type   format      label      variable label
+      -------------------------------------------------------------------------------
+      island          float  %13.0g      ISLAND     island group
+      
+    22 . label list ISLAND
+      ISLAND:
+                 1 Sumatra
+                 3 Java
+                 5 Nusa Tenggara
+                 6 Kalimantan
+                 7 Sulawesi
+      
+    23 . 
+    24 . gen usumatra=0 if island<. & urban<.
+      
+    25 . replace usumatra=1 if island==1 & urban==1
+      (736 real changes made)
+      
+    26 . 
+    27 . gen rsumatra=0 if island<. & urban<.
+      
+    28 . replace rsumatra=1 if island==1 & urban==0
+      (1216 real changes made)
+      
+    29 . 
+    30 . gen ujava=0 if island<. & urban<.
+      
+    31 . replace ujava=1 if island==3 & urban==1
+      (3088 real changes made)
+      
+    32 . 
+    33 . gen rjava=0 if island<. & urban<.
+      
+    34 . replace rjava=1 if island==3 & urban==0
+      (2747 real changes made)
+      
+    35 . 
+    36 . gen utenggara=0 if island<. & urban<.
+      
+    37 . replace utenggara=1 if island==5 & urban==1
+      (313 real changes made)
+      
+    38 . 
+    39 . gen rtenggara=0 if island<. & urban<.
+      
+    40 . replace rtenggara=1 if island==5 & urban==0
+      (776 real changes made)
+      
+    41 . 
+    42 . gen ukalimantan=0 if island<. & urban<.
+      
+    43 . replace ukalimantan=1 if island==6 & urban==1
+      (163 real changes made)
+      
+    44 . 
+    45 . gen rkalimantan=0 if island<. & urban<.
+      
+    46 . replace rkalimantan=1 if island==6 & urban==0
+      (266 real changes made)
+      
+    47 . 
+    48 . gen usulawesi=0 if island<. & urban<.
+      
+    49 . replace usulawesi=1 if island==7 & urban==1
+      (196 real changes made)
+      
+    50 . 
+    51 . gen rsulawesi=0 if island<. & urban<.
+      
+    52 . replace rsulawesi=1 if island==7 & urban==0
+      (299 real changes made)
+      
+    53 . 
+    54 . * 6
+    55 . ttest waltb, by(urban) unequal
+      
+      Two-sample t test with unequal variances
+      ------------------------------------------------------------------------------
+         Group |     Obs        Mean    Std. Err.   Std. Dev.   [95% Conf. Interval]
+      ---------+--------------------------------------------------------------------
+             0 |    5293     .062046    .0010111    .0735619    .0600638    .0640282
+             1 |    4478    .0509013    .0010402    .0696076     .048862    .0529405
+      ---------+--------------------------------------------------------------------
+      combined |    9771    .0569384    .0007283    .0719876    .0555109     .058366
+      ---------+--------------------------------------------------------------------
+          diff |            .0111447    .0014506                .0083012    .0139883
+      ------------------------------------------------------------------------------
+          diff = mean(0) - mean(1)                                      t =   7.6826
+      Ho: diff = 0                     Satterthwaite's degrees of freedom =  9647.63
+      
+          Ha: diff < 0                 Ha: diff != 0                 Ha: diff > 0
+       Pr(T < t) = 1.0000         Pr(|T| > |t|) = 0.0000          Pr(T > t) = 0.0000
+      
+    56 . * Yes, we can reject the null hypothesis in favor of
+    57 . * the alternative hypothesis, because the p-value for
+    58 . * the test is 0.0000.
+    59 . 
+    60 . * 7
+    61 . * The dependent variable is the expenditure share on so-called
+    62 . * an adult good which is consumed exclusively by adults. By this
+    63 . * regression model, we examine whether we observe a difference
+    64 . * in the expenditure on alcohol and tobacco between two types of
+    65 . * households: households with (a larger number of) girls and
+    66 . * households with (a larger number of) boys. If girls are
+    67 . * discriminated against and boys are favored in terms of
+    68 . * the intra-household allocation of resources, households should
+    69 . * cut back the expenditure on alcohol and tobacco more when they
+    70 . * have boys than when they have girls in order to allocate
+    71 . * a larger amount of household resoures to boys rather than girls. 
+    72 . 
+    73 . * 8
+    74 . regress waltb lnrpce_pl lnhhsize wm0_6 wf0_6 wm6_19 wf6_19 wf19_60 wm60p wf60
+      > p usumatra rsumatra rjava utenggara rtenggara ukalimantan rkalimantan usulawe
+      > si rsulawesi
+      
+            Source |       SS       df       MS              Number of obs =    9771
+      -------------+------------------------------           F( 18,  9752) =   39.69
+             Model |  3.45555624    18  .191975346           Prob > F      =  0.0000
+          Residual |    47.17464  9752  .004837432           R-squared     =  0.0683
+      -------------+------------------------------           Adj R-squared =  0.0665
+             Total |  50.6301963  9770   .00518221           Root MSE      =  .06955
+      
+      ------------------------------------------------------------------------------
+             waltb |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+      -------------+----------------------------------------------------------------
+         lnrpce_pl |  -.0116192   .0010289   -11.29   0.000    -.0136361   -.0096023
+          lnhhsize |  -.0000205   .0013265    -0.02   0.988    -.0026207    .0025796
+             wm0_6 |   -.037267   .0077575    -4.80   0.000    -.0524734   -.0220606
+             wf0_6 |  -.0442281   .0080189    -5.52   0.000    -.0599467   -.0285094
+            wm6_19 |  -.0683399   .0052082   -13.12   0.000     -.078549   -.0581308
+            wf6_19 |  -.0758311   .0052474   -14.45   0.000    -.0861171   -.0655451
+           wf19_60 |  -.0846154   .0048538   -17.43   0.000    -.0941299    -.075101
+             wm60p |  -.0350787   .0071338    -4.92   0.000    -.0490623    -.021095
+             wf60p |  -.0947099   .0058299   -16.25   0.000    -.1061377   -.0832822
+          usumatra |   .0184111   .0028767     6.40   0.000     .0127722    .0240501
+          rsumatra |   .0217879   .0023882     9.12   0.000     .0171066    .0264693
+             rjava |   .0096423   .0018614     5.18   0.000     .0059936     .013291
+         utenggara |    .002824   .0041318     0.68   0.494    -.0052753    .0109233
+         rtenggara |    .010084   .0028378     3.55   0.000     .0045213    .0156467
+       ukalimantan |   .0036755   .0055954     0.66   0.511    -.0072927    .0146436
+       rkalimantan |   .0184883   .0044636     4.14   0.000     .0097387    .0272379
+         usulawesi |   .0137898   .0051357     2.69   0.007     .0037228    .0238568
+         rsulawesi |   .0147281   .0042353     3.48   0.001     .0064262    .0230301
+             _cons |   .2441293   .0141499    17.25   0.000     .2163925    .2718661
+      ------------------------------------------------------------------------------
+      
+    75 . 
+    76 . * 9
+    77 . * The ratio of the monthly expenditure on alcohol and tobacco
+    78 . * to total monthly household expenditure is, on average,
+    79 . * 0.015 higher (or 1.5% point higher) in rural Sulawesi
+    80 . * in comparison with urban Java. 
+    81 . 
+    82 . * 10
+    83 . * No, I cannot find evidence of unequal distribution of
+    84 . * household resources against girls in favor of boys.
+    85 . * Comparing the coefficient estimates on wm0_6 and wf0_6,
+    86 . * girls have a more negative coefficient estimate than
+    87 . * boys (-0.044 is more negative than -0.037), implying
+    88 . * that households cut back the expenditure on alcohol
+    89 . * and tobacco more when they have girls rather than boys
+    90 . * (although we do not know whether the difference in
+    91 . * the coefficient estimates is statistically significant
+    92 . * or not). Similarily, we observe a more negative
+    93 . * coefficient estimate for wf6_19 than for wm6_19.
+    94 .  
+    95 . log close
+             log:  C:\MyFiles\IUJ\Teaching\Stata\stata-tutorial\Stata_Exam\Exam_10\ex
+      > am.smcl
+        log type:  smcl
+       closed on:  21 May 2010, 17:32:36
+      -------------------------------------------------------------------------------

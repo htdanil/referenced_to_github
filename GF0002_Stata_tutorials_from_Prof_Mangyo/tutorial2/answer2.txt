@@ -1,0 +1,79 @@
+                                                        ___  ____  ____  ____  ____tm
+                                                       /__    /   ____/   /   ____/  
+                                                      ___/   /   /___/   /   /___/   
+                                                        Statistics/Data Analysis     
+      
+      -------------------------------------------------------------------------------
+             log:  C:\MyFiles\IUJ\Teaching\Stata\stata-tutorial\tutorial2\answer2.smc
+      > l
+        log type:  smcl
+       opened on:  13 Apr 2009, 01:16:45
+      
+     1 . clear
+      
+     2 . use auto
+      (1978 Automobile Data)
+      
+     3 . 
+     4 . * (i)
+     5 . gen new_mpg=mpg
+      
+     6 . replace new_mpg=24 if make=="Honda Civic"
+      (1 real change made)
+      
+     7 . replace new_mpg=27 if make=="VW Rabbit"
+      (1 real change made)
+      
+     8 . replace new_mpg=. if make=="Chev. Nova" | make=="Peugeot 604"
+      (2 real changes made, 2 to missing)
+      
+     9 . 
+    10 . * (ii)
+    11 . gen efficient=0 if new_mpg<.
+      (2 missing values generated)
+      
+    12 . replace efficient=1 if new_mpg>25 & new_mpg<.
+      (14 real changes made)
+      
+    13 . 
+    14 . * (iii)
+    15 . egen median_price=median(price)
+      
+    16 . gen median_deviation=price-median_price
+      
+    17 . 
+    18 . * (iv)
+    19 . gen reliable=0 if rep78<.
+      (5 missing values generated)
+      
+    20 . replace reliable=1 if rep78<3
+      (10 real changes made)
+      
+    21 . bysort reliable: egen min_mpg=min(new_mpg)
+      
+    22 . gen more_miles=new_mpg-min_mpg
+      (2 missing values generated)
+      
+    23 . 
+    24 . * Note that although new_mpg for Chev, Nova and Peugeot 604
+    25 . * are missing, egen creates non-missing values of min_mpg
+    26 . * for these observations, because other cars in the same
+    27 . * categories in reliable have non-missing new_mpg.
+    28 . 
+    29 . * (v)
+    30 . gen price_group=1 if median_deviation<-500
+      (47 missing values generated)
+      
+    31 . replace price_group=2 if median_deviation>=-500 & median_deviation<500
+      (17 real changes made)
+      
+    32 . replace price_group=3 if median_deviation>=500 & median_deviation<.
+      (30 real changes made)
+      
+    33 . 
+    34 . log close
+             log:  C:\MyFiles\IUJ\Teaching\Stata\stata-tutorial\tutorial2\answer2.smc
+      > l
+        log type:  smcl
+       closed on:  13 Apr 2009, 01:16:46
+      -------------------------------------------------------------------------------

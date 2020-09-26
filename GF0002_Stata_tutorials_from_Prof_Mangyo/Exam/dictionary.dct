@@ -1,0 +1,10 @@
+infix dictionary using fixed_data.txt {
+	hhid 1-9
+	indvid 10-19
+	sex 20-29
+	age 30-39
+	childzha 40-49
+	momzha 50-59
+	dadzha 60-69
+	str wealth 70-79
+}

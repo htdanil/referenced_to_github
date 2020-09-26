@@ -1,0 +1,105 @@
+                                                        ___  ____  ____  ____  ____tm
+                                                       /__    /   ____/   /   ____/  
+                                                      ___/   /   /___/   /   /___/   
+                                                        Statistics/Data Analysis     
+      
+      -------------------------------------------------------------------------------
+             log:  C:\MyFiles\IUJ\Teaching\Stata\stata-tutorial\Stata_Exam\Exam_11\ex
+      > am.smcl
+        log type:  smcl
+       opened on:  28 May 2011, 14:08:21
+      
+     1 . 
+     2 . * 1
+     3 . use hhinc
+      (Real HH Per Capita Expenditure 2000)
+      
+     4 . su rhhinc1997 rhhinc2000
+      
+          Variable |       Obs        Mean    Std. Dev.       Min        Max
+      -------------+--------------------------------------------------------
+        rhhinc1997 |      3512    1.18e+07    3.56e+07  -1.68e+08   1.74e+09
+        rhhinc2000 |      3512    1.38e+07    3.09e+07  -9.74e+07   6.66e+08
+      
+     5 . 
+     6 . * 2
+     7 . merge id using hhexp
+      
+     8 . 
+     9 . * 3
+    10 . tab _merge,m
+      
+           _merge |      Freq.     Percent        Cum.
+      ------------+-----------------------------------
+                3 |      3,512      100.00      100.00
+      ------------+-----------------------------------
+            Total |      3,512      100.00
+      
+    11 . * Since _merge=3 for all sample households, there are no sample households
+    12 . * whose expenditure data or income data are missing. There are 3,512 househol
+      > ds
+    13 . * which have both income and expenditure data.
+    14 .  
+    15 . * 4
+    16 . gen commid=substr(id,1,4)
+      
+    17 . 
+    18 . * 5
+    19 . bysort commid: egen rcomexp1997=mean(rhhexp1997)
+      
+    20 . bysort commid: egen rcomexp2000=mean(rhhexp2000)
+      
+    21 . 
+    22 . * 6
+    23 . gen diff_rhhinc=rhhinc2000-rhhinc1997
+      
+    24 . gen diff_rhhexp=rhhexp2000-rhhexp1997
+      
+    25 . gen diff_rcomexp=rcomexp2000-rcomexp1997
+      
+    26 . 
+    27 . * 7
+    28 . * diff_rhhinc ==> own household income
+    29 . * diff_rcomexp ==> community-level insurance (community risk-coping system)
+    30 . 
+    31 . * 8
+    32 . * perfect insurance: beta1=0 and beta2=1
+    33 . * imperfect insurance: 0<beta1<1 and 0<beta2<1
+    34 . 
+    35 . * 9
+    36 . regress diff_rhhexp diff_rhhinc diff_rcomexp
+      
+            Source |       SS       df       MS              Number of obs =    3512
+      -------------+------------------------------           F(  2,  3509) =  148.03
+             Model |  1.2399e+15     2  6.1997e+14           Prob > F      =  0.0000
+          Residual |  1.4696e+16  3509  4.1881e+12           R-squared     =  0.0778
+      -------------+------------------------------           Adj R-squared =  0.0773
+             Total |  1.5936e+16  3511  4.5388e+12           Root MSE      =  2.0e+06
+      
+      ------------------------------------------------------------------------------
+       diff_rhhexp |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+      -------------+----------------------------------------------------------------
+       diff_rhhinc |   .0005886   .0007946     0.74   0.459    -.0009692    .0021465
+      diff_rcomexp |   .9985024   .0582063    17.15   0.000     .8843807    1.112624
+             _cons |  -1334.399    35019.6    -0.04   0.970    -69995.24    67326.44
+      ------------------------------------------------------------------------------
+      
+    37 . 
+    38 . * 10
+    39 . * 1 Rupiah increase in household income is associated with 0.0006 Rupiah incr
+      > ease in household expenditure.
+    40 . * Below is an additional description which is not necessary as an exam answer
+      > .
+    41 . * In this regression result, own income does not matter for own consumption, 
+      > but the average consumption levels
+    42 . * within communities have the estimated coefficient almost equal to one. Thus
+      > , this result supports the hypothesis
+    43 . * of perfect insurance. However, of course, this regression is subject to sim
+      > ultaneity and omitted variables.
+    44 .  
+    45 . log close
+             log:  C:\MyFiles\IUJ\Teaching\Stata\stata-tutorial\Stata_Exam\Exam_11\ex
+      > am.smcl
+        log type:  smcl
+       closed on:  28 May 2011, 14:08:22
+      -------------------------------------------------------------------------------

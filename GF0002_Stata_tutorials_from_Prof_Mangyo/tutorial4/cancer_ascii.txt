@@ -1,0 +1,96 @@
+1	1
+placebo	61
+1	1
+placebo	65
+2	1
+placebo	59
+3	1
+placebo	52
+4	1
+placebo	56
+4	1
+placebo	67
+5	1
+placebo	63
+5	1
+placebo	58
+8	1
+placebo	56
+8	0
+placebo	58
+8	1
+placebo	52
+8	1
+placebo	49
+11	1
+placebo	50
+11	1
+placebo	55
+12	1
+placebo	49
+12	1
+placebo	62
+15	1
+placebo	51
+17	1
+placebo	49
+22	1
+placebo	57
+23	1
+placebo	52
+6	1
+drug A	67
+6	0
+drug A	65
+7	1
+drug A	58
+9	0
+drug A	56
+10	0
+drug A	49
+11	0
+drug A	61
+13	1
+drug A	62
+15	0
+drug A	50
+16	1
+drug A	67
+19	0
+drug A	50
+20	0
+drug A	55
+22	1
+drug A	58
+23	1
+drug A	47
+32	0
+drug A	52
+6	1
+drug B	55
+10	1
+drug B	54
+17	0
+drug B	60
+19	0
+drug B	49
+24	1
+drug B	58
+25	0
+drug B	50
+25	1
+drug B	55
+28	1
+drug B	57
+28	0
+drug B	48
+32	0
+drug B	56
+33	1
+drug B	60
+34	0
+drug B	62
+35	0
+drug B	48
+39	0
+drug B	52

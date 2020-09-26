@@ -1,0 +1,58 @@
+                                                       ___  ____  ____  ____  ____(R)
+                                                      /__    /   ____/   /   ____/   
+                                                     ___/   /   /___/   /   /___/    
+                                                       Statistics/Data Analysis      
+      
+      -------------------------------------------------------------------------------
+            name:  <unnamed>
+             log:  C:\MyFiles\IUJ\Teaching\Stata\stata-tutorial\tutorial4\answer4.smc
+      > l
+        log type:  smcl
+       opened on:  24 Apr 2012, 22:00:39
+      
+     1 . * Name
+     2 . * Student ID
+     3 . clear
+      
+     4 . 
+     5 . * (i)
+     6 . * Although cancer_ascii.txt is Tab-delimited, a single observation
+     7 . * is stored in two rows. You need to use either infix or infile to
+     8 . * import the cancer data.
+     9 . * It is easier to create a dictionary file first. I created
+    10 . * cancer_fixed.dct which is attached to this do file.
+    11 . 
+    12 . infix using cancer_fixed.dct
+      infix dictionary using cancer_ascii.txt {
+              2 lines
+              1:
+                      studytime 1-2
+                      died 9
+              2:
+                      str drug 1-7
+                      age 9-10
+      }
+      (48 observations read)
+      
+    13 . 
+    14 . * (ii)
+    15 . encode drug, gen(drug1) label(DRUG)
+      
+    16 . drop drug
+      
+    17 . rename drug1 drug
+      
+    18 . 
+    19 . * (iii)
+    20 . * The interactive graphics tells you that an appropriate command is
+    21 . * as follow.
+    22 . histogram age, by(died)
+      
+    23 . 
+    24 . log close
+            name:  <unnamed>
+             log:  C:\MyFiles\IUJ\Teaching\Stata\stata-tutorial\tutorial4\answer4.smc
+      > l
+        log type:  smcl
+       closed on:  24 Apr 2012, 22:00:40
+      -------------------------------------------------------------------------------

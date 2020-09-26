@@ -1,0 +1,478 @@
+                                                       ___  ____  ____  ____  ____(R)
+                                                      /__    /   ____/   /   ____/   
+                                                     ___/   /   /___/   /   /___/    
+                                                       Statistics/Data Analysis      
+      
+      -------------------------------------------------------------------------------
+            name:  <unnamed>
+             log:  C:\MyFiles\IUJ\Teaching\Stata\stata-tutorial\tutorial5\tutorial5.s
+      > mcl
+        log type:  smcl
+       opened on:   1 May 2012, 21:01:34
+      
+     1 . clear
+      
+     2 . 
+     3 . *** Merge the data sets
+     4 . use "C:\MyFiles\IUJ\Teaching\Stata\stata-tutorial\tutorial5\data\pcexp.dta"
+      
+     5 . sort s00key s10key
+      
+     6 . merge 1:1 s00key s10key using "C:\MyFiles\IUJ\Teaching\Stata\stata-tutorial\t
+      > utorial5\data\chronic.dta"
+      
+          Result                           # of obs.
+          -----------------------------------------
+          not matched                             0
+          matched                            10,994  (_merge==3)
+          -----------------------------------------
+      
+     7 . tab _merge,m
+      
+                       _merge |      Freq.     Percent        Cum.
+      ------------------------+-----------------------------------
+                  matched (3) |     10,994      100.00      100.00
+      ------------------------+-----------------------------------
+                        Total |     10,994      100.00
+      
+     8 . drop _merge
+      
+     9 . 
+    10 . *** Check the observations 
+    11 . su s4001 pcannualexp
+      
+          Variable |       Obs        Mean    Std. Dev.       Min        Max
+      -------------+--------------------------------------------------------
+             s4001 |     10904    1.943507    .2308819          1          2
+       pcannualexp |     10994    1726.717    1771.147        117      39540
+      
+    12 . histogram pcannualexp
+      (bin=40, start=117, width=985.5749)
+      
+    13 . gen log_pcannualexp=log(pcannualexp)
+      
+    14 . histogram log_pcannualexp
+      (bin=40, start=4.7621741, width=.14557234)
+      
+    15 . 
+    16 . *** Mean comparison test
+    17 . ttest log_pcannualexp, by (s4001) unequal
+      
+      Two-sample t test with unequal variances
+      ------------------------------------------------------------------------------
+         Group |     Obs        Mean    Std. Err.   Std. Dev.   [95% Conf. Interval]
+      ---------+--------------------------------------------------------------------
+           Yes |     616    7.346176    .0271932    .6749186    7.292773    7.399579
+            No |   10288    7.170124    .0069423    .7041523    7.156516    7.183733
+      ---------+--------------------------------------------------------------------
+      combined |   10904     7.18007    .0067388    .7036782    7.166861    7.193279
+      ---------+--------------------------------------------------------------------
+          diff |            .1760514    .0280654                .1209486    .2311542
+      ------------------------------------------------------------------------------
+          diff = mean(Yes) - mean(No)                                   t =   6.2729
+      Ho: diff = 0                     Satterthwaite's degrees of freedom =    697.6
+      
+          Ha: diff < 0                 Ha: diff != 0                 Ha: diff > 0
+       Pr(T < t) = 1.0000         Pr(|T| > |t|) = 0.0000          Pr(T > t) = 0.0000
+      
+    18 . 
+    19 . *** OLS regression
+    20 . 
+    21 . ** regress chronic on log_pcannualexp and a constant
+    22 . gen chronic=0 if s4001==2
+      (706 missing values generated)
+      
+    23 . replace chronic=1 if s4001==1
+      (616 real changes made)
+      
+    24 . 
+    25 . su chronic log_pcannualexp
+      
+          Variable |       Obs        Mean    Std. Dev.       Min        Max
+      -------------+--------------------------------------------------------
+           chronic |     10904     .056493    .2308819          0          1
+      log_pcannu~p |     10994    7.185213      .70568   4.762174   10.58507
+      
+    26 . regress chronic log_pcannualexp
+      
+            Source |       SS       df       MS              Number of obs =   10904
+      -------------+------------------------------           F(  1, 10902) =   36.50
+             Model |  1.93926155     1  1.93926155           Prob > F      =  0.0000
+          Residual |  579.261032 10902  .053133465           R-squared     =  0.0033
+      -------------+------------------------------           Adj R-squared =  0.0032
+             Total |  581.200293 10903  .053306456           Root MSE      =  .23051
+      
+      -------------------------------------------------------------------------------
+      --
+              chronic |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interva
+      > l]
+      ----------------+--------------------------------------------------------------
+      --
+      log_pcannualexp |   .0189527   .0031372     6.04   0.000     .0128033    .02510
+      > 21
+                _cons |  -.0795887   .0226329    -3.52   0.000    -.1239534    -.0352
+      > 24
+      -------------------------------------------------------------------------------
+      --
+      
+    27 . 
+    28 . ** regress chronic on log_pcannualexp, age-group dummies, and a constant
+    29 . su s1006y
+      
+          Variable |       Obs        Mean    Std. Dev.       Min        Max
+      -------------+--------------------------------------------------------
+            s1006y |     10994    26.44351    20.66198          0         96
+      
+    30 . des s1006y
+      
+                    storage  display     value
+      variable name   type   format      label      variable label
+      -------------------------------------------------------------------------------
+      s1006y          int    %17.0g      S1006Y     HHmember/Age: Years
+      
+    31 . label list S1006Y
+      S1006Y:
+                96 96 years and more
+               998 DK years
+      
+    32 . 
+    33 . gen age_minor=0 if s1006y<.
+      
+    34 . replace age_minor=1 if s1006y>=0 & s1006y<20
+      (5287 real changes made)
+      
+    35 . 
+    36 . gen age20=0 if s1006y<.
+      
+    37 . replace age20=1 if s1006y>=20 & s1006y<30
+      (1551 real changes made)
+      
+    38 . 
+    39 . gen age30=0 if s1006y<.
+      
+    40 . replace age30=1 if s1006y>=30 & s1006y<40
+      (1370 real changes made)
+      
+    41 . 
+    42 . gen age40=0 if s1006y<.
+      
+    43 . replace age40=1 if s1006y>=40 & s1006y<50
+      (968 real changes made)
+      
+    44 . 
+    45 . gen age50=0 if s1006y<.
+      
+    46 . replace age50=1 if s1006y>=50 & s1006y<60
+      (817 real changes made)
+      
+    47 . 
+    48 . gen age60=0 if s1006y<.
+      
+    49 . replace age60=1 if s1006y>=60 & s1006y<70
+      (569 real changes made)
+      
+    50 . 
+    51 . gen age70plus=0 if s1006y<.
+      
+    52 . replace age70plus=1 if s1006y>=70 & s1006y<.
+      (432 real changes made)
+      
+    53 . 
+    54 . su chronic log_pcannualexp age_minor age20 age30 age40 age50 age60 age70plus
+      
+          Variable |       Obs        Mean    Std. Dev.       Min        Max
+      -------------+--------------------------------------------------------
+           chronic |     10904     .056493    .2308819          0          1
+      log_pcannu~p |     10994    7.185213      .70568   4.762174   10.58507
+         age_minor |     10994    .4808987    .4996577          0          1
+             age20 |     10994     .141077    .3481167          0          1
+             age30 |     10994    .1246134    .3302951          0          1
+      -------------+--------------------------------------------------------
+             age40 |     10994     .088048    .2833776          0          1
+             age50 |     10994    .0743133    .2622919          0          1
+             age60 |     10994    .0517555    .2215431          0          1
+         age70plus |     10994    .0392942    .1943028          0          1
+      
+    55 . regress chronic log_pcannualexp age_minor age30 age40 age50 age60 age70plus
+      
+            Source |       SS       df       MS              Number of obs =   10904
+      -------------+------------------------------           F(  7, 10896) =  301.03
+             Model |  94.1855892     7  13.4550842           Prob > F      =  0.0000
+          Residual |  487.014704 10896  .044696651           R-squared     =  0.1621
+      -------------+------------------------------           Adj R-squared =  0.1615
+             Total |  581.200293 10903  .053306456           Root MSE      =  .21142
+      
+      -------------------------------------------------------------------------------
+      --
+              chronic |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interva
+      > l]
+      ----------------+--------------------------------------------------------------
+      --
+      log_pcannualexp |   .0030536   .0029139     1.05   0.295    -.0026582    .00876
+      > 54
+            age_minor |  -.0021115    .006175    -0.34   0.732    -.0142156    .00999
+      > 25
+                age30 |   .0202725   .0078905     2.57   0.010     .0048057    .03573
+      > 93
+                age40 |   .0962851   .0087245    11.04   0.000     .0791836    .11338
+      > 66
+                age50 |   .1937515   .0092178    21.02   0.000     .1756828    .21182
+      > 01
+                age60 |   .2992727   .0104167    28.73   0.000     .2788542    .31969
+      > 13
+            age70plus |    .269086   .0115631    23.27   0.000     .2464201    .29175
+      > 18
+                _cons |  -.0157091   .0219178    -0.72   0.474     -.058672    .02725
+      > 37
+      -------------------------------------------------------------------------------
+      --
+      
+    56 . 
+    57 . ** regress chronic on log_pcannualexp, age-group dummies,
+    58 . ** education dummies, sex , and a constant
+    59 . 
+    60 . tab s1010,m
+      
+      HHmember/Schoo |
+             l level |      Freq.     Percent        Cum.
+      ---------------+-----------------------------------
+        Some primary |      2,672       24.30       24.30
+      Some secondary |      6,406       58.27       82.57
+            Tertiary |        445        4.05       86.62
+        No schooling |      1,421       12.93       99.55
+                  DK |         50        0.45      100.00
+      ---------------+-----------------------------------
+               Total |     10,994      100.00
+      
+    61 . des s1010
+      
+                    storage  display     value
+      variable name   type   format      label      variable label
+      -------------------------------------------------------------------------------
+      s1010           byte   %14.0g      S1010      HHmember/School level
+      
+    62 . label list S1010
+      S1010:
+                 1 Some primary
+                 2 Some secondary
+                 3 Tertiary
+                 4 No schooling
+                 5 DK
+      
+    63 . 
+    64 . gen noeduc=0 if s1010<=4
+      (50 missing values generated)
+      
+    65 . replace noeduc=1 if s1010==4
+      (1421 real changes made)
+      
+    66 . 
+    67 . gen primary=0 if s1010<=4
+      (50 missing values generated)
+      
+    68 . replace primary=1 if s1010==1
+      (2672 real changes made)
+      
+    69 . 
+    70 . gen secondaryplus=0 if s1010<=4
+      (50 missing values generated)
+      
+    71 . replace secondaryplus=1 if s1010==2 | s1010==3
+      (6851 real changes made)
+      
+    72 . 
+    73 . tab s1002,m
+      
+      HHmember/Se |
+                x |      Freq.     Percent        Cum.
+      ------------+-----------------------------------
+             Male |      5,591       50.86       50.86
+           Female |      5,403       49.14      100.00
+      ------------+-----------------------------------
+            Total |     10,994      100.00
+      
+    74 . des s1002
+      
+                    storage  display     value
+      variable name   type   format      label      variable label
+      -------------------------------------------------------------------------------
+      s1002           byte   %8.0g       S1002      HHmember/Sex
+      
+    75 . label list S1002
+      S1002:
+                 1 Male
+                 2 Female
+      
+    76 . 
+    77 . gen male=0 if s1002==2
+      (5591 missing values generated)
+      
+    78 . replace male=1 if s1002==1
+      (5591 real changes made)
+      
+    79 . 
+    80 . su chronic log_pcannualexp age_minor age20 age30 age40 age50 age60 age70plus 
+      > noeduc primary secondaryplus male
+      
+          Variable |       Obs        Mean    Std. Dev.       Min        Max
+      -------------+--------------------------------------------------------
+           chronic |     10904     .056493    .2308819          0          1
+      log_pcannu~p |     10994    7.185213      .70568   4.762174   10.58507
+         age_minor |     10994    .4808987    .4996577          0          1
+             age20 |     10994     .141077    .3481167          0          1
+             age30 |     10994    .1246134    .3302951          0          1
+      -------------+--------------------------------------------------------
+             age40 |     10994     .088048    .2833776          0          1
+             age50 |     10994    .0743133    .2622919          0          1
+             age60 |     10994    .0517555    .2215431          0          1
+         age70plus |     10994    .0392942    .1943028          0          1
+            noeduc |     10944    .1298428    .3361458          0          1
+      -------------+--------------------------------------------------------
+           primary |     10944     .244152    .4296029          0          1
+      secondaryp~s |     10944    .6260051    .4838844          0          1
+              male |     10994    .5085501    .4999496          0          1
+      
+    81 . regress chronic log_pcannualexp age_minor age30 age40 age50 age60 age70plus p
+      > rimary secondaryplus male
+      
+            Source |       SS       df       MS              Number of obs =   10854
+      -------------+------------------------------           F( 10, 10843) =  221.91
+             Model |  97.8069954    10  9.78069954           Prob > F      =  0.0000
+          Residual |  477.910712 10843  .044075506           R-squared     =  0.1699
+      -------------+------------------------------           Adj R-squared =  0.1691
+             Total |  575.717708 10853  .053046873           Root MSE      =  .20994
+      
+      -------------------------------------------------------------------------------
+      --
+              chronic |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interva
+      > l]
+      ----------------+--------------------------------------------------------------
+      --
+      log_pcannualexp |   .0026919   .0029287     0.92   0.358    -.0030488    .00843
+      > 26
+            age_minor |  -.0018789   .0067726    -0.28   0.781    -.0151544    .01139
+      > 67
+                age30 |   .0203729   .0078483     2.60   0.009     .0049888     .0357
+      > 57
+                age40 |   .0970353   .0087011    11.15   0.000     .0799795    .11409
+      > 11
+                age50 |   .1938572   .0092781    20.89   0.000     .1756704    .21204
+      > 39
+                age60 |   .2953538   .0105767    27.93   0.000     .2746216    .31608
+      > 59
+            age70plus |   .2745006   .0119751    22.92   0.000     .2510272     .2979
+      > 74
+              primary |   .0007157   .0070764     0.10   0.919    -.0131554    .01458
+      > 67
+        secondaryplus |   -.000581    .006953    -0.08   0.933    -.0142102    .01304
+      > 82
+                 male |  -.0397533   .0040343    -9.85   0.000    -.0476612   -.03184
+      > 54
+                _cons |    .007259   .0225988     0.32   0.748    -.0370388    .05155
+      > 68
+      -------------------------------------------------------------------------------
+      --
+      
+    82 . 
+    83 . *** OLS with robust standard errors
+    84 . predict epsilon_hat, residuals 
+      (140 missing values generated)
+      
+    85 . egen pcannualexp3=cut(pcannualexp), group(3)
+      
+    86 . tab pcannualexp3,m
+      
+      pcannualexp |
+                3 |      Freq.     Percent        Cum.
+      ------------+-----------------------------------
+                0 |      3,661       33.30       33.30
+                1 |      3,667       33.35       66.65
+                2 |      3,666       33.35      100.00
+      ------------+-----------------------------------
+            Total |     10,994      100.00
+      
+    87 . bysort pcannualexp3: su epsilon_hat
+      
+      -------------------------------------------------------------------------------
+      -> pcannualexp3 = 0
+      
+          Variable |       Obs        Mean    Std. Dev.       Min        Max
+      -------------+--------------------------------------------------------
+       epsilon_hat |      3636   -.0016838    .1850544  -.3218291   1.018007
+      
+      -------------------------------------------------------------------------------
+      -> pcannualexp3 = 1
+      
+          Variable |       Obs        Mean    Std. Dev.       Min        Max
+      -------------+--------------------------------------------------------
+       epsilon_hat |      3619    .0011143    .2077265  -.3233946   1.016228
+      
+      -------------------------------------------------------------------------------
+      -> pcannualexp3 = 2
+      
+          Variable |       Obs        Mean    Std. Dev.       Min        Max
+      -------------+--------------------------------------------------------
+       epsilon_hat |      3599    .0005807    .2341685  -.3308816   1.013278
+      
+      
+    88 . ** Test of heteroskedasticity where the null hypothesis is
+    89 . ** a constant variance of the residuals
+    90 . estat hettest
+      
+      Breusch-Pagan / Cook-Weisberg test for heteroskedasticity 
+               Ho: Constant variance
+               Variables: fitted values of chronic
+      
+               chi2(1)      = 12781.30
+               Prob > chi2  =   0.0000
+      
+    91 . 
+    92 . regress chronic log_pcannualexp age_minor age30 age40 age50 age60 age70plus p
+      > rimary secondaryplus male, vce(robust)
+      
+      Linear regression                                      Number of obs =   10854
+                                                             F( 10, 10843) =   72.52
+                                                             Prob > F      =  0.0000
+                                                             R-squared     =  0.1699
+                                                             Root MSE      =  .20994
+      
+      -------------------------------------------------------------------------------
+      --
+                      |               Robust
+              chronic |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interva
+      > l]
+      ----------------+--------------------------------------------------------------
+      --
+      log_pcannualexp |   .0026919   .0028576     0.94   0.346    -.0029095    .00829
+      > 33
+            age_minor |  -.0018789   .0037222    -0.50   0.614    -.0091751    .00541
+      > 74
+                age30 |   .0203729   .0048683     4.18   0.000     .0108302    .02991
+      > 55
+                age40 |   .0970353   .0100782     9.63   0.000     .0772802    .11679
+      > 04
+                age50 |   .1938572   .0143783    13.48   0.000     .1656731    .22204
+      > 13
+                age60 |   .2953538   .0194922    15.15   0.000     .2571454    .33356
+      > 21
+            age70plus |   .2745006   .0223632    12.27   0.000     .2306647    .31833
+      > 65
+              primary |   .0007157   .0042328     0.17   0.866    -.0075814    .00901
+      > 27
+        secondaryplus |   -.000581   .0040592    -0.14   0.886    -.0085378    .00737
+      > 58
+                 male |  -.0397533   .0040105    -9.91   0.000    -.0476147   -.03189
+      > 19
+                _cons |    .007259   .0206967     0.35   0.726    -.0333103    .04782
+      > 83
+      -------------------------------------------------------------------------------
+      --
+      
+    93 . 
+    94 . log close
+            name:  <unnamed>
+             log:  C:\MyFiles\IUJ\Teaching\Stata\stata-tutorial\tutorial5\tutorial5.s
+      > mcl
+        log type:  smcl
+       closed on:   1 May 2012, 21:01:37
+      -------------------------------------------------------------------------------

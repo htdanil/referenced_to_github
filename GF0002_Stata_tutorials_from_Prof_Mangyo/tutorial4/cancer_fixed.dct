@@ -1,0 +1,9 @@
+infix dictionary using cancer_ascii.txt {
+	2 lines
+	1:
+		studytime 1-2
+		died 9
+	2:
+		str drug 1-7
+		age 9-10
+}

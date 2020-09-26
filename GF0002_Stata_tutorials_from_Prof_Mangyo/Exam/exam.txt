@@ -1,0 +1,175 @@
+                                                       ___  ____  ____  ____  ____(R)
+                                                      /__    /   ____/   /   ____/   
+                                                     ___/   /   /___/   /   /___/    
+                                                       Statistics/Data Analysis      
+      
+      -------------------------------------------------------------------------------
+            name:  <unnamed>
+             log:  C:\MyFiles\IUJ\Teaching\Stata\stata-tutorial\Stata_Exam\Exam_12\ex
+      > am.smcl
+        log type:  smcl
+       opened on:  13 May 2012, 14:53:14
+      
+     1 . * Your name, Your student ID
+     2 . 
+     3 . * 1
+     4 . infix using dictionary.dct
+      infix dictionary using fixed_data.txt {
+              hhid 1-9
+              indvid 10-19
+              sex 20-29
+              age 30-39
+              childzha 40-49
+              momzha 50-59
+              dadzha 60-69
+              str wealth 70-79
+      }
+      (19216 observations read)
+      
+     5 . 
+     6 . * 2
+     7 . label define SEX 1 "male" 2 "female"
+      
+     8 . label values sex SEX
+      
+     9 . 
+    10 . * 3
+    11 . gen num_wealth=1 if wealth=="poorest"
+      (16280 missing values generated)
+      
+    12 . replace num_wealth=2 if wealth=="poorer"
+      (3564 real changes made)
+      
+    13 . replace num_wealth=3 if wealth=="middle"
+      (4183 real changes made)
+      
+    14 . replace num_wealth=4 if wealth=="richer"
+      (4488 real changes made)
+      
+    15 . replace num_wealth=5 if wealth=="richest"
+      (4045 real changes made)
+      
+    16 . 
+    17 . * 4
+    18 . su age
+      
+          Variable |       Obs        Mean    Std. Dev.       Min        Max
+      -------------+--------------------------------------------------------
+               age |     19216    2.082379    1.419624          0          5
+      
+    19 . 
+    20 . * 5
+    21 . bysort wealth: su childzha
+      
+      -------------------------------------------------------------------------------
+      -> wealth = middle
+      
+          Variable |       Obs        Mean    Std. Dev.       Min        Max
+      -------------+--------------------------------------------------------
+          childzha |      4183   -1.638948    1.538897         -6       5.72
+      
+      -------------------------------------------------------------------------------
+      -> wealth = poorer
+      
+          Variable |       Obs        Mean    Std. Dev.       Min        Max
+      -------------+--------------------------------------------------------
+          childzha |      3564   -1.860581    1.657469      -5.99       5.76
+      
+      -------------------------------------------------------------------------------
+      -> wealth = poorest
+      
+          Variable |       Obs        Mean    Std. Dev.       Min        Max
+      -------------+--------------------------------------------------------
+          childzha |      2936   -2.068447    1.645427         -6       5.35
+      
+      -------------------------------------------------------------------------------
+      -> wealth = richer
+      
+          Variable |       Obs        Mean    Std. Dev.       Min        Max
+      -------------+--------------------------------------------------------
+          childzha |      4488   -1.385392    1.491712         -6       5.62
+      
+      -------------------------------------------------------------------------------
+      -> wealth = richest
+      
+          Variable |       Obs        Mean    Std. Dev.       Min        Max
+      -------------+--------------------------------------------------------
+          childzha |      4045   -.9363115    1.430355      -5.99       5.91
+      
+      
+    22 . *** or ***
+    23 . bysort num_wealth: su childzha
+      
+      -------------------------------------------------------------------------------
+      -> num_wealth = 1
+      
+          Variable |       Obs        Mean    Std. Dev.       Min        Max
+      -------------+--------------------------------------------------------
+          childzha |      2936   -2.068447    1.645427         -6       5.35
+      
+      -------------------------------------------------------------------------------
+      -> num_wealth = 2
+      
+          Variable |       Obs        Mean    Std. Dev.       Min        Max
+      -------------+--------------------------------------------------------
+          childzha |      3564   -1.860581    1.657469      -5.99       5.76
+      
+      -------------------------------------------------------------------------------
+      -> num_wealth = 3
+      
+          Variable |       Obs        Mean    Std. Dev.       Min        Max
+      -------------+--------------------------------------------------------
+          childzha |      4183   -1.638948    1.538897         -6       5.72
+      
+      -------------------------------------------------------------------------------
+      -> num_wealth = 4
+      
+          Variable |       Obs        Mean    Std. Dev.       Min        Max
+      -------------+--------------------------------------------------------
+          childzha |      4488   -1.385392    1.491712         -6       5.62
+      
+      -------------------------------------------------------------------------------
+      -> num_wealth = 5
+      
+          Variable |       Obs        Mean    Std. Dev.       Min        Max
+      -------------+--------------------------------------------------------
+          childzha |      4045   -.9363115    1.430355      -5.99       5.91
+      
+      
+    24 . 
+    25 . * 6
+    26 . * Child height and mother's height should be positively correlated. Further,
+    27 . * due to regression towards the mean, beta1 should be less than unity. That i
+      > s,
+    28 . * 0 < beta1 < 1.
+    29 . 
+    30 . * 7
+    31 . regress childzha momzha
+      
+            Source |       SS       df       MS              Number of obs =   19216
+      -------------+------------------------------           F(  1, 19214) =  844.25
+             Model |  2049.99313     1  2049.99313           Prob > F      =  0.0000
+          Residual |  46655.1294 19214  2.42818411           R-squared     =  0.0421
+      -------------+------------------------------           Adj R-squared =  0.0420
+             Total |  48705.1225 19215  2.53474486           Root MSE      =  1.5583
+      
+      ------------------------------------------------------------------------------
+          childzha |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+      -------------+----------------------------------------------------------------
+            momzha |   .3419722   .0117694    29.06   0.000     .3189031    .3650413
+             _cons |  -.8625757   .0258381   -33.38   0.000    -.9132206   -.8119309
+      ------------------------------------------------------------------------------
+      
+    32 . 
+    33 . * 8
+    34 . * One standard-deviation increase in mother's height is associated with
+    35 . * 0.34 standard-deviation increase in child height. Given the magnitude
+    36 . * of 0.34, the hypothesis of regression towards the mean is supported. 
+    37 . 
+    38 . log close
+            name:  <unnamed>
+             log:  C:\MyFiles\IUJ\Teaching\Stata\stata-tutorial\Stata_Exam\Exam_12\ex
+      > am.smcl
+        log type:  smcl
+       closed on:  13 May 2012, 14:53:19
+      -------------------------------------------------------------------------------

@@ -1,0 +1,14 @@
+infix dictionary using auto_fixed.txt {
+	str make 1-17
+	price 19-23
+	mpg 25-26
+	rep78 28
+	headroom 30-32
+	trunk 34-35
+	weight 37-40
+	length 42-44
+	turn 46-47
+	displacement 49-51
+	gear_ratio 53-56
+	foreign	58
+}
