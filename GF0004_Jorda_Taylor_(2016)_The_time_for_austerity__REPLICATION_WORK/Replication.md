@@ -2,6 +2,8 @@
 
 Replication Code Downloaded from https://sites.google.com/site/oscarjorda/home/local-projections
 
+[Download this jupyternotebook from here](https://github.com/htdanil/referenced_to_github/blob/master/GF0004_Jorda_Taylor_%282016%29_The_time_for_austerity__REPLICATION_WORK/Replication.ipynb)
+
 # Table of Contents
 * [Initiating environment and downloading datasets](#initiating_env)
 * [Preparation of dataset](#dataset)
@@ -915,7 +917,7 @@ forvalues i=1/6 {
 
 ## Table 2 - Panel (a)
 
-[Click here for summarized result of code below](https://github.com/htdanil/referenced_to_github/blob/master/GF0004_Jorda_Taylor_(2016)_The_time_for_austerity__REPLICATION_WORK/results/table2-panel(a).pdf)
+[Click here for summarized result of code below](https://github.com/htdanil/referenced_to_github/blob/master/GF0004_Jorda_Taylor_%282016%29_The_time_for_austerity__REPLICATION_WORK/results/table2-panel%28a%29.pdf)
 
 
 ```python
@@ -1355,7 +1357,7 @@ forvalues i=1/6 {
 
 ## Table 2 - Panel (b)
 
-[Click here for summarized result of code below](https://github.com/htdanil/referenced_to_github/blob/master/GF0004_Jorda_Taylor_(2016)_The_time_for_austerity__REPLICATION_WORK/results/table2-panel(b).pdf)
+[Click here for summarized result of code below](https://github.com/htdanil/referenced_to_github/blob/master/GF0004_Jorda_Taylor_%282016%29_The_time_for_austerity__REPLICATION_WORK/results/table2-panel%28b%29.pdf)
 
 
 ```python
@@ -1806,7 +1808,7 @@ forvalues i=1/6 {
 
 ## Table A1 - Panel (a)
 
-[Click here for summarized result of code below](https://github.com/htdanil/referenced_to_github/blob/master/GF0004_Jorda_Taylor_(2016)_The_time_for_austerity__REPLICATION_WORK/results/tableA1-panel(a).pdf)
+[Click here for summarized result of code below](https://github.com/htdanil/referenced_to_github/blob/master/GF0004_Jorda_Taylor_%282016%29_The_time_for_austerity__REPLICATION_WORK/results/tableA1-panel%28a%29.pdf)
 
 
 ```python
@@ -2258,7 +2260,7 @@ forvalues i=1/6 {
 
 ## Table A1 - Panel (b)
 
-[Click here for summarized result of code below](https://github.com/htdanil/referenced_to_github/blob/master/GF0004_Jorda_Taylor_(2016)_The_time_for_austerity__REPLICATION_WORK/results/tableA1-panel(b).pdf)
+[Click here for summarized result of code below](https://github.com/htdanil/referenced_to_github/blob/master/GF0004_Jorda_Taylor_%282016%29_The_time_for_austerity__REPLICATION_WORK/results/tableA1-panel%28b%29.pdf)
 
 
 ```python
