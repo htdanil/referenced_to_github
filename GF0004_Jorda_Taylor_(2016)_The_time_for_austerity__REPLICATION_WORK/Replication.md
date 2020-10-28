@@ -20,6 +20,7 @@ Replication Code Downloaded from https://sites.google.com/site/oscarjorda/home/l
      - [Table A2](#tableA2)
 * [Table 5](#table5)
 * [Table 6](#table6)
+* [Table 7](#table7)
 
 <a class="anchor" id="initiating_env"></a>
 
@@ -7459,5 +7460,205 @@ list var ols iv_treatment iv_total if _n < `count'
       6. | ltrate     0        .01        .02 |
       7. |    cay     0          0          0 |
          +------------------------------------+
+    
+    
+
+<a class='anchor' id='table7'></a>
+
+---
+# Table 7 (table7.do)
+---
+
+![](https://github.com/htdanil/referenced_to_github/raw/master/GF0004_Jorda_Taylor_%282016%29_The_time_for_austerity__REPLICATION_WORK/results/table7.PNG)
+
+[Click here for summarized result of code below](https://github.com/htdanil/referenced_to_github/blob/master/GF0004_Jorda_Taylor_%282016%29_The_time_for_austerity__REPLICATION_WORK/results/table7.pdf)
+
+
+```python
+%%stata -os
+
+* #================================================================================
+* # Table 7. Fiscal treatment regression, pooled probit estimation in 1st stage
+* #================================================================================
+
+local m1 debtgdp
+local m2 debtgdp hply dly
+local m3 debtgdp hply treatment
+local m4 debtgdp dly treatment
+
+forvalues i=1/4 {
+
+	probit ftreatment `m`i'' if year>=1980 & year<=2007
+	predict phatm`i'
+	
+	margins, dydx(*) post
+	
+	roctab ftreatment phatm`i' //# roctab is Nonparametric ROC analysis. 
+	
+}
+```
+
+    
+    Iteration 0:   log likelihood = -297.13197  
+    Iteration 1:   log likelihood = -287.94125  
+    Iteration 2:   log likelihood = -287.92231  
+    Iteration 3:   log likelihood = -287.92231  
+    
+    Probit regression                               Number of obs     =        457
+                                                    LR chi2(1)        =      18.42
+                                                    Prob > chi2       =     0.0000
+    Log likelihood = -287.92231                     Pseudo R2         =     0.0310
+    
+    ------------------------------------------------------------------------------
+      ftreatment |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+         debtgdp |   .9127637   .2171028     4.20   0.000     .4872501    1.338277
+           _cons |  -.9478783   .1501834    -6.31   0.000    -1.242232   -.6535241
+    ------------------------------------------------------------------------------
+    (option pr assumed; Pr(ftreatment))
+    (4 missing values generated)
+    
+    Average marginal effects                        Number of obs     =        457
+    Model VCE    : OIM
+    
+    Expression   : Pr(ftreatment), predict()
+    dy/dx w.r.t. : debtgdp
+    
+    ------------------------------------------------------------------------------
+                 |            Delta-method
+                 |      dy/dx   Std. Err.      z    P>|z|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+         debtgdp |   .3282209   .0734062     4.47   0.000     .1843475    .4720944
+    ------------------------------------------------------------------------------
+    
+                          ROC                    -Asymptotic Normal--
+               Obs       Area     Std. Err.      [95% Conf. Interval]
+         ------------------------------------------------------------
+               487     0.6134       0.0267        0.56099     0.66581
+    
+    Iteration 0:   log likelihood = -297.13197  
+    Iteration 1:   log likelihood = -279.52208  
+    Iteration 2:   log likelihood = -279.46799  
+    Iteration 3:   log likelihood = -279.46799  
+    
+    Probit regression                               Number of obs     =        457
+                                                    LR chi2(3)        =      35.33
+                                                    Prob > chi2       =     0.0000
+    Log likelihood = -279.46799                     Pseudo R2         =     0.0594
+    
+    ------------------------------------------------------------------------------
+      ftreatment |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+         debtgdp |   .8135574   .2194785     3.71   0.000     .3833873    1.243727
+            hply |  -.0748493   .0314659    -2.38   0.017    -.1365214   -.0131772
+             dly |  -.0860887   .0342836    -2.51   0.012    -.1532832   -.0188942
+           _cons |  -.6837517   .1753779    -3.90   0.000    -1.027486   -.3400173
+    ------------------------------------------------------------------------------
+    (option pr assumed; Pr(ftreatment))
+    (4 missing values generated)
+    
+    Average marginal effects                        Number of obs     =        457
+    Model VCE    : OIM
+    
+    Expression   : Pr(ftreatment), predict()
+    dy/dx w.r.t. : debtgdp hply dly
+    
+    ------------------------------------------------------------------------------
+                 |            Delta-method
+                 |      dy/dx   Std. Err.      z    P>|z|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+         debtgdp |   .2834388    .073077     3.88   0.000     .1402106    .4266671
+            hply |  -.0260771   .0107575    -2.42   0.015    -.0471614   -.0049928
+             dly |  -.0299928    .011714    -2.56   0.010    -.0529519   -.0070337
+    ------------------------------------------------------------------------------
+    
+                          ROC                    -Asymptotic Normal--
+               Obs       Area     Std. Err.      [95% Conf. Interval]
+         ------------------------------------------------------------
+               487     0.6570       0.0261        0.60578     0.70819
+    
+    Iteration 0:   log likelihood = -297.13197  
+    Iteration 1:   log likelihood = -217.61045  
+    Iteration 2:   log likelihood = -217.39738  
+    Iteration 3:   log likelihood = -217.39736  
+    Iteration 4:   log likelihood = -217.39736  
+    
+    Probit regression                               Number of obs     =        457
+                                                    LR chi2(3)        =     159.47
+                                                    Prob > chi2       =     0.0000
+    Log likelihood = -217.39736                     Pseudo R2         =     0.2683
+    
+    ------------------------------------------------------------------------------
+      ftreatment |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+         debtgdp |   .4342392   .2444791     1.78   0.076     -.044931    .9134093
+            hply |  -.0448905   .0340483    -1.32   0.187     -.111624     .021843
+       treatment |   1.555447   .1414551    11.00   0.000       1.2782    1.832694
+           _cons |  -1.284395   .1718717    -7.47   0.000    -1.621257   -.9475321
+    ------------------------------------------------------------------------------
+    (option pr assumed; Pr(ftreatment))
+    (4 missing values generated)
+    
+    Average marginal effects                        Number of obs     =        457
+    Model VCE    : OIM
+    
+    Expression   : Pr(ftreatment), predict()
+    dy/dx w.r.t. : debtgdp hply treatment
+    
+    ------------------------------------------------------------------------------
+                 |            Delta-method
+                 |      dy/dx   Std. Err.      z    P>|z|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+         debtgdp |   .1153461   .0644954     1.79   0.074    -.0110626    .2417549
+            hply |  -.0119242   .0090105    -1.32   0.186    -.0295845    .0057362
+       treatment |   .4131704   .0203286    20.32   0.000      .373327    .4530138
+    ------------------------------------------------------------------------------
+    
+                          ROC                    -Asymptotic Normal--
+               Obs       Area     Std. Err.      [95% Conf. Interval]
+         ------------------------------------------------------------
+               487     0.8050       0.0222        0.76141     0.84853
+    
+    Iteration 0:   log likelihood = -297.13197  
+    Iteration 1:   log likelihood = -215.50246  
+    Iteration 2:   log likelihood = -215.20474  
+    Iteration 3:   log likelihood = -215.20466  
+    Iteration 4:   log likelihood = -215.20466  
+    
+    Probit regression                               Number of obs     =        457
+                                                    LR chi2(3)        =     163.85
+                                                    Prob > chi2       =     0.0000
+    Log likelihood = -215.20466                     Pseudo R2         =     0.2757
+    
+    ------------------------------------------------------------------------------
+      ftreatment |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+         debtgdp |   .4280686    .245337     1.74   0.081    -.0527831    .9089203
+             dly |  -.0913158   .0374597    -2.44   0.015    -.1647355   -.0178962
+       treatment |     1.5681   .1408486    11.13   0.000     1.292042    1.844158
+           _cons |  -1.057232   .1988529    -5.32   0.000    -1.446976   -.6674871
+    ------------------------------------------------------------------------------
+    (option pr assumed; Pr(ftreatment))
+    (4 missing values generated)
+    
+    Average marginal effects                        Number of obs     =        457
+    Model VCE    : OIM
+    
+    Expression   : Pr(ftreatment), predict()
+    dy/dx w.r.t. : debtgdp dly treatment
+    
+    ------------------------------------------------------------------------------
+                 |            Delta-method
+                 |      dy/dx   Std. Err.      z    P>|z|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+         debtgdp |   .1126234   .0641247     1.76   0.079    -.0130588    .2383055
+             dly |  -.0240249   .0097442    -2.47   0.014    -.0431231   -.0049266
+       treatment |   .4125618   .0194066    21.26   0.000     .3745256    .4505979
+    ------------------------------------------------------------------------------
+    
+                          ROC                    -Asymptotic Normal--
+               Obs       Area     Std. Err.      [95% Conf. Interval]
+         ------------------------------------------------------------
+               487     0.8155       0.0219        0.77257     0.85835
     
     
