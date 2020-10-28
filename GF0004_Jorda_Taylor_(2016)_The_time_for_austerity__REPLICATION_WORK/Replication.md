@@ -17,6 +17,8 @@ Replication Code Downloaded from https://sites.google.com/site/oscarjorda/home/l
 * [Table 3](#table3)
 * [Table 4 and A2](#tbl4A2)
      - [Table 4](#table4)
+     - [Table A2](#tableA2)
+* [Table 5](#table5)
 
 <a class="anchor" id="initiating_env"></a>
 
@@ -6209,5 +6211,128 @@ forvalues i = 1/6   {
     Excluded instruments: zslump
     Dropped collinear:    zboom
     ------------------------------------------------------------------------------
+    
+    
+
+<a class='anchor' id='table5'></a>
+
+---
+# Table 5 (table5.do)
+---
+
+![](https://github.com/htdanil/referenced_to_github/raw/master/GF0004_Jorda_Taylor_%282016%29_The_time_for_austerity__REPLICATION_WORK/results/table5.PNG)
+
+[Click here for summarized result of code below](https://github.com/htdanil/referenced_to_github/blob/master/GF0004_Jorda_Taylor_%282016%29_The_time_for_austerity__REPLICATION_WORK/results/table5.pdf)
+
+<span style="color:red"> Coefficients are significant at 1% level of significance but only has one star ( * ) instead of three stars ( *** ). Could be a typo. [The included code's compiled tables also shows significant at 1% level of significance.](https://github.com/htdanil/referenced_to_github/blob/master/GF0004_Jorda_Taylor_%282016%29_The_time_for_austerity__REPLICATION_WORK/results/tables_figures_compiled.pdf) </span>
+
+![](https://github.com/htdanil/referenced_to_github/raw/master/GF0004_Jorda_Taylor_%282016%29_The_time_for_austerity__REPLICATION_WORK/results/table5_included.PNG)
+
+
+```python
+%%stata -os
+* #================================================================================
+* #Table 5 / Balance check
+* #================================================================================
+
+* # This conducts ttest for checking whether control and treatment groups have statistically different means
+* # Doing it one by one.
+
+gen fcontrol = 1-ftreatment // #ttest will use control as the reference group
+
+foreach xx in debtgdp hply dly treatment {
+	ttest `xx', by(fcontrol)
+}
+
+* # OR, you can use the combined one-line code provided by the author to run for each variables combinedly.
+eststo clear
+estpost ttest debtgdp hply dly treatment, by(fcontrol)
+
+```
+
+    
+    (19 missing values generated)
+    
+    Two-sample t test with equal variances
+    ------------------------------------------------------------------------------
+       Group |     Obs        Mean    Std. Err.   Std. Dev.   [95% Conf. Interval]
+    ---------+--------------------------------------------------------------------
+           0 |     168    .6863568    .0247139    .3203284    .6375649    .7351487
+           1 |     319    .5573135    .0146543    .2617334    .5284819     .586145
+    ---------+--------------------------------------------------------------------
+    combined |     487    .6018295    .0131219    .2895747    .5760468    .6276121
+    ---------+--------------------------------------------------------------------
+        diff |            .1290433    .0270042                .0759836     .182103
+    ------------------------------------------------------------------------------
+        diff = mean(0) - mean(1)                                      t =   4.7786
+    Ho: diff = 0                                     degrees of freedom =      485
+    
+        Ha: diff < 0                 Ha: diff != 0                 Ha: diff > 0
+     Pr(T < t) = 1.0000         Pr(|T| > |t|) = 0.0000          Pr(T > t) = 0.0000
+    
+    Two-sample t test with equal variances
+    ------------------------------------------------------------------------------
+       Group |     Obs        Mean    Std. Err.   Std. Dev.   [95% Conf. Interval]
+    ---------+--------------------------------------------------------------------
+           0 |     169   -.4157567      .15633     2.03229   -.7243811   -.1071322
+           1 |     322     .300101      .11609    2.083161    .0717076    .5284944
+    ---------+--------------------------------------------------------------------
+    combined |     491     .053706     .094393     2.09161   -.1317591    .2391711
+    ---------+--------------------------------------------------------------------
+        diff |           -.7158577    .1962289               -1.101414   -.3303018
+    ------------------------------------------------------------------------------
+        diff = mean(0) - mean(1)                                      t =  -3.6481
+    Ho: diff = 0                                     degrees of freedom =      489
+    
+        Ha: diff < 0                 Ha: diff != 0                 Ha: diff > 0
+     Pr(T < t) = 0.0001         Pr(|T| > |t|) = 0.0003          Pr(T > t) = 0.9999
+    
+    Two-sample t test with equal variances
+    ------------------------------------------------------------------------------
+       Group |     Obs        Mean    Std. Err.   Std. Dev.   [95% Conf. Interval]
+    ---------+--------------------------------------------------------------------
+           0 |     169    2.172349    .1451557    1.887024    1.885785    2.458913
+           1 |     322    2.805073    .1051409    1.886687    2.598221    3.011925
+    ---------+--------------------------------------------------------------------
+    combined |     491    2.587292    .0861405    1.908746    2.418042    2.756543
+    ---------+--------------------------------------------------------------------
+        diff |           -.6327237    .1792239               -.9848677   -.2805797
+    ------------------------------------------------------------------------------
+        diff = mean(0) - mean(1)                                      t =  -3.5304
+    Ho: diff = 0                                     degrees of freedom =      489
+    
+        Ha: diff < 0                 Ha: diff != 0                 Ha: diff > 0
+     Pr(T < t) = 0.0002         Pr(|T| > |t|) = 0.0005          Pr(T > t) = 0.9998
+    
+    Two-sample t test with equal variances
+    ------------------------------------------------------------------------------
+       Group |     Obs        Mean    Std. Err.   Std. Dev.   [95% Conf. Interval]
+    ---------+--------------------------------------------------------------------
+           0 |     169    .7100592    .0350064    .4550831    .6409501    .7791683
+           1 |     322    .1459627    .0197064    .3536184    .1071928    .1847327
+    ---------+--------------------------------------------------------------------
+    combined |     491    .3401222    .0214018    .4742332    .2980715    .3821729
+    ---------+--------------------------------------------------------------------
+        diff |            .5640964    .0371835                .4910372    .6371556
+    ------------------------------------------------------------------------------
+        diff = mean(0) - mean(1)                                      t =  15.1706
+    Ho: diff = 0                                     degrees of freedom =      489
+    
+        Ha: diff < 0                 Ha: diff != 0                 Ha: diff > 0
+     Pr(T < t) = 1.0000         Pr(|T| > |t|) = 0.0000          Pr(T > t) = 0.0000
+    
+                 |      e(b)   e(count)      e(se)       e(t)    e(df_t)     e(p_l)       e(p)     e(p_u) 
+    -------------+----------------------------------------------------------------------------------------
+         debtgdp |  .1290433        487   .0270042   4.778633        485   .9999988   2.34e-06   1.17e-06 
+            hply | -.7158577        491   .1962289  -3.648074        489   .0001463   .0002926   .9998537 
+             dly | -.6327237        491   .1792239  -3.530353        489   .0002271   .0004543   .9997729 
+       treatment |  .5640964        491   .0371835    15.1706        489          1   7.03e-43   3.51e-43 
+    
+                 |    e(N_1)    e(mu_1)     e(N_2)    e(mu_2) 
+    -------------+--------------------------------------------
+         debtgdp |       168   .6863568        319   .5573135 
+            hply |       169  -.4157567        322    .300101 
+             dly |       169   2.172349        322   2.805073 
+       treatment |       169   .7100592        322   .1459627 
     
     
