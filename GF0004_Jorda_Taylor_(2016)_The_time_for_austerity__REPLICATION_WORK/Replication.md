@@ -19,6 +19,7 @@ Replication Code Downloaded from https://sites.google.com/site/oscarjorda/home/l
      - [Table 4](#table4)
      - [Table A2](#tableA2)
 * [Table 5](#table5)
+* [Table 6](#table6)
 
 <a class="anchor" id="initiating_env"></a>
 
@@ -6334,5 +6335,1129 @@ estpost ttest debtgdp hply dly treatment, by(fcontrol)
             hply |       169  -.4157567        322    .300101 
              dly |       169   2.172349        322   2.805073 
        treatment |       169   .7100592        322   .1459627 
+    
+    
+
+<a class='anchor' id='table6'></a>
+
+---
+# Table 6 (table6.do)
+---
+
+![](https://github.com/htdanil/referenced_to_github/raw/master/GF0004_Jorda_Taylor_%282016%29_The_time_for_austerity__REPLICATION_WORK/results/table6.PNG)
+
+[Click here for summarized result of code below](https://github.com/htdanil/referenced_to_github/blob/master/GF0004_Jorda_Taylor_%282016%29_The_time_for_austerity__REPLICATION_WORK/results/table6.pdf)
+
+
+```python
+%%stata -os
+
+* #================================================================================
+* #Table 6: Omitted Variables Explain Output Fluctuations
+* #================================================================================
+
+local instrument treatment total //# instrument variables
+
+local var_list dly drprv dlcpi dlriy stir ltrate cay //# omitted variables to be tested
+
+* # creating variables for result storage
+gen var="."
+gen ols=.
+gen iv_treatment=.
+gen iv_total=.
+
+* # storing variables name in var column(variable)
+local count 1
+foreach v of local var_list {
+	replace var="`v'" if _n==`count'
+	local count = `count' + 1
+}	
+
+
+* # running OLS
+foreach v of local var_list {
+
+xtreg ly1 hply fAA dly ldly `v' l`v'  if year>=1980 & year<=2007, fe vce(cluster iso)
+	test (`v'=0) (l`v'=0)
+	
+	* # results are stored in scalars and we can see the list of scalars by using command 
+	* # return list
+	replace ols=round(r(p), 0.01) if var=="`v'" //# p-value for model test can be obtained using r(p)
+	
+}
+
+* # running IV model for both treatment(binary) and total(continuous)
+foreach z of local instrument {
+	foreach v of local var_list {
+		
+		xtivreg2 ly1 hply (fAA=f.`z') `v' l`v'  if year>=1980 & year<=2007, fe cluster(iso)
+			test (`v'=0) (l`v'=0)
+
+		* # results are stored in scalars and we can see the list of scalars by using command 
+		* # return list
+		replace iv_`z'=round(r(p), 0.01) if var=="`v'" //# p-value for model test can be obtained using r(p)
+	}
+}
+
+* # listing the stored results in tabular form
+list var ols iv_treatment iv_total if _n < `count'
+```
+
+    
+    (510 missing values generated)
+    
+    (510 missing values generated)
+    
+    (510 missing values generated)
+    
+    variable var was str1 now str3
+    (1 real change made)
+    variable var was str3 now str5
+    (1 real change made)
+    (1 real change made)
+    (1 real change made)
+    (1 real change made)
+    variable var was str5 now str6
+    (1 real change made)
+    (1 real change made)
+    
+    note: dly omitted because of collinearity
+    note: ldly omitted because of collinearity
+    
+    Fixed-effects (within) regression               Number of obs      =       457
+    Group variable: ccode                           Number of groups   =        17
+    
+    R-sq:  within  = 0.5393                         Obs per group: min =        25
+           between = 0.9939                                        avg =      26.9
+           overall = 0.5951                                        max =        27
+    
+                                                    F(4,16)            =    451.02
+    corr(u_i, Xb)  = 0.3547                         Prob > F           =    0.0000
+    
+                                       (Std. Err. adjusted for 17 clusters in iso)
+    ------------------------------------------------------------------------------
+                 |               Robust
+             ly1 |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+            hply |   -.493521   .0374441   -13.18   0.000    -.5728989    -.414143
+             fAA |   .1148758   .0396776     2.90   0.011     .0307631    .1989886
+             dly |   .5772986   .0363096    15.90   0.000     .5003257    .6542715
+            ldly |   .1789687   .0407205     4.40   0.000     .0926452    .2652923
+             dly |          0  (omitted)
+            ldly |          0  (omitted)
+           _cons |   .6302657   .0860271     7.33   0.000     .4478963    .8126351
+    -------------+----------------------------------------------------------------
+         sigma_u |  .24418097
+         sigma_e |  1.2180411
+             rho |  .03863561   (fraction of variance due to u_i)
+    ------------------------------------------------------------------------------
+    
+     ( 1)  dly = 0
+     ( 2)  ldly = 0
+    
+           F(  2,    16) =  277.26
+                Prob > F =    0.0000
+    (1 real change made)
+    
+    Fixed-effects (within) regression               Number of obs      =       457
+    Group variable: ccode                           Number of groups   =        17
+    
+    R-sq:  within  = 0.5423                         Obs per group: min =        25
+           between = 0.9917                                        avg =      26.9
+           overall = 0.5979                                        max =        27
+    
+                                                    F(6,16)            =    320.30
+    corr(u_i, Xb)  = 0.3523                         Prob > F           =    0.0000
+    
+                                       (Std. Err. adjusted for 17 clusters in iso)
+    ------------------------------------------------------------------------------
+                 |               Robust
+             ly1 |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+            hply |  -.5002037   .0370941   -13.48   0.000    -.5788397   -.4215677
+             fAA |   .1151543   .0395172     2.91   0.010     .0313815    .1989271
+             dly |   .5748848   .0363355    15.82   0.000     .4978569    .6519127
+            ldly |    .178061   .0399504     4.46   0.000     .0933699    .2627521
+           drprv |   .0020927   .0011976     1.75   0.100     -.000446    .0046314
+          ldrprv |   .0021899    .001275     1.72   0.105     -.000513    .0048928
+           _cons |   .6114212   .0859484     7.11   0.000     .4292188    .7936237
+    -------------+----------------------------------------------------------------
+         sigma_u |   .2412747
+         sigma_e |  1.2168421
+             rho |  .03782754   (fraction of variance due to u_i)
+    ------------------------------------------------------------------------------
+    
+     ( 1)  drprv = 0
+     ( 2)  ldrprv = 0
+    
+           F(  2,    16) =    1.54
+                Prob > F =    0.2436
+    (1 real change made)
+    
+    Fixed-effects (within) regression               Number of obs      =       457
+    Group variable: ccode                           Number of groups   =        17
+    
+    R-sq:  within  = 0.5512                         Obs per group: min =        25
+           between = 0.9499                                        avg =      26.9
+           overall = 0.5961                                        max =        27
+    
+                                                    F(6,16)            =    470.71
+    corr(u_i, Xb)  = 0.2832                         Prob > F           =    0.0000
+    
+                                       (Std. Err. adjusted for 17 clusters in iso)
+    ------------------------------------------------------------------------------
+                 |               Robust
+             ly1 |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+            hply |  -.4815672   .0397369   -12.12   0.000    -.5658056   -.3973288
+             fAA |   .1124124    .038672     2.91   0.010     .0304314    .1943935
+             dly |    .542427     .04246    12.78   0.000     .4524158    .6324382
+            ldly |   .1777901   .0346884     5.13   0.000      .104254    .2513262
+           dlcpi |  -.0465284   .0296026    -1.57   0.136    -.1092831    .0162262
+          ldlcpi |   -.012508   .0312735    -0.40   0.694     -.078805    .0537889
+           _cons |   .9695888    .149826     6.47   0.000     .6519718    1.287206
+    -------------+----------------------------------------------------------------
+         sigma_u |  .30807019
+         sigma_e |  1.2049708
+             rho |   .0613547   (fraction of variance due to u_i)
+    ------------------------------------------------------------------------------
+    
+     ( 1)  dlcpi = 0
+     ( 2)  ldlcpi = 0
+    
+           F(  2,    16) =   10.65
+                Prob > F =    0.0011
+    (1 real change made)
+    
+    Fixed-effects (within) regression               Number of obs      =       457
+    Group variable: ccode                           Number of groups   =        17
+    
+    R-sq:  within  = 0.5461                         Obs per group: min =        25
+           between = 0.9900                                        avg =      26.9
+           overall = 0.5908                                        max =        27
+    
+                                                    F(6,16)            =    364.28
+    corr(u_i, Xb)  = 0.3093                         Prob > F           =    0.0000
+    
+                                       (Std. Err. adjusted for 17 clusters in iso)
+    ------------------------------------------------------------------------------
+                 |               Robust
+             ly1 |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+            hply |  -.5057051   .0393998   -12.84   0.000     -.589229   -.4221813
+             fAA |   .1054181   .0417645     2.52   0.023     .0168813    .1939548
+             dly |    .475762   .0646019     7.36   0.000      .338812     .612712
+            ldly |   .1404964    .054465     2.58   0.020     .0250356    .2559571
+           dlriy |   .0344577   .0155312     2.22   0.041     .0015331    .0673823
+          ldlriy |   .0125226   .0134247     0.93   0.365    -.0159365    .0409817
+           _cons |   .9055292   .1071412     8.45   0.000     .6783999    1.132658
+    -------------+----------------------------------------------------------------
+         sigma_u |  .31706695
+         sigma_e |  1.2118392
+             rho |  .06407008   (fraction of variance due to u_i)
+    ------------------------------------------------------------------------------
+    
+     ( 1)  dlriy = 0
+     ( 2)  ldlriy = 0
+    
+           F(  2,    16) =    5.62
+                Prob > F =    0.0142
+    (1 real change made)
+    
+    Fixed-effects (within) regression               Number of obs      =       457
+    Group variable: ccode                           Number of groups   =        17
+    
+    R-sq:  within  = 0.5906                         Obs per group: min =        25
+           between = 0.9610                                        avg =      26.9
+           overall = 0.6347                                        max =        27
+    
+                                                    F(6,16)            =    308.17
+    corr(u_i, Xb)  = 0.2919                         Prob > F           =    0.0000
+    
+                                       (Std. Err. adjusted for 17 clusters in iso)
+    ------------------------------------------------------------------------------
+                 |               Robust
+             ly1 |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+            hply |   -.439062    .037282   -11.78   0.000    -.5180962   -.3600278
+             fAA |    .107133    .039655     2.70   0.016     .0230681    .1911979
+             dly |   .5523415   .0399062    13.84   0.000     .4677441    .6369388
+            ldly |   .2042116   .0355993     5.74   0.000     .1287444    .2796788
+            stir |  -.2251616   .0409702    -5.50   0.000    -.3120146   -.1383086
+           lstir |   .1736175   .0400239     4.34   0.001     .0887707    .2584644
+           _cons |   .9653929    .176707     5.46   0.000     .5907908    1.339995
+    -------------+----------------------------------------------------------------
+         sigma_u |  .27189445
+         sigma_e |  1.1509203
+             rho |  .05285968   (fraction of variance due to u_i)
+    ------------------------------------------------------------------------------
+    
+     ( 1)  stir = 0
+     ( 2)  lstir = 0
+    
+           F(  2,    16) =   17.55
+                Prob > F =    0.0001
+    (1 real change made)
+    
+    Fixed-effects (within) regression               Number of obs      =       457
+    Group variable: ccode                           Number of groups   =        17
+    
+    R-sq:  within  = 0.5627                         Obs per group: min =        25
+           between = 0.9308                                        avg =      26.9
+           overall = 0.6055                                        max =        27
+    
+                                                    F(6,16)            =    546.02
+    corr(u_i, Xb)  = 0.2631                         Prob > F           =    0.0000
+    
+                                       (Std. Err. adjusted for 17 clusters in iso)
+    ------------------------------------------------------------------------------
+                 |               Robust
+             ly1 |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+            hply |  -.4859464   .0438149   -11.09   0.000    -.5788299    -.393063
+             fAA |   .1137056   .0380742     2.99   0.009     .0329919    .1944193
+             dly |   .5606453     .03818    14.68   0.000     .4797073    .6415832
+            ldly |   .1664514   .0408372     4.08   0.001     .0798804    .2530224
+          ltrate |  -.1020634   .0456846    -2.23   0.040    -.1989105   -.0052163
+         lltrate |   .0308705   .0390131     0.79   0.440    -.0518337    .1135746
+           _cons |   1.269367   .2258905     5.62   0.000     .7905002    1.748233
+    -------------+----------------------------------------------------------------
+         sigma_u |  .30904559
+         sigma_e |  1.1894046
+             rho |  .06324305   (fraction of variance due to u_i)
+    ------------------------------------------------------------------------------
+    
+     ( 1)  ltrate = 0
+     ( 2)  lltrate = 0
+    
+           F(  2,    16) =    8.14
+                Prob > F =    0.0036
+    (1 real change made)
+    
+    Fixed-effects (within) regression               Number of obs      =       457
+    Group variable: ccode                           Number of groups   =        17
+    
+    R-sq:  within  = 0.5572                         Obs per group: min =        25
+           between = 0.8468                                        avg =      26.9
+           overall = 0.5797                                        max =        27
+    
+                                                    F(6,16)            =    143.88
+    corr(u_i, Xb)  = 0.2018                         Prob > F           =    0.0000
+    
+                                       (Std. Err. adjusted for 17 clusters in iso)
+    ------------------------------------------------------------------------------
+                 |               Robust
+             ly1 |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+            hply |  -.4637451   .0400582   -11.58   0.000    -.5486648   -.3788254
+             fAA |   .1289609   .0417166     3.09   0.007     .0405257    .2173962
+             dly |   .5186959    .038805    13.37   0.000      .436433    .6009588
+            ldly |   .1569413   .0407629     3.85   0.001     .0705279    .2433547
+             cay |  -.0519041   .0542796    -0.96   0.353    -.1669718    .0631635
+            lcay |    .143708   .0496064     2.90   0.011     .0385472    .2488689
+           _cons |   .8644382    .097825     8.84   0.000     .6570584    1.071818
+    -------------+----------------------------------------------------------------
+         sigma_u |  .42076143
+         sigma_e |  1.1968663
+             rho |  .10999501   (fraction of variance due to u_i)
+    ------------------------------------------------------------------------------
+    
+     ( 1)  cay = 0
+     ( 2)  lcay = 0
+    
+           F(  2,    16) =   12.60
+                Prob > F =    0.0005
+    (1 real change made)
+    
+    . foreach z of local instrument {
+      2. foreach v of local var_list {
+      3. 
+      4. test (`v'=0) (l`v'=0)
+      5. 
+      6. }
+      7. }
+    
+    FIXED EFFECTS ESTIMATION
+    ------------------------
+    Number of groups =        17                    Obs per group: min =        25
+                                                                   avg =      26.9
+                                                                   max =        27
+    
+    IV (2SLS) estimation
+    --------------------
+    
+    Estimates efficient for homoskedasticity only
+    Statistics robust to heteroskedasticity and clustering on iso
+    
+    Number of clusters (iso) =          17                Number of obs =      457
+                                                          F(  4,    16) =   164.92
+                                                          Prob > F      =   0.0000
+    Total (centered) SS     =  1404.141801                Centered R2   =   0.3792
+    Total (uncentered) SS   =  1404.141801                Uncentered R2 =   0.3792
+    Residual SS             =  871.6510057                Root MSE      =    1.407
+    
+    ------------------------------------------------------------------------------
+                 |               Robust
+             ly1 |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+             fAA |  -.3373323    .110121    -3.06   0.002    -.5531655   -.1214992
+            hply |  -.6176749   .0375116   -16.47   0.000    -.6911962   -.5441536
+             dly |   .6293041   .0562929    11.18   0.000     .5189721    .7396361
+            ldly |   .2001712   .0351336     5.70   0.000     .1313105    .2690318
+    ------------------------------------------------------------------------------
+    Underidentification test (Kleibergen-Paap rk LM statistic):             12.247
+                                                       Chi-sq(1) P-val =    0.0005
+    ------------------------------------------------------------------------------
+    Weak identification test (Cragg-Donald Wald F statistic):               45.907
+                             (Kleibergen-Paap rk Wald F statistic):         34.134
+    Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
+                                             15% maximal IV size              8.96
+                                             20% maximal IV size              6.66
+                                             25% maximal IV size              5.53
+    Source: Stock-Yogo (2005).  Reproduced by permission.
+    NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
+    ------------------------------------------------------------------------------
+    Hansen J statistic (overidentification test of all instruments):         0.000
+                                                     (equation exactly identified)
+    ------------------------------------------------------------------------------
+    Instrumented:         fAA
+    Included instruments: hply dly ldly
+    Excluded instruments: F.treatment
+    ------------------------------------------------------------------------------
+    
+     ( 1)  dly = 0
+     ( 2)  ldly = 0
+    
+               chi2(  2) =  491.43
+             Prob > chi2 =    0.0000
+    (1 real change made)
+    
+    FIXED EFFECTS ESTIMATION
+    ------------------------
+    Number of groups =        17                    Obs per group: min =        25
+                                                                   avg =      26.9
+                                                                   max =        27
+    
+    IV (2SLS) estimation
+    --------------------
+    
+    Estimates efficient for homoskedasticity only
+    Statistics robust to heteroskedasticity and clustering on iso
+    
+    Number of clusters (iso) =          17                Number of obs =      457
+                                                          F(  4,    16) =    52.56
+                                                          Prob > F      =   0.0000
+    Total (centered) SS     =  1404.141801                Centered R2   =  -0.4893
+    Total (uncentered) SS   =  1404.141801                Uncentered R2 =  -0.4893
+    Residual SS             =  2091.218676                Root MSE      =     2.18
+    
+    ------------------------------------------------------------------------------
+                 |               Robust
+             ly1 |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+             fAA |  -.6847654   .3094415    -2.21   0.027     -1.29126   -.0782711
+            hply |  -.4446226   .0694076    -6.41   0.000    -.5806589   -.3085863
+           drprv |   .0046284   .0043593     1.06   0.288    -.0039157    .0131725
+          ldrprv |   .0022166   .0020832     1.06   0.287    -.0018663    .0062996
+    ------------------------------------------------------------------------------
+    Underidentification test (Kleibergen-Paap rk LM statistic):             11.369
+                                                       Chi-sq(1) P-val =    0.0007
+    ------------------------------------------------------------------------------
+    Weak identification test (Cragg-Donald Wald F statistic):               37.811
+                             (Kleibergen-Paap rk Wald F statistic):         28.284
+    Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
+                                             15% maximal IV size              8.96
+                                             20% maximal IV size              6.66
+                                             25% maximal IV size              5.53
+    Source: Stock-Yogo (2005).  Reproduced by permission.
+    NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
+    ------------------------------------------------------------------------------
+    Hansen J statistic (overidentification test of all instruments):         0.000
+                                                     (equation exactly identified)
+    ------------------------------------------------------------------------------
+    Instrumented:         fAA
+    Included instruments: hply drprv ldrprv
+    Excluded instruments: F.treatment
+    ------------------------------------------------------------------------------
+    
+     ( 1)  drprv = 0
+     ( 2)  ldrprv = 0
+    
+               chi2(  2) =    1.16
+             Prob > chi2 =    0.5590
+    (1 real change made)
+    
+    FIXED EFFECTS ESTIMATION
+    ------------------------
+    Number of groups =        17                    Obs per group: min =        25
+                                                                   avg =      26.9
+                                                                   max =        27
+    
+    IV (2SLS) estimation
+    --------------------
+    
+    Estimates efficient for homoskedasticity only
+    Statistics robust to heteroskedasticity and clustering on iso
+    
+    Number of clusters (iso) =          17                Number of obs =      457
+                                                          F(  4,    16) =    60.05
+                                                          Prob > F      =   0.0000
+    Total (centered) SS     =  1404.141801                Centered R2   =  -0.4694
+    Total (uncentered) SS   =  1404.141801                Uncentered R2 =  -0.4694
+    Residual SS             =  2063.212517                Root MSE      =    2.165
+    
+    ------------------------------------------------------------------------------
+                 |               Robust
+             ly1 |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+             fAA |  -.7415556   .3221263    -2.30   0.021    -1.372912   -.1101996
+            hply |  -.4478337   .0691112    -6.48   0.000    -.5832892   -.3123782
+           dlcpi |  -.0992728   .0528313    -1.88   0.060    -.2028202    .0042747
+          ldlcpi |  -.0742577   .0774387    -0.96   0.338    -.2260349    .0775194
+    ------------------------------------------------------------------------------
+    Underidentification test (Kleibergen-Paap rk LM statistic):             11.210
+                                                       Chi-sq(1) P-val =    0.0008
+    ------------------------------------------------------------------------------
+    Weak identification test (Cragg-Donald Wald F statistic):               37.310
+                             (Kleibergen-Paap rk Wald F statistic):         27.259
+    Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
+                                             15% maximal IV size              8.96
+                                             20% maximal IV size              6.66
+                                             25% maximal IV size              5.53
+    Source: Stock-Yogo (2005).  Reproduced by permission.
+    NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
+    ------------------------------------------------------------------------------
+    Hansen J statistic (overidentification test of all instruments):         0.000
+                                                     (equation exactly identified)
+    ------------------------------------------------------------------------------
+    Instrumented:         fAA
+    Included instruments: hply dlcpi ldlcpi
+    Excluded instruments: F.treatment
+    ------------------------------------------------------------------------------
+    
+     ( 1)  dlcpi = 0
+     ( 2)  ldlcpi = 0
+    
+               chi2(  2) =   28.70
+             Prob > chi2 =    0.0000
+    (1 real change made)
+    
+    FIXED EFFECTS ESTIMATION
+    ------------------------
+    Number of groups =        17                    Obs per group: min =        25
+                                                                   avg =      26.9
+                                                                   max =        27
+    
+    IV (2SLS) estimation
+    --------------------
+    
+    Estimates efficient for homoskedasticity only
+    Statistics robust to heteroskedasticity and clustering on iso
+    
+    Number of clusters (iso) =          17                Number of obs =      457
+                                                          F(  4,    16) =   131.66
+                                                          Prob > F      =   0.0000
+    Total (centered) SS     =  1404.141801                Centered R2   =   0.2781
+    Total (uncentered) SS   =  1404.141801                Uncentered R2 =   0.2781
+    Residual SS             =  1013.687002                Root MSE      =    1.518
+    
+    ------------------------------------------------------------------------------
+                 |               Robust
+             ly1 |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+             fAA |  -.3721161   .1311423    -2.84   0.005    -.6291504   -.1150819
+            hply |  -.6114876    .033977   -18.00   0.000    -.6780813    -.544894
+           dlriy |   .1539347   .0191845     8.02   0.000     .1163337    .1915357
+          ldlriy |   .0565123   .0134176     4.21   0.000     .0302143    .0828103
+    ------------------------------------------------------------------------------
+    Underidentification test (Kleibergen-Paap rk LM statistic):             12.140
+                                                       Chi-sq(1) P-val =    0.0005
+    ------------------------------------------------------------------------------
+    Weak identification test (Cragg-Donald Wald F statistic):               47.904
+                             (Kleibergen-Paap rk Wald F statistic):         32.505
+    Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
+                                             15% maximal IV size              8.96
+                                             20% maximal IV size              6.66
+                                             25% maximal IV size              5.53
+    Source: Stock-Yogo (2005).  Reproduced by permission.
+    NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
+    ------------------------------------------------------------------------------
+    Hansen J statistic (overidentification test of all instruments):         0.000
+                                                     (equation exactly identified)
+    ------------------------------------------------------------------------------
+    Instrumented:         fAA
+    Included instruments: hply dlriy ldlriy
+    Excluded instruments: F.treatment
+    ------------------------------------------------------------------------------
+    
+     ( 1)  dlriy = 0
+     ( 2)  ldlriy = 0
+    
+               chi2(  2) =  226.90
+             Prob > chi2 =    0.0000
+    (1 real change made)
+    
+    FIXED EFFECTS ESTIMATION
+    ------------------------
+    Number of groups =        17                    Obs per group: min =        25
+                                                                   avg =      26.9
+                                                                   max =        27
+    
+    IV (2SLS) estimation
+    --------------------
+    
+    Estimates efficient for homoskedasticity only
+    Statistics robust to heteroskedasticity and clustering on iso
+    
+    Number of clusters (iso) =          17                Number of obs =      457
+                                                          F(  4,    16) =    50.53
+                                                          Prob > F      =   0.0000
+    Total (centered) SS     =  1404.141801                Centered R2   =  -0.3213
+    Total (uncentered) SS   =  1404.141801                Uncentered R2 =  -0.3213
+    Residual SS             =  1855.307406                Root MSE      =    2.053
+    
+    ------------------------------------------------------------------------------
+                 |               Robust
+             ly1 |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+             fAA |  -.6314148   .3117601    -2.03   0.043    -1.242453   -.0203761
+            hply |  -.3919198   .0749846    -5.23   0.000    -.5388868   -.2449527
+            stir |  -.2124223   .0519388    -4.09   0.000    -.3142204   -.1106242
+           lstir |   .0920947   .0654363     1.41   0.159     -.036158    .2203475
+    ------------------------------------------------------------------------------
+    Underidentification test (Kleibergen-Paap rk LM statistic):             11.535
+                                                       Chi-sq(1) P-val =    0.0007
+    ------------------------------------------------------------------------------
+    Weak identification test (Cragg-Donald Wald F statistic):               38.618
+                             (Kleibergen-Paap rk Wald F statistic):         28.195
+    Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
+                                             15% maximal IV size              8.96
+                                             20% maximal IV size              6.66
+                                             25% maximal IV size              5.53
+    Source: Stock-Yogo (2005).  Reproduced by permission.
+    NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
+    ------------------------------------------------------------------------------
+    Hansen J statistic (overidentification test of all instruments):         0.000
+                                                     (equation exactly identified)
+    ------------------------------------------------------------------------------
+    Instrumented:         fAA
+    Included instruments: hply stir lstir
+    Excluded instruments: F.treatment
+    ------------------------------------------------------------------------------
+    
+     ( 1)  stir = 0
+     ( 2)  lstir = 0
+    
+               chi2(  2) =   25.22
+             Prob > chi2 =    0.0000
+    (1 real change made)
+    
+    FIXED EFFECTS ESTIMATION
+    ------------------------
+    Number of groups =        17                    Obs per group: min =        25
+                                                                   avg =      26.9
+                                                                   max =        27
+    
+    IV (2SLS) estimation
+    --------------------
+    
+    Estimates efficient for homoskedasticity only
+    Statistics robust to heteroskedasticity and clustering on iso
+    
+    Number of clusters (iso) =          17                Number of obs =      457
+                                                          F(  4,    16) =    44.84
+                                                          Prob > F      =   0.0000
+    Total (centered) SS     =  1404.141801                Centered R2   =  -0.3665
+    Total (uncentered) SS   =  1404.141801                Uncentered R2 =  -0.3665
+    Residual SS             =  1918.696039                Root MSE      =    2.088
+    
+    ------------------------------------------------------------------------------
+                 |               Robust
+             ly1 |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+             fAA |  -.6390007   .3097417    -2.06   0.039    -1.246083   -.0319181
+            hply |  -.4307041   .0663599    -6.49   0.000    -.5607672    -.300641
+          ltrate |  -.1557986   .0779107    -2.00   0.046    -.3085007   -.0030965
+         lltrate |   .0343746   .0765632     0.45   0.653    -.1156865    .1844356
+    ------------------------------------------------------------------------------
+    Underidentification test (Kleibergen-Paap rk LM statistic):             11.586
+                                                       Chi-sq(1) P-val =    0.0007
+    ------------------------------------------------------------------------------
+    Weak identification test (Cragg-Donald Wald F statistic):               36.997
+                             (Kleibergen-Paap rk Wald F statistic):         28.929
+    Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
+                                             15% maximal IV size              8.96
+                                             20% maximal IV size              6.66
+                                             25% maximal IV size              5.53
+    Source: Stock-Yogo (2005).  Reproduced by permission.
+    NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
+    ------------------------------------------------------------------------------
+    Hansen J statistic (overidentification test of all instruments):         0.000
+                                                     (equation exactly identified)
+    ------------------------------------------------------------------------------
+    Instrumented:         fAA
+    Included instruments: hply ltrate lltrate
+    Excluded instruments: F.treatment
+    ------------------------------------------------------------------------------
+    
+     ( 1)  ltrate = 0
+     ( 2)  lltrate = 0
+    
+               chi2(  2) =    8.90
+             Prob > chi2 =    0.0117
+    (1 real change made)
+    
+    FIXED EFFECTS ESTIMATION
+    ------------------------
+    Number of groups =        17                    Obs per group: min =        25
+                                                                   avg =      26.9
+                                                                   max =        27
+    
+    IV (2SLS) estimation
+    --------------------
+    
+    Estimates efficient for homoskedasticity only
+    Statistics robust to heteroskedasticity and clustering on iso
+    
+    Number of clusters (iso) =          17                Number of obs =      457
+                                                          F(  4,    16) =    92.37
+                                                          Prob > F      =   0.0000
+    Total (centered) SS     =  1404.141801                Centered R2   =   0.0253
+    Total (uncentered) SS   =  1404.141801                Uncentered R2 =   0.0253
+    Residual SS             =  1368.601218                Root MSE      =    1.764
+    
+    ------------------------------------------------------------------------------
+                 |               Robust
+             ly1 |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+             fAA |  -.3671956   .2111005    -1.74   0.082    -.7809448    .0465537
+            hply |  -.3669796   .0414966    -8.84   0.000    -.4483115   -.2856477
+             cay |  -.1602428   .0801621    -2.00   0.046    -.3173576    -.003128
+            lcay |   .3881709   .0742406     5.23   0.000      .242662    .5336797
+    ------------------------------------------------------------------------------
+    Underidentification test (Kleibergen-Paap rk LM statistic):             11.658
+                                                       Chi-sq(1) P-val =    0.0006
+    ------------------------------------------------------------------------------
+    Weak identification test (Cragg-Donald Wald F statistic):               37.372
+                             (Kleibergen-Paap rk Wald F statistic):         28.257
+    Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
+                                             15% maximal IV size              8.96
+                                             20% maximal IV size              6.66
+                                             25% maximal IV size              5.53
+    Source: Stock-Yogo (2005).  Reproduced by permission.
+    NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
+    ------------------------------------------------------------------------------
+    Hansen J statistic (overidentification test of all instruments):         0.000
+                                                     (equation exactly identified)
+    ------------------------------------------------------------------------------
+    Instrumented:         fAA
+    Included instruments: hply cay lcay
+    Excluded instruments: F.treatment
+    ------------------------------------------------------------------------------
+    
+     ( 1)  cay = 0
+     ( 2)  lcay = 0
+    
+               chi2(  2) =   61.31
+             Prob > chi2 =    0.0000
+    (1 real change made)
+    
+    FIXED EFFECTS ESTIMATION
+    ------------------------
+    Number of groups =        17                    Obs per group: min =        25
+                                                                   avg =      26.9
+                                                                   max =        27
+    
+    IV (2SLS) estimation
+    --------------------
+    
+    Estimates efficient for homoskedasticity only
+    Statistics robust to heteroskedasticity and clustering on iso
+    
+    Number of clusters (iso) =          17                Number of obs =      457
+                                                          F(  4,    16) =    95.90
+                                                          Prob > F      =   0.0000
+    Total (centered) SS     =  1404.141801                Centered R2   =   0.2815
+    Total (uncentered) SS   =  1404.141801                Uncentered R2 =   0.2815
+    Residual SS             =  1008.845906                Root MSE      =    1.514
+    
+    ------------------------------------------------------------------------------
+                 |               Robust
+             ly1 |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+             fAA |  -.4589695    .122877    -3.74   0.000     -.699804    -.218135
+            hply |  -.6510705   .0523513   -12.44   0.000     -.753677   -.5484639
+             dly |   .6432928   .0625471    10.28   0.000     .5207028    .7658828
+            ldly |   .2058743   .0389949     5.28   0.000     .1294457     .282303
+    ------------------------------------------------------------------------------
+    Underidentification test (Kleibergen-Paap rk LM statistic):             10.796
+                                                       Chi-sq(1) P-val =    0.0010
+    ------------------------------------------------------------------------------
+    Weak identification test (Cragg-Donald Wald F statistic):               45.052
+                             (Kleibergen-Paap rk Wald F statistic):         56.003
+    Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
+                                             15% maximal IV size              8.96
+                                             20% maximal IV size              6.66
+                                             25% maximal IV size              5.53
+    Source: Stock-Yogo (2005).  Reproduced by permission.
+    NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
+    ------------------------------------------------------------------------------
+    Hansen J statistic (overidentification test of all instruments):         0.000
+                                                     (equation exactly identified)
+    ------------------------------------------------------------------------------
+    Instrumented:         fAA
+    Included instruments: hply dly ldly
+    Excluded instruments: F.total
+    ------------------------------------------------------------------------------
+    
+     ( 1)  dly = 0
+     ( 2)  ldly = 0
+    
+               chi2(  2) =  324.38
+             Prob > chi2 =    0.0000
+    (1 real change made)
+    
+    FIXED EFFECTS ESTIMATION
+    ------------------------
+    Number of groups =        17                    Obs per group: min =        25
+                                                                   avg =      26.9
+                                                                   max =        27
+    
+    IV (2SLS) estimation
+    --------------------
+    
+    Estimates efficient for homoskedasticity only
+    Statistics robust to heteroskedasticity and clustering on iso
+    
+    Number of clusters (iso) =          17                Number of obs =      457
+                                                          F(  4,    16) =    17.60
+                                                          Prob > F      =   0.0000
+    Total (centered) SS     =  1404.141801                Centered R2   =  -1.1078
+    Total (uncentered) SS   =  1404.141801                Uncentered R2 =  -1.1078
+    Residual SS             =  2959.634073                Root MSE      =    2.594
+    
+    ------------------------------------------------------------------------------
+                 |               Robust
+             ly1 |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+             fAA |  -1.042524   .3552832    -2.93   0.003    -1.738866   -.3461818
+            hply |  -.5240239   .0913845    -5.73   0.000    -.7031343   -.3449136
+           drprv |   .0047944   .0047151     1.02   0.309    -.0044471    .0140358
+          ldrprv |   .0021223   .0019197     1.11   0.269    -.0016403    .0058848
+    ------------------------------------------------------------------------------
+    Underidentification test (Kleibergen-Paap rk LM statistic):              9.439
+                                                       Chi-sq(1) P-val =    0.0021
+    ------------------------------------------------------------------------------
+    Weak identification test (Cragg-Donald Wald F statistic):               32.767
+                             (Kleibergen-Paap rk Wald F statistic):         27.519
+    Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
+                                             15% maximal IV size              8.96
+                                             20% maximal IV size              6.66
+                                             25% maximal IV size              5.53
+    Source: Stock-Yogo (2005).  Reproduced by permission.
+    NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
+    ------------------------------------------------------------------------------
+    Hansen J statistic (overidentification test of all instruments):         0.000
+                                                     (equation exactly identified)
+    ------------------------------------------------------------------------------
+    Instrumented:         fAA
+    Included instruments: hply drprv ldrprv
+    Excluded instruments: F.total
+    ------------------------------------------------------------------------------
+    
+     ( 1)  drprv = 0
+     ( 2)  ldrprv = 0
+    
+               chi2(  2) =    1.22
+             Prob > chi2 =    0.5428
+    (1 real change made)
+    
+    FIXED EFFECTS ESTIMATION
+    ------------------------
+    Number of groups =        17                    Obs per group: min =        25
+                                                                   avg =      26.9
+                                                                   max =        27
+    
+    IV (2SLS) estimation
+    --------------------
+    
+    Estimates efficient for homoskedasticity only
+    Statistics robust to heteroskedasticity and clustering on iso
+    
+    Number of clusters (iso) =          17                Number of obs =      457
+                                                          F(  4,    16) =    40.19
+                                                          Prob > F      =   0.0000
+    Total (centered) SS     =  1404.141801                Centered R2   =  -0.8222
+    Total (uncentered) SS   =  1404.141801                Uncentered R2 =  -0.8222
+    Residual SS             =  2558.585623                Root MSE      =    2.411
+    
+    ------------------------------------------------------------------------------
+                 |               Robust
+             ly1 |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+             fAA |  -.9530613   .3366026    -2.83   0.005     -1.61279   -.2933323
+            hply |  -.4925868   .0841318    -5.85   0.000     -.657482   -.3276916
+           dlcpi |  -.1107086   .0582368    -1.90   0.057    -.2248505    .0034334
+          ldlcpi |  -.0686917   .0833086    -0.82   0.410    -.2319735    .0945902
+    ------------------------------------------------------------------------------
+    Underidentification test (Kleibergen-Paap rk LM statistic):              9.675
+                                                       Chi-sq(1) P-val =    0.0019
+    ------------------------------------------------------------------------------
+    Weak identification test (Cragg-Donald Wald F statistic):               34.321
+                             (Kleibergen-Paap rk Wald F statistic):         25.724
+    Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
+                                             15% maximal IV size              8.96
+                                             20% maximal IV size              6.66
+                                             25% maximal IV size              5.53
+    Source: Stock-Yogo (2005).  Reproduced by permission.
+    NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
+    ------------------------------------------------------------------------------
+    Hansen J statistic (overidentification test of all instruments):         0.000
+                                                     (equation exactly identified)
+    ------------------------------------------------------------------------------
+    Instrumented:         fAA
+    Included instruments: hply dlcpi ldlcpi
+    Excluded instruments: F.total
+    ------------------------------------------------------------------------------
+    
+     ( 1)  dlcpi = 0
+     ( 2)  ldlcpi = 0
+    
+               chi2(  2) =   24.52
+             Prob > chi2 =    0.0000
+    (1 real change made)
+    
+    FIXED EFFECTS ESTIMATION
+    ------------------------
+    Number of groups =        17                    Obs per group: min =        25
+                                                                   avg =      26.9
+                                                                   max =        27
+    
+    IV (2SLS) estimation
+    --------------------
+    
+    Estimates efficient for homoskedasticity only
+    Statistics robust to heteroskedasticity and clustering on iso
+    
+    Number of clusters (iso) =          17                Number of obs =      457
+                                                          F(  4,    16) =    90.51
+                                                          Prob > F      =   0.0000
+    Total (centered) SS     =  1404.141801                Centered R2   =   0.1599
+    Total (uncentered) SS   =  1404.141801                Uncentered R2 =   0.1599
+    Residual SS             =   1179.66691                Root MSE      =    1.637
+    
+    ------------------------------------------------------------------------------
+                 |               Robust
+             ly1 |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+             fAA |  -.5112109   .1386543    -3.69   0.000    -.7829683   -.2394536
+            hply |  -.6513189   .0467528   -13.93   0.000    -.7429526   -.5596852
+           dlriy |    .159139   .0217384     7.32   0.000     .1165325    .2017456
+          ldlriy |    .058762   .0146584     4.01   0.000      .030032     .087492
+    ------------------------------------------------------------------------------
+    Underidentification test (Kleibergen-Paap rk LM statistic):             10.664
+                                                       Chi-sq(1) P-val =    0.0011
+    ------------------------------------------------------------------------------
+    Weak identification test (Cragg-Donald Wald F statistic):               47.954
+                             (Kleibergen-Paap rk Wald F statistic):         51.507
+    Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
+                                             15% maximal IV size              8.96
+                                             20% maximal IV size              6.66
+                                             25% maximal IV size              5.53
+    Source: Stock-Yogo (2005).  Reproduced by permission.
+    NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
+    ------------------------------------------------------------------------------
+    Hansen J statistic (overidentification test of all instruments):         0.000
+                                                     (equation exactly identified)
+    ------------------------------------------------------------------------------
+    Instrumented:         fAA
+    Included instruments: hply dlriy ldlriy
+    Excluded instruments: F.total
+    ------------------------------------------------------------------------------
+    
+     ( 1)  dlriy = 0
+     ( 2)  ldlriy = 0
+    
+               chi2(  2) =  267.67
+             Prob > chi2 =    0.0000
+    (1 real change made)
+    
+    FIXED EFFECTS ESTIMATION
+    ------------------------
+    Number of groups =        17                    Obs per group: min =        25
+                                                                   avg =      26.9
+                                                                   max =        27
+    
+    IV (2SLS) estimation
+    --------------------
+    
+    Estimates efficient for homoskedasticity only
+    Statistics robust to heteroskedasticity and clustering on iso
+    
+    Number of clusters (iso) =          17                Number of obs =      457
+                                                          F(  4,    16) =    47.66
+                                                          Prob > F      =   0.0000
+    Total (centered) SS     =  1404.141801                Centered R2   =  -0.6535
+    Total (uncentered) SS   =  1404.141801                Uncentered R2 =  -0.6535
+    Residual SS             =  2321.697751                Root MSE      =    2.297
+    
+    ------------------------------------------------------------------------------
+                 |               Robust
+             ly1 |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+             fAA |  -.8516197   .3031312    -2.81   0.005    -1.445746   -.2574935
+            hply |  -.4404933   .0849938    -5.18   0.000    -.6070782   -.2739085
+            stir |  -.2171625   .0557814    -3.89   0.000     -.326492    -.107833
+           lstir |   .0931966   .0705825     1.32   0.187    -.0451426    .2315359
+    ------------------------------------------------------------------------------
+    Underidentification test (Kleibergen-Paap rk LM statistic):              9.734
+                                                       Chi-sq(1) P-val =    0.0018
+    ------------------------------------------------------------------------------
+    Weak identification test (Cragg-Donald Wald F statistic):               35.456
+                             (Kleibergen-Paap rk Wald F statistic):         27.029
+    Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
+                                             15% maximal IV size              8.96
+                                             20% maximal IV size              6.66
+                                             25% maximal IV size              5.53
+    Source: Stock-Yogo (2005).  Reproduced by permission.
+    NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
+    ------------------------------------------------------------------------------
+    Hansen J statistic (overidentification test of all instruments):         0.000
+                                                     (equation exactly identified)
+    ------------------------------------------------------------------------------
+    Instrumented:         fAA
+    Included instruments: hply stir lstir
+    Excluded instruments: F.total
+    ------------------------------------------------------------------------------
+    
+     ( 1)  stir = 0
+     ( 2)  lstir = 0
+    
+               chi2(  2) =   23.85
+             Prob > chi2 =    0.0000
+    (1 real change made)
+    
+    FIXED EFFECTS ESTIMATION
+    ------------------------
+    Number of groups =        17                    Obs per group: min =        25
+                                                                   avg =      26.9
+                                                                   max =        27
+    
+    IV (2SLS) estimation
+    --------------------
+    
+    Estimates efficient for homoskedasticity only
+    Statistics robust to heteroskedasticity and clustering on iso
+    
+    Number of clusters (iso) =          17                Number of obs =      457
+                                                          F(  4,    16) =    27.73
+                                                          Prob > F      =   0.0000
+    Total (centered) SS     =  1404.141801                Centered R2   =  -0.7341
+    Total (uncentered) SS   =  1404.141801                Uncentered R2 =  -0.7341
+    Residual SS             =  2434.938277                Root MSE      =    2.352
+    
+    ------------------------------------------------------------------------------
+                 |               Robust
+             ly1 |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+             fAA |  -.8764915    .300655    -2.92   0.004    -1.465765   -.2872184
+            hply |  -.4790517   .0724723    -6.61   0.000    -.6210948   -.3370087
+          ltrate |  -.1773631   .1007746    -1.76   0.078    -.3748777    .0201514
+         lltrate |   .0558698   .0959719     0.58   0.560    -.1322316    .2439711
+    ------------------------------------------------------------------------------
+    Underidentification test (Kleibergen-Paap rk LM statistic):              9.619
+                                                       Chi-sq(1) P-val =    0.0019
+    ------------------------------------------------------------------------------
+    Weak identification test (Cragg-Donald Wald F statistic):               34.199
+                             (Kleibergen-Paap rk Wald F statistic):         30.593
+    Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
+                                             15% maximal IV size              8.96
+                                             20% maximal IV size              6.66
+                                             25% maximal IV size              5.53
+    Source: Stock-Yogo (2005).  Reproduced by permission.
+    NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
+    ------------------------------------------------------------------------------
+    Hansen J statistic (overidentification test of all instruments):         0.000
+                                                     (equation exactly identified)
+    ------------------------------------------------------------------------------
+    Instrumented:         fAA
+    Included instruments: hply ltrate lltrate
+    Excluded instruments: F.total
+    ------------------------------------------------------------------------------
+    
+     ( 1)  ltrate = 0
+     ( 2)  lltrate = 0
+    
+               chi2(  2) =    8.03
+             Prob > chi2 =    0.0181
+    (1 real change made)
+    
+    FIXED EFFECTS ESTIMATION
+    ------------------------
+    Number of groups =        17                    Obs per group: min =        25
+                                                                   avg =      26.9
+                                                                   max =        27
+    
+    IV (2SLS) estimation
+    --------------------
+    
+    Estimates efficient for homoskedasticity only
+    Statistics robust to heteroskedasticity and clustering on iso
+    
+    Number of clusters (iso) =          17                Number of obs =      457
+                                                          F(  4,    16) =    85.90
+                                                          Prob > F      =   0.0000
+    Total (centered) SS     =  1404.141801                Centered R2   =  -0.1992
+    Total (uncentered) SS   =  1404.141801                Uncentered R2 =  -0.1992
+    Residual SS             =   1683.88765                Root MSE      =    1.956
+    
+    ------------------------------------------------------------------------------
+                 |               Robust
+             ly1 |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+             fAA |  -.5697679    .194437    -2.93   0.003    -.9508575   -.1886783
+            hply |  -.4155795   .0393396   -10.56   0.000    -.4926838   -.3384752
+             cay |  -.1750259   .0821308    -2.13   0.033    -.3359992   -.0140526
+            lcay |    .396527    .075688     5.24   0.000     .2481812    .5448728
+    ------------------------------------------------------------------------------
+    Underidentification test (Kleibergen-Paap rk LM statistic):             10.038
+                                                       Chi-sq(1) P-val =    0.0015
+    ------------------------------------------------------------------------------
+    Weak identification test (Cragg-Donald Wald F statistic):               33.493
+                             (Kleibergen-Paap rk Wald F statistic):         31.027
+    Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
+                                             15% maximal IV size              8.96
+                                             20% maximal IV size              6.66
+                                             25% maximal IV size              5.53
+    Source: Stock-Yogo (2005).  Reproduced by permission.
+    NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
+    ------------------------------------------------------------------------------
+    Hansen J statistic (overidentification test of all instruments):         0.000
+                                                     (equation exactly identified)
+    ------------------------------------------------------------------------------
+    Instrumented:         fAA
+    Included instruments: hply cay lcay
+    Excluded instruments: F.total
+    ------------------------------------------------------------------------------
+    
+     ( 1)  cay = 0
+     ( 2)  lcay = 0
+    
+               chi2(  2) =   54.50
+             Prob > chi2 =    0.0000
+    (1 real change made)
+    
+         +------------------------------------+
+         |    var   ols   iv_tre~t   iv_total |
+         |------------------------------------|
+      1. |    dly     0          0          0 |
+      2. |  drprv   .24        .56        .54 |
+      3. |  dlcpi     0          0          0 |
+      4. |  dlriy   .01          0          0 |
+      5. |   stir     0          0          0 |
+         |------------------------------------|
+      6. | ltrate     0        .01        .02 |
+      7. |    cay     0          0          0 |
+         +------------------------------------+
     
     
