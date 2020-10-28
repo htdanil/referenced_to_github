@@ -14,6 +14,9 @@ Replication Code Downloaded from https://sites.google.com/site/oscarjorda/home/l
      - [Table A1](#tableA1)
      - [Table A1 - Panel (a)](#tableA1_a)
      - [Table A1 - Panel (b)](#tableA1_b)
+* [Table 3](#table3)
+* [Table 4 and A2](#tbl4A2)
+     - [Table 4](#table4)
 
 <a class="anchor" id="initiating_env"></a>
 
@@ -2711,6 +2714,3500 @@ forvalues i=1/6 {
       dmdumiso16 |  -5.362327   1.150675    -4.66   0.000    -7.801648   -2.923005
             wgdp |  -.8197096   .7364004    -1.11   0.282    -2.380809    .7413896
            _cons |   41.79621   2.359092    17.72   0.000     36.79515    46.79726
+    ------------------------------------------------------------------------------
+    
+    
+
+<a class='anchor' id='table3'></a>
+
+---
+# Table 3 (table3.do)
+---
+
+![Table3](https://github.com/htdanil/referenced_to_github/raw/master/GF0004_Jorda_Taylor_%282016%29_The_time_for_austerity__REPLICATION_WORK/results/table3.PNG)
+
+[Click here for summarized result of code below](https://github.com/htdanil/referenced_to_github/blob/master/GF0004_Jorda_Taylor_%282016%29_The_time_for_austerity__REPLICATION_WORK/results/table3.pdf)
+
+<span style="color:red">Standard Errors (SEs) for coefficients are slightly different than what have been published in the paper. [The included code's compiled tables also shows slightly different SEs.](https://github.com/htdanil/referenced_to_github/blob/master/GF0004_Jorda_Taylor_%282016%29_The_time_for_austerity__REPLICATION_WORK/results/tables_figures_compiled.pdf) However, the key result does not change. </span>
+
+![](https://github.com/htdanil/referenced_to_github/raw/master/GF0004_Jorda_Taylor_%282016%29_The_time_for_austerity__REPLICATION_WORK/results/table3_included.PNG)
+
+
+```python
+%%stata -os
+* #================================================================================
+* # Table 3: Fiscal multiplier, d.CAPB, IV estimates. Log real GDP (relative to Year 0, x 100)
+* #================================================================================
+
+forvalues i = 1/6   {
+    foreach v in treatment total {
+        * the dummy for the U.S. is dropped to avoid collinearity with the constant
+        ivreg2 ly`i'   (fAA= f.`v') ///
+            hply dml0dly dml1dly dmdumiso1-dmdumiso16 ///
+            if year>=1980 & year<=2007, cluster(iso)
+
+    }
+}
+```
+
+    . forvalues i = 1/6   {
+      2.     foreach v in treatment total {
+      3.         * the dummy for the U.S. is dropped to avoid collinearity with the constant
+      4. 
+    .     }
+      5. }
+    Warning: time variable year has 1 gap(s) in relevant range
+    
+    IV (2SLS) estimation
+    --------------------
+    
+    Estimates efficient for homoskedasticity only
+    Statistics robust to heteroskedasticity and clustering on iso
+    
+    Number of clusters (iso) =          17                Number of obs =      457
+                                                          F( 20,    16) =    19.69
+                                                          Prob > F      =   0.0000
+    Total (centered) SS     =  1652.910839                Centered R2   =   0.4727
+    Total (uncentered) SS   =  4677.500367                Uncentered R2 =   0.8137
+    Residual SS             =  871.6510062                Root MSE      =    1.381
+    
+    ------------------------------------------------------------------------------
+                 |               Robust
+             ly1 |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+             fAA |  -.3373324    .110121    -3.06   0.002    -.5531655   -.1214992
+            hply |  -.6176749   .0375116   -16.47   0.000    -.6911962   -.5441536
+         dml0dly |   .6293041   .0562929    11.18   0.000     .5189721    .7396361
+         dml1dly |   .2001712   .0351336     5.70   0.000     .1313105    .2690318
+       dmdumiso1 |   .1010745   .0160242     6.31   0.000     .0696678    .1324813
+       dmdumiso2 |  -.0598136   .0559795    -1.07   0.285    -.1695315    .0499043
+       dmdumiso3 |  -.0860605   .0719458    -1.20   0.232    -.2270717    .0549508
+       dmdumiso4 |   .0676977   .0437884     1.55   0.122    -.0181259    .1535213
+       dmdumiso5 |  -.2027047   .0682618    -2.97   0.003    -.3364954    -.068914
+       dmdumiso6 |  -.0377982   .0625468    -0.60   0.546    -.1603877    .0847912
+       dmdumiso7 |   .0850021   .0361601     2.35   0.019     .0141295    .1558747
+       dmdumiso8 |   .0426077   .0291267     1.46   0.144    -.0144795    .0996949
+       dmdumiso9 |  -.1475103   .0389339    -3.79   0.000    -.2238193   -.0712013
+      dmdumiso10 |   .0014492   .0308517     0.05   0.963    -.0590191    .0619174
+      dmdumiso11 |   .7306075   .0696017    10.50   0.000     .5941907    .8670243
+      dmdumiso12 |  -.1615214   .0727091    -2.22   0.026    -.3040285   -.0190143
+      dmdumiso13 |  -.0934322   .0459859    -2.03   0.042     -.183563   -.0033014
+      dmdumiso14 |  -.0330126   .0463151    -0.71   0.476    -.1237885    .0577633
+      dmdumiso15 |  -.0477398   .0447532    -1.07   0.286    -.1354544    .0399748
+      dmdumiso16 |   .1013191   .0781983     1.30   0.195    -.0519467    .2545849
+           _cons |   2.681106   .0206692   129.71   0.000     2.640595    2.721617
+    ------------------------------------------------------------------------------
+    Underidentification test (Kleibergen-Paap rk LM statistic):             12.247
+                                                       Chi-sq(1) P-val =    0.0005
+    ------------------------------------------------------------------------------
+    Weak identification test (Cragg-Donald Wald F statistic):               45.907
+                             (Kleibergen-Paap rk Wald F statistic):         32.853
+    Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
+                                             15% maximal IV size              8.96
+                                             20% maximal IV size              6.66
+                                             25% maximal IV size              5.53
+    Source: Stock-Yogo (2005).  Reproduced by permission.
+    NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
+    ------------------------------------------------------------------------------
+    Warning: estimated covariance matrix of moment conditions not of full rank.
+             overidentification statistic not reported, and standard errors and
+             model tests should be interpreted with caution.
+    Possible causes:
+             number of clusters insufficient to calculate robust covariance matrix
+             singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
+    partial option may address problem.
+    ------------------------------------------------------------------------------
+    Instrumented:         fAA
+    Included instruments: hply dml0dly dml1dly dmdumiso1 dmdumiso2 dmdumiso3
+                          dmdumiso4 dmdumiso5 dmdumiso6 dmdumiso7 dmdumiso8
+                          dmdumiso9 dmdumiso10 dmdumiso11 dmdumiso12 dmdumiso13
+                          dmdumiso14 dmdumiso15 dmdumiso16
+    Excluded instruments: F.treatment
+    ------------------------------------------------------------------------------
+    Warning: time variable year has 1 gap(s) in relevant range
+    
+    IV (2SLS) estimation
+    --------------------
+    
+    Estimates efficient for homoskedasticity only
+    Statistics robust to heteroskedasticity and clustering on iso
+    
+    Number of clusters (iso) =          17                Number of obs =      457
+                                                          F( 20,    16) =    16.46
+                                                          Prob > F      =   0.0000
+    Total (centered) SS     =  1652.910839                Centered R2   =   0.3897
+    Total (uncentered) SS   =  4677.500367                Uncentered R2 =   0.7843
+    Residual SS             =  1008.845903                Root MSE      =    1.486
+    
+    ------------------------------------------------------------------------------
+                 |               Robust
+             ly1 |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+             fAA |  -.4589695    .122877    -3.74   0.000     -.699804    -.218135
+            hply |  -.6510705   .0523513   -12.44   0.000     -.753677   -.5484639
+         dml0dly |   .6432928   .0625471    10.28   0.000     .5207028    .7658828
+         dml1dly |   .2058743   .0389949     5.28   0.000     .1294457     .282303
+       dmdumiso1 |    .116459   .0180055     6.47   0.000     .0811688    .1517492
+       dmdumiso2 |  -.0078136   .0648046    -0.12   0.904    -.1348283    .1192011
+       dmdumiso3 |  -.0154395   .0845226    -0.18   0.855    -.1811008    .1502218
+       dmdumiso4 |   .1154297   .0512123     2.25   0.024     .0150554    .2158041
+       dmdumiso5 |  -.1534779    .077002    -1.99   0.046     -.304399   -.0025569
+       dmdumiso6 |   .0191272   .0733044     0.26   0.794    -.1245467    .1628011
+       dmdumiso7 |   .1254942   .0400231     3.14   0.002     .0470503    .2039381
+       dmdumiso8 |   .0723525   .0361759     2.00   0.045     .0014489     .143256
+       dmdumiso9 |  -.1226658   .0480253    -2.55   0.011    -.2167937    -.028538
+      dmdumiso10 |   .0266184   .0352774     0.75   0.451    -.0425241    .0957609
+      dmdumiso11 |   .7475318   .0827716     9.03   0.000     .5853025    .9097611
+      dmdumiso12 |  -.0972664   .0870908    -1.12   0.264    -.2679612    .0734284
+      dmdumiso13 |  -.0486205   .0519647    -0.94   0.349    -.1504694    .0532284
+      dmdumiso14 |   .0117382   .0526307     0.22   0.824    -.0914161    .1148926
+      dmdumiso15 |  -.0017289    .052497    -0.03   0.974    -.1046211    .1011634
+      dmdumiso16 |    .182561   .0905627     2.02   0.044     .0050614    .3600606
+           _cons |   2.702533   .0229384   117.82   0.000     2.657575    2.747491
+    ------------------------------------------------------------------------------
+    Underidentification test (Kleibergen-Paap rk LM statistic):             10.796
+                                                       Chi-sq(1) P-val =    0.0010
+    ------------------------------------------------------------------------------
+    Weak identification test (Cragg-Donald Wald F statistic):               45.052
+                             (Kleibergen-Paap rk Wald F statistic):         53.901
+    Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
+                                             15% maximal IV size              8.96
+                                             20% maximal IV size              6.66
+                                             25% maximal IV size              5.53
+    Source: Stock-Yogo (2005).  Reproduced by permission.
+    NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
+    ------------------------------------------------------------------------------
+    Warning: estimated covariance matrix of moment conditions not of full rank.
+             overidentification statistic not reported, and standard errors and
+             model tests should be interpreted with caution.
+    Possible causes:
+             number of clusters insufficient to calculate robust covariance matrix
+             singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
+    partial option may address problem.
+    ------------------------------------------------------------------------------
+    Instrumented:         fAA
+    Included instruments: hply dml0dly dml1dly dmdumiso1 dmdumiso2 dmdumiso3
+                          dmdumiso4 dmdumiso5 dmdumiso6 dmdumiso7 dmdumiso8
+                          dmdumiso9 dmdumiso10 dmdumiso11 dmdumiso12 dmdumiso13
+                          dmdumiso14 dmdumiso15 dmdumiso16
+    Excluded instruments: F.total
+    ------------------------------------------------------------------------------
+    Warning: time variable year has 1 gap(s) in relevant range
+    
+    IV (2SLS) estimation
+    --------------------
+    
+    Estimates efficient for homoskedasticity only
+    Statistics robust to heteroskedasticity and clustering on iso
+    
+    Number of clusters (iso) =          17                Number of obs =      440
+                                                          F( 20,    16) =    45.45
+                                                          Prob > F      =   0.0000
+    Total (centered) SS     =  5004.818523                Centered R2   =   0.5986
+    Total (uncentered) SS   =  16893.25859                Uncentered R2 =   0.8811
+    Residual SS             =   2008.99393                Root MSE      =    2.137
+    
+    ------------------------------------------------------------------------------
+                 |               Robust
+             ly2 |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+             fAA |  -.7220314   .2183552    -3.31   0.001        -1.15   -.2940631
+            hply |  -1.505618   .0775927   -19.40   0.000    -1.657697   -1.353539
+         dml0dly |   .9121239   .0728323    12.52   0.000     .7693752    1.054873
+         dml1dly |   .5776218   .0551033    10.48   0.000     .4696214    .6856223
+       dmdumiso1 |   .2211832   .0301603     7.33   0.000     .1620701    .2802963
+       dmdumiso2 |  -.1538703   .1083578    -1.42   0.156    -.3662476     .058507
+       dmdumiso3 |  -.1599076   .1514984    -1.06   0.291     -.456839    .1370238
+       dmdumiso4 |   .1100514   .0889142     1.24   0.216    -.0642172    .2843199
+       dmdumiso5 |  -.4482143    .118739    -3.77   0.000    -.6809384   -.2154901
+       dmdumiso6 |  -.0773245   .1309752    -0.59   0.555    -.3340312    .1793822
+       dmdumiso7 |   .2548256   .0764228     3.33   0.001     .1050396    .4046116
+       dmdumiso8 |   .0096372   .0552504     0.17   0.862    -.0986515    .1179259
+       dmdumiso9 |   -.381514   .0770554    -4.95   0.000    -.5325399   -.2304881
+      dmdumiso10 |  -.0278455   .0572495    -0.49   0.627    -.1400524    .0843614
+      dmdumiso11 |   1.888807   .1225685    15.41   0.000     1.648577    2.129037
+      dmdumiso12 |  -.5336162   .1232813    -4.33   0.000    -.7752431   -.2919894
+      dmdumiso13 |  -.3708183   .0981358    -3.78   0.000    -.5631609   -.1784756
+      dmdumiso14 |  -.0071588   .1002613    -0.07   0.943    -.2036673    .1893498
+      dmdumiso15 |  -.1041444   .0775521    -1.34   0.179    -.2561436    .0478549
+      dmdumiso16 |   .1481709   .1538531     0.96   0.336    -.1533755    .4497174
+           _cons |   5.281711   .0384269   137.45   0.000     5.206395    5.357026
+    ------------------------------------------------------------------------------
+    Underidentification test (Kleibergen-Paap rk LM statistic):             12.227
+                                                       Chi-sq(1) P-val =    0.0005
+    ------------------------------------------------------------------------------
+    Weak identification test (Cragg-Donald Wald F statistic):               43.847
+                             (Kleibergen-Paap rk Wald F statistic):         33.406
+    Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
+                                             15% maximal IV size              8.96
+                                             20% maximal IV size              6.66
+                                             25% maximal IV size              5.53
+    Source: Stock-Yogo (2005).  Reproduced by permission.
+    NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
+    ------------------------------------------------------------------------------
+    Warning: estimated covariance matrix of moment conditions not of full rank.
+             overidentification statistic not reported, and standard errors and
+             model tests should be interpreted with caution.
+    Possible causes:
+             number of clusters insufficient to calculate robust covariance matrix
+             singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
+    partial option may address problem.
+    ------------------------------------------------------------------------------
+    Instrumented:         fAA
+    Included instruments: hply dml0dly dml1dly dmdumiso1 dmdumiso2 dmdumiso3
+                          dmdumiso4 dmdumiso5 dmdumiso6 dmdumiso7 dmdumiso8
+                          dmdumiso9 dmdumiso10 dmdumiso11 dmdumiso12 dmdumiso13
+                          dmdumiso14 dmdumiso15 dmdumiso16
+    Excluded instruments: F.treatment
+    ------------------------------------------------------------------------------
+    Warning: time variable year has 1 gap(s) in relevant range
+    
+    IV (2SLS) estimation
+    --------------------
+    
+    Estimates efficient for homoskedasticity only
+    Statistics robust to heteroskedasticity and clustering on iso
+    
+    Number of clusters (iso) =          17                Number of obs =      440
+                                                          F( 20,    16) =    37.94
+                                                          Prob > F      =   0.0000
+    Total (centered) SS     =  5004.818523                Centered R2   =   0.5662
+    Total (uncentered) SS   =  16893.25859                Uncentered R2 =   0.8715
+    Residual SS             =  2170.905106                Root MSE      =    2.221
+    
+    ------------------------------------------------------------------------------
+                 |               Robust
+             ly2 |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+             fAA |  -.8067661   .2218699    -3.64   0.000    -1.241623   -.3719091
+            hply |  -1.529744   .0962698   -15.89   0.000    -1.718429   -1.341059
+         dml0dly |   .9211709   .0760393    12.11   0.000     .7721366    1.070205
+         dml1dly |   .5828939   .0610598     9.55   0.000      .463219    .7025689
+       dmdumiso1 |   .2323283   .0317989     7.31   0.000     .1700036     .294653
+       dmdumiso2 |  -.1182385   .1139909    -1.04   0.300    -.3416565    .1051795
+       dmdumiso3 |  -.1072789   .1604403    -0.67   0.504    -.4217362    .2071784
+       dmdumiso4 |   .1437971   .0939561     1.53   0.126    -.0403535    .3279477
+       dmdumiso5 |  -.4187552   .1220636    -3.43   0.001    -.6579954   -.1795149
+       dmdumiso6 |  -.0345653   .1372695    -0.25   0.801    -.3036086    .2344781
+       dmdumiso7 |    .283878   .0771727     3.68   0.000     .1326223    .4351338
+       dmdumiso8 |   .0283597   .0605991     0.47   0.640    -.0904124    .1471318
+       dmdumiso9 |  -.3633489   .0842219    -4.31   0.000    -.5284207   -.1982771
+      dmdumiso10 |  -.0114489   .0589356    -0.19   0.846    -.1269606    .1040627
+      dmdumiso11 |   1.906515   .1293516    14.74   0.000     1.652991    2.160039
+      dmdumiso12 |  -.4969596   .1328846    -3.74   0.000    -.7574086   -.2365106
+      dmdumiso13 |  -.3355424   .1002092    -3.35   0.001    -.5319487    -.139136
+      dmdumiso14 |   .0273409   .1043868     0.26   0.793    -.1772535    .2319354
+      dmdumiso15 |  -.0755873   .0839292    -0.90   0.368    -.2400854    .0889109
+      dmdumiso16 |   .2029867   .1599172     1.27   0.204    -.1104453    .5164187
+           _cons |   5.295156   .0370116   143.07   0.000     5.222615    5.367698
+    ------------------------------------------------------------------------------
+    Underidentification test (Kleibergen-Paap rk LM statistic):             10.639
+                                                       Chi-sq(1) P-val =    0.0011
+    ------------------------------------------------------------------------------
+    Weak identification test (Cragg-Donald Wald F statistic):               42.928
+                             (Kleibergen-Paap rk Wald F statistic):         51.519
+    Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
+                                             15% maximal IV size              8.96
+                                             20% maximal IV size              6.66
+                                             25% maximal IV size              5.53
+    Source: Stock-Yogo (2005).  Reproduced by permission.
+    NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
+    ------------------------------------------------------------------------------
+    Warning: estimated covariance matrix of moment conditions not of full rank.
+             overidentification statistic not reported, and standard errors and
+             model tests should be interpreted with caution.
+    Possible causes:
+             number of clusters insufficient to calculate robust covariance matrix
+             singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
+    partial option may address problem.
+    ------------------------------------------------------------------------------
+    Instrumented:         fAA
+    Included instruments: hply dml0dly dml1dly dmdumiso1 dmdumiso2 dmdumiso3
+                          dmdumiso4 dmdumiso5 dmdumiso6 dmdumiso7 dmdumiso8
+                          dmdumiso9 dmdumiso10 dmdumiso11 dmdumiso12 dmdumiso13
+                          dmdumiso14 dmdumiso15 dmdumiso16
+    Excluded instruments: F.total
+    ------------------------------------------------------------------------------
+    Warning: time variable year has 1 gap(s) in relevant range
+    
+    IV (2SLS) estimation
+    --------------------
+    
+    Estimates efficient for homoskedasticity only
+    Statistics robust to heteroskedasticity and clustering on iso
+    
+    Number of clusters (iso) =          17                Number of obs =      423
+                                                          F( 20,    16) =   163.23
+                                                          Prob > F      =   0.0000
+    Total (centered) SS     =  8960.377194                Centered R2   =   0.7772
+    Total (uncentered) SS   =  35163.99996                Uncentered R2 =   0.9432
+    Residual SS             =  1996.804042                Root MSE      =    2.173
+    
+    ------------------------------------------------------------------------------
+                 |               Robust
+             ly3 |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+             fAA |  -.7619282   .2392249    -3.18   0.001      -1.2308   -.2930559
+            hply |  -2.168288   .0831579   -26.07   0.000    -2.331275   -2.005302
+         dml0dly |   .9988374   .0713156    14.01   0.000     .8590614    1.138613
+         dml1dly |   .8068522   .0747997    10.79   0.000     .6602474     .953457
+       dmdumiso1 |   .3913071   .0440285     8.89   0.000     .3050129    .4776013
+       dmdumiso2 |  -.6893471   .1453511    -4.74   0.000    -.9742301   -.4044642
+       dmdumiso3 |  -.8584118   .1691046    -5.08   0.000    -1.189851    -.526973
+       dmdumiso4 |  -.0107477   .1139959    -0.09   0.925    -.2341755    .2126802
+       dmdumiso5 |  -1.240937   .1454352    -8.53   0.000    -1.525985   -.9558893
+       dmdumiso6 |  -.7522246    .176025    -4.27   0.000    -1.097227   -.4072219
+       dmdumiso7 |    .098382   .0888717     1.11   0.268    -.0758033    .2725673
+       dmdumiso8 |  -.4264444   .0698798    -6.10   0.000    -.5634062   -.2894826
+       dmdumiso9 |  -1.137043   .1054778   -10.78   0.000    -1.343775   -.9303102
+      dmdumiso10 |  -.4720292   .0707476    -6.67   0.000    -.6106919   -.3333665
+      dmdumiso11 |   3.268415   .1777277    18.39   0.000     2.920075    3.616755
+      dmdumiso12 |  -1.505332   .1468293   -10.25   0.000    -1.793112   -1.217552
+      dmdumiso13 |  -1.230943   .0795847   -15.47   0.000    -1.386926    -1.07496
+      dmdumiso14 |  -.2318138   .1331309    -1.74   0.082    -.4927456     .029118
+      dmdumiso15 |  -.4878988   .0766626    -6.36   0.000    -.6381548   -.3376428
+      dmdumiso16 |  -.4065454   .1904445    -2.13   0.033    -.7798096   -.0332811
+           _cons |   7.804612   .0324396   240.59   0.000     7.741031    7.868192
+    ------------------------------------------------------------------------------
+    Underidentification test (Kleibergen-Paap rk LM statistic):             11.192
+                                                       Chi-sq(1) P-val =    0.0008
+    ------------------------------------------------------------------------------
+    Weak identification test (Cragg-Donald Wald F statistic):               41.969
+                             (Kleibergen-Paap rk Wald F statistic):         26.611
+    Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
+                                             15% maximal IV size              8.96
+                                             20% maximal IV size              6.66
+                                             25% maximal IV size              5.53
+    Source: Stock-Yogo (2005).  Reproduced by permission.
+    NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
+    ------------------------------------------------------------------------------
+    Warning: estimated covariance matrix of moment conditions not of full rank.
+             overidentification statistic not reported, and standard errors and
+             model tests should be interpreted with caution.
+    Possible causes:
+             number of clusters insufficient to calculate robust covariance matrix
+             singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
+    partial option may address problem.
+    ------------------------------------------------------------------------------
+    Instrumented:         fAA
+    Included instruments: hply dml0dly dml1dly dmdumiso1 dmdumiso2 dmdumiso3
+                          dmdumiso4 dmdumiso5 dmdumiso6 dmdumiso7 dmdumiso8
+                          dmdumiso9 dmdumiso10 dmdumiso11 dmdumiso12 dmdumiso13
+                          dmdumiso14 dmdumiso15 dmdumiso16
+    Excluded instruments: F.treatment
+    ------------------------------------------------------------------------------
+    Warning: time variable year has 1 gap(s) in relevant range
+    
+    IV (2SLS) estimation
+    --------------------
+    
+    Estimates efficient for homoskedasticity only
+    Statistics robust to heteroskedasticity and clustering on iso
+    
+    Number of clusters (iso) =          17                Number of obs =      423
+                                                          F( 20,    16) =   144.39
+                                                          Prob > F      =   0.0000
+    Total (centered) SS     =  8960.377194                Centered R2   =   0.7886
+    Total (uncentered) SS   =  35163.99996                Uncentered R2 =   0.9461
+    Residual SS             =  1894.293005                Root MSE      =    2.116
+    
+    ------------------------------------------------------------------------------
+                 |               Robust
+             ly3 |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+             fAA |  -.6898863   .2904691    -2.38   0.018    -1.259195   -.1205774
+            hply |  -2.146547   .1047664   -20.49   0.000    -2.351886   -1.941209
+         dml0dly |   .9905596    .065436    15.14   0.000     .8623073    1.118812
+         dml1dly |   .8017843   .0751146    10.67   0.000     .6545624    .9490062
+       dmdumiso1 |   .3787863   .0554177     6.84   0.000     .2701697    .4874029
+       dmdumiso2 |  -.7258315   .1635273    -4.44   0.000    -1.046339   -.4053238
+       dmdumiso3 |  -.9004823   .1915838    -4.70   0.000     -1.27598   -.5249849
+       dmdumiso4 |  -.0440315   .1368756    -0.32   0.748    -.3123029    .2242398
+       dmdumiso5 |   -1.26664   .1494968    -8.47   0.000    -1.559648   -.9736317
+       dmdumiso6 |  -.7959928   .1971834    -4.04   0.000    -1.182465   -.4095203
+       dmdumiso7 |   .0727683   .1054736     0.69   0.490    -.1339561    .2794927
+       dmdumiso8 |  -.4442884   .0800893    -5.55   0.000    -.6012605   -.2873163
+       dmdumiso9 |  -1.154894   .1101036   -10.49   0.000    -1.370693   -.9390953
+      dmdumiso10 |   -.486591   .0749718    -6.49   0.000    -.6335331    -.339649
+      dmdumiso11 |   3.257203     .18318    17.78   0.000     2.898177    3.616229
+      dmdumiso12 |  -1.536463    .158684    -9.68   0.000    -1.847478   -1.225448
+      dmdumiso13 |  -1.252129   .0901453   -13.89   0.000    -1.428811   -1.075447
+      dmdumiso14 |  -.2668573   .1530113    -1.74   0.081     -.566754    .0330394
+      dmdumiso15 |  -.5101454   .0929586    -5.49   0.000     -.692341   -.3279498
+      dmdumiso16 |  -.4576091    .219116    -2.09   0.037    -.8870685   -.0281497
+           _cons |   7.795968   .0353677   220.43   0.000     7.726649    7.865288
+    ------------------------------------------------------------------------------
+    Underidentification test (Kleibergen-Paap rk LM statistic):             10.423
+                                                       Chi-sq(1) P-val =    0.0012
+    ------------------------------------------------------------------------------
+    Weak identification test (Cragg-Donald Wald F statistic):               41.436
+                             (Kleibergen-Paap rk Wald F statistic):         48.954
+    Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
+                                             15% maximal IV size              8.96
+                                             20% maximal IV size              6.66
+                                             25% maximal IV size              5.53
+    Source: Stock-Yogo (2005).  Reproduced by permission.
+    NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
+    ------------------------------------------------------------------------------
+    Warning: estimated covariance matrix of moment conditions not of full rank.
+             overidentification statistic not reported, and standard errors and
+             model tests should be interpreted with caution.
+    Possible causes:
+             number of clusters insufficient to calculate robust covariance matrix
+             singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
+    partial option may address problem.
+    ------------------------------------------------------------------------------
+    Instrumented:         fAA
+    Included instruments: hply dml0dly dml1dly dmdumiso1 dmdumiso2 dmdumiso3
+                          dmdumiso4 dmdumiso5 dmdumiso6 dmdumiso7 dmdumiso8
+                          dmdumiso9 dmdumiso10 dmdumiso11 dmdumiso12 dmdumiso13
+                          dmdumiso14 dmdumiso15 dmdumiso16
+    Excluded instruments: F.total
+    ------------------------------------------------------------------------------
+    Warning: time variable year has 1 gap(s) in relevant range
+    
+    IV (2SLS) estimation
+    --------------------
+    
+    Estimates efficient for homoskedasticity only
+    Statistics robust to heteroskedasticity and clustering on iso
+    
+    Number of clusters (iso) =          17                Number of obs =      406
+                                                          F( 20,    16) =   309.17
+                                                          Prob > F      =   0.0000
+    Total (centered) SS     =  13059.61003                Centered R2   =   0.8450
+    Total (uncentered) SS   =  58518.58676                Uncentered R2 =   0.9654
+    Residual SS             =  2024.696152                Root MSE      =    2.233
+    
+    ------------------------------------------------------------------------------
+                 |               Robust
+             ly4 |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+             fAA |  -.7842775   .2154766    -3.64   0.000    -1.206604   -.3619511
+            hply |  -2.630621   .1038186   -25.34   0.000    -2.834102    -2.42714
+         dml0dly |   .8744613   .0800878    10.92   0.000     .7174921     1.03143
+         dml1dly |   1.039619   .1227661     8.47   0.000     .7990015    1.280236
+       dmdumiso1 |   .7830414   .0634327    12.34   0.000     .6587157    .9073671
+       dmdumiso2 |   -1.49008    .157743    -9.45   0.000    -1.799251    -1.18091
+       dmdumiso3 |  -1.485564   .2260818    -6.57   0.000    -1.928676   -1.042452
+       dmdumiso4 |  -.2126635   .1163631    -1.83   0.068     -.440731     .015404
+       dmdumiso5 |  -2.259504   .2023943   -11.16   0.000     -2.65619   -1.862818
+       dmdumiso6 |  -1.707254    .193921    -8.80   0.000    -2.087332   -1.327175
+       dmdumiso7 |  -.0066374   .0854568    -0.08   0.938    -.1741295    .1608548
+       dmdumiso8 |  -.9820631   .0884108   -11.11   0.000    -1.155345   -.8087811
+       dmdumiso9 |  -2.044997   .1598849   -12.79   0.000    -2.358366   -1.731629
+      dmdumiso10 |  -.9984976   .0954312   -10.46   0.000    -1.185539   -.8114559
+      dmdumiso11 |   5.257626   .3389849    15.51   0.000     4.593228    5.922024
+      dmdumiso12 |  -2.620344   .1974343   -13.27   0.000    -3.007308    -2.23338
+      dmdumiso13 |  -1.933658   .0978335   -19.76   0.000    -2.125408   -1.741908
+      dmdumiso14 |  -.5314175   .1452858    -3.66   0.000    -.8161725   -.2466626
+      dmdumiso15 |  -.7265969   .0951324    -7.64   0.000     -.913053   -.5401407
+      dmdumiso16 |  -1.125434   .2036396    -5.53   0.000     -1.52456   -.7263077
+           _cons |   10.36245   .0244919   423.10   0.000     10.31445    10.41046
+    ------------------------------------------------------------------------------
+    Underidentification test (Kleibergen-Paap rk LM statistic):             11.864
+                                                       Chi-sq(1) P-val =    0.0006
+    ------------------------------------------------------------------------------
+    Weak identification test (Cragg-Donald Wald F statistic):               48.039
+                             (Kleibergen-Paap rk Wald F statistic):         31.993
+    Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
+                                             15% maximal IV size              8.96
+                                             20% maximal IV size              6.66
+                                             25% maximal IV size              5.53
+    Source: Stock-Yogo (2005).  Reproduced by permission.
+    NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
+    ------------------------------------------------------------------------------
+    Warning: estimated covariance matrix of moment conditions not of full rank.
+             overidentification statistic not reported, and standard errors and
+             model tests should be interpreted with caution.
+    Possible causes:
+             number of clusters insufficient to calculate robust covariance matrix
+             singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
+    partial option may address problem.
+    ------------------------------------------------------------------------------
+    Instrumented:         fAA
+    Included instruments: hply dml0dly dml1dly dmdumiso1 dmdumiso2 dmdumiso3
+                          dmdumiso4 dmdumiso5 dmdumiso6 dmdumiso7 dmdumiso8
+                          dmdumiso9 dmdumiso10 dmdumiso11 dmdumiso12 dmdumiso13
+                          dmdumiso14 dmdumiso15 dmdumiso16
+    Excluded instruments: F.treatment
+    ------------------------------------------------------------------------------
+    Warning: time variable year has 1 gap(s) in relevant range
+    
+    IV (2SLS) estimation
+    --------------------
+    
+    Estimates efficient for homoskedasticity only
+    Statistics robust to heteroskedasticity and clustering on iso
+    
+    Number of clusters (iso) =          17                Number of obs =      406
+                                                          F( 20,    16) =   373.63
+                                                          Prob > F      =   0.0000
+    Total (centered) SS     =  13059.61003                Centered R2   =   0.8599
+    Total (uncentered) SS   =  58518.58676                Uncentered R2 =   0.9687
+    Residual SS             =  1829.958319                Root MSE      =    2.123
+    
+    ------------------------------------------------------------------------------
+                 |               Robust
+             ly4 |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+             fAA |  -.5791563   .2673901    -2.17   0.030    -1.103231   -.0550813
+            hply |  -2.568781   .1119108   -22.95   0.000    -2.788122    -2.34944
+         dml0dly |   .8512255   .0742025    11.47   0.000     .7057913    .9966596
+         dml1dly |   1.025532   .1212305     8.46   0.000     .7879242    1.263139
+       dmdumiso1 |   .7377114   .0779605     9.46   0.000     .5849116    .8905113
+       dmdumiso2 |   -1.58237   .1643667    -9.63   0.000    -1.904523   -1.260217
+       dmdumiso3 |  -1.642802   .2445007    -6.72   0.000    -2.122014   -1.163589
+       dmdumiso4 |  -.3168827   .1374067    -2.31   0.021    -.5861949   -.0475706
+       dmdumiso5 |  -2.339453   .2038584   -11.48   0.000    -2.739008   -1.939898
+       dmdumiso6 |  -1.824076    .203069    -8.98   0.000    -2.222083   -1.426068
+       dmdumiso7 |  -.0806896   .1003101    -0.80   0.421    -.2772937    .1159146
+       dmdumiso8 |  -1.040697   .0940896   -11.06   0.000     -1.22511   -.8562851
+       dmdumiso9 |  -2.099039   .1608237   -13.05   0.000    -2.414247    -1.78383
+      dmdumiso10 |  -1.042729   .0973541   -10.71   0.000    -1.233539   -.8519183
+      dmdumiso11 |   5.218901   .3547465    14.71   0.000     4.523611    5.914191
+      dmdumiso12 |  -2.722635   .2028256   -13.42   0.000    -3.120166   -2.325104
+      dmdumiso13 |  -2.016698   .1110493   -18.16   0.000    -2.234351   -1.799045
+      dmdumiso14 |   -.634077   .1577637    -4.02   0.000    -.9432882   -.3248658
+      dmdumiso15 |  -.8150629   .1145236    -7.12   0.000    -1.039525   -.5906008
+      dmdumiso16 |  -1.273448   .2220103    -5.74   0.000     -1.70858   -.8383158
+           _cons |   10.34006    .027778   372.24   0.000     10.28562     10.3945
+    ------------------------------------------------------------------------------
+    Underidentification test (Kleibergen-Paap rk LM statistic):             10.458
+                                                       Chi-sq(1) P-val =    0.0012
+    ------------------------------------------------------------------------------
+    Weak identification test (Cragg-Donald Wald F statistic):               43.089
+                             (Kleibergen-Paap rk Wald F statistic):         45.255
+    Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
+                                             15% maximal IV size              8.96
+                                             20% maximal IV size              6.66
+                                             25% maximal IV size              5.53
+    Source: Stock-Yogo (2005).  Reproduced by permission.
+    NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
+    ------------------------------------------------------------------------------
+    Warning: estimated covariance matrix of moment conditions not of full rank.
+             overidentification statistic not reported, and standard errors and
+             model tests should be interpreted with caution.
+    Possible causes:
+             number of clusters insufficient to calculate robust covariance matrix
+             singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
+    partial option may address problem.
+    ------------------------------------------------------------------------------
+    Instrumented:         fAA
+    Included instruments: hply dml0dly dml1dly dmdumiso1 dmdumiso2 dmdumiso3
+                          dmdumiso4 dmdumiso5 dmdumiso6 dmdumiso7 dmdumiso8
+                          dmdumiso9 dmdumiso10 dmdumiso11 dmdumiso12 dmdumiso13
+                          dmdumiso14 dmdumiso15 dmdumiso16
+    Excluded instruments: F.total
+    ------------------------------------------------------------------------------
+    Warning: time variable year has 1 gap(s) in relevant range
+    
+    IV (2SLS) estimation
+    --------------------
+    
+    Estimates efficient for homoskedasticity only
+    Statistics robust to heteroskedasticity and clustering on iso
+    
+    Number of clusters (iso) =          17                Number of obs =      389
+                                                          F( 20,    16) =   441.16
+                                                          Prob > F      =   0.0000
+    Total (centered) SS     =  17065.06769                Centered R2   =   0.8294
+    Total (uncentered) SS   =   85644.6479                Uncentered R2 =   0.9660
+    Residual SS             =  2910.841444                Root MSE      =    2.735
+    
+    ------------------------------------------------------------------------------
+                 |               Robust
+             ly5 |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+             fAA |  -.8792588   .2624489    -3.35   0.001    -1.393649   -.3648683
+            hply |   -2.83525   .1650804   -17.17   0.000    -3.158802   -2.511699
+         dml0dly |   .7930986   .1452989     5.46   0.000      .508318    1.077879
+         dml1dly |    1.05713   .1779313     5.94   0.000      .708391    1.405869
+       dmdumiso1 |      1.234   .0880408    14.02   0.000     1.061444    1.406557
+       dmdumiso2 |  -1.988761    .279758    -7.11   0.000    -2.537077   -1.440446
+       dmdumiso3 |  -2.201867   .3527302    -6.24   0.000    -2.893206   -1.510529
+       dmdumiso4 |  -.4548877   .1543333    -2.95   0.003    -.7573754   -.1524001
+       dmdumiso5 |  -3.260017   .3241974   -10.06   0.000    -3.895432   -2.624602
+       dmdumiso6 |  -2.723387   .2963463    -9.19   0.000    -3.304215   -2.142559
+       dmdumiso7 |   .0676284   .1159103     0.58   0.560    -.1595516    .2948083
+       dmdumiso8 |  -1.534609   .1508087   -10.18   0.000    -1.830189    -1.23903
+       dmdumiso9 |  -3.001581   .2640852   -11.37   0.000    -3.519179   -2.483984
+      dmdumiso10 |  -1.470132   .1534799    -9.58   0.000    -1.770947   -1.169317
+      dmdumiso11 |   7.753347   .5608021    13.83   0.000     6.654195    8.852499
+      dmdumiso12 |   -3.85467   .3129458   -12.32   0.000    -4.468032   -3.241307
+      dmdumiso13 |  -2.607499   .1357629   -19.21   0.000     -2.87359   -2.341409
+      dmdumiso14 |  -.8674625   .2038157    -4.26   0.000    -1.266934   -.4679911
+      dmdumiso15 |  -.7141346   .1287384    -5.55   0.000    -.9664573   -.4618119
+      dmdumiso16 |  -1.948283   .3008309    -6.48   0.000    -2.537901   -1.358665
+           _cons |   12.98298   .0322624   402.42   0.000     12.91974    13.04621
+    ------------------------------------------------------------------------------
+    Underidentification test (Kleibergen-Paap rk LM statistic):             11.646
+                                                       Chi-sq(1) P-val =    0.0006
+    ------------------------------------------------------------------------------
+    Weak identification test (Cragg-Donald Wald F statistic):               47.695
+                             (Kleibergen-Paap rk Wald F statistic):         30.778
+    Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
+                                             15% maximal IV size              8.96
+                                             20% maximal IV size              6.66
+                                             25% maximal IV size              5.53
+    Source: Stock-Yogo (2005).  Reproduced by permission.
+    NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
+    ------------------------------------------------------------------------------
+    Warning: estimated covariance matrix of moment conditions not of full rank.
+             overidentification statistic not reported, and standard errors and
+             model tests should be interpreted with caution.
+    Possible causes:
+             number of clusters insufficient to calculate robust covariance matrix
+             singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
+    partial option may address problem.
+    ------------------------------------------------------------------------------
+    Instrumented:         fAA
+    Included instruments: hply dml0dly dml1dly dmdumiso1 dmdumiso2 dmdumiso3
+                          dmdumiso4 dmdumiso5 dmdumiso6 dmdumiso7 dmdumiso8
+                          dmdumiso9 dmdumiso10 dmdumiso11 dmdumiso12 dmdumiso13
+                          dmdumiso14 dmdumiso15 dmdumiso16
+    Excluded instruments: F.treatment
+    ------------------------------------------------------------------------------
+    Warning: time variable year has 1 gap(s) in relevant range
+    
+    IV (2SLS) estimation
+    --------------------
+    
+    Estimates efficient for homoskedasticity only
+    Statistics robust to heteroskedasticity and clustering on iso
+    
+    Number of clusters (iso) =          17                Number of obs =      389
+                                                          F( 20,    16) =   487.92
+                                                          Prob > F      =   0.0000
+    Total (centered) SS     =  17065.06769                Centered R2   =   0.8399
+    Total (uncentered) SS   =   85644.6479                Uncentered R2 =   0.9681
+    Residual SS             =  2732.869182                Root MSE      =    2.651
+    
+    ------------------------------------------------------------------------------
+                 |               Robust
+             ly5 |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+             fAA |  -.6809333    .282709    -2.41   0.016    -1.235033   -.1268339
+            hply |  -2.774375   .1723463   -16.10   0.000    -3.112168   -2.436583
+         dml0dly |   .7706022   .1508112     5.11   0.000     .4750177    1.066187
+         dml1dly |   1.042561   .1766623     5.90   0.000     .6963096    1.388813
+       dmdumiso1 |   1.182148   .0909797    12.99   0.000     1.003831    1.360465
+       dmdumiso2 |  -2.108963   .2975798    -7.09   0.000    -2.692209   -1.525717
+       dmdumiso3 |  -2.366249   .3757475    -6.30   0.000    -3.102701   -1.629797
+       dmdumiso4 |  -.5538841   .1671246    -3.31   0.001    -.8814423    -.226326
+       dmdumiso5 |   -3.33653   .3377331    -9.88   0.000    -3.998474   -2.674585
+       dmdumiso6 |  -2.829571    .312518    -9.05   0.000    -3.442095   -2.217047
+       dmdumiso7 |  -.0094726   .1239064    -0.08   0.939    -.2523246    .2333794
+       dmdumiso8 |  -1.600455   .1611492    -9.93   0.000    -1.916301   -1.284608
+       dmdumiso9 |  -3.052244   .2727452   -11.19   0.000    -3.586815   -2.517674
+      dmdumiso10 |  -1.512395     .16027    -9.44   0.000    -1.826519   -1.198272
+      dmdumiso11 |     7.7264   .5678056    13.61   0.000     6.613521    8.839278
+      dmdumiso12 |   -3.95582   .3288223   -12.03   0.000      -4.6003    -3.31134
+      dmdumiso13 |  -2.688272   .1481142   -18.15   0.000    -2.978571   -2.397974
+      dmdumiso14 |  -.9593045   .2168921    -4.42   0.000    -1.384405   -.5342039
+      dmdumiso15 |  -.8030441    .141429    -5.68   0.000     -1.08024   -.5258484
+      dmdumiso16 |  -2.082258   .3199796    -6.51   0.000    -2.709406   -1.455109
+           _cons |   12.96226   .0333406   388.78   0.000     12.89691     13.0276
+    ------------------------------------------------------------------------------
+    Underidentification test (Kleibergen-Paap rk LM statistic):             10.319
+                                                       Chi-sq(1) P-val =    0.0013
+    ------------------------------------------------------------------------------
+    Weak identification test (Cragg-Donald Wald F statistic):               41.567
+                             (Kleibergen-Paap rk Wald F statistic):         42.390
+    Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
+                                             15% maximal IV size              8.96
+                                             20% maximal IV size              6.66
+                                             25% maximal IV size              5.53
+    Source: Stock-Yogo (2005).  Reproduced by permission.
+    NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
+    ------------------------------------------------------------------------------
+    Warning: estimated covariance matrix of moment conditions not of full rank.
+             overidentification statistic not reported, and standard errors and
+             model tests should be interpreted with caution.
+    Possible causes:
+             number of clusters insufficient to calculate robust covariance matrix
+             singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
+    partial option may address problem.
+    ------------------------------------------------------------------------------
+    Instrumented:         fAA
+    Included instruments: hply dml0dly dml1dly dmdumiso1 dmdumiso2 dmdumiso3
+                          dmdumiso4 dmdumiso5 dmdumiso6 dmdumiso7 dmdumiso8
+                          dmdumiso9 dmdumiso10 dmdumiso11 dmdumiso12 dmdumiso13
+                          dmdumiso14 dmdumiso15 dmdumiso16
+    Excluded instruments: F.total
+    ------------------------------------------------------------------------------
+    Warning: time variable year has 1 gap(s) in relevant range
+    
+    IV (2SLS) estimation
+    --------------------
+    
+    Estimates efficient for homoskedasticity only
+    Statistics robust to heteroskedasticity and clustering on iso
+    
+    Number of clusters (iso) =          17                Number of obs =      389
+                                                          F( 20,    16) =   346.04
+                                                          Prob > F      =   0.0000
+    Total (centered) SS     =  176154.2849                Centered R2   =   0.8714
+    Total (uncentered) SS   =  778161.4393                Uncentered R2 =   0.9709
+    Residual SS             =   22656.4658                Root MSE      =    7.632
+    
+    ------------------------------------------------------------------------------
+                 |               Robust
+             ly6 |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+             fAA |  -2.936627   .7976223    -3.68   0.000    -4.499938   -1.373316
+            hply |   -9.82303   .3636382   -27.01   0.000    -10.53575   -9.110312
+         dml0dly |    4.14539   .2864261    14.47   0.000     3.584005    4.706775
+         dml1dly |   3.833344   .3896431     9.84   0.000     3.069657     4.59703
+       dmdumiso1 |   2.790088   .2245091    12.43   0.000     2.350058    3.230117
+       dmdumiso2 |  -4.415931   .6666927    -6.62   0.000    -5.722625   -3.109237
+       dmdumiso3 |  -4.780931   .8676912    -5.51   0.000    -6.481575   -3.080288
+       dmdumiso4 |  -.9511317   .4303589    -2.21   0.027     -1.79462   -.1076439
+       dmdumiso5 |  -7.564167    .691604   -10.94   0.000    -8.919686   -6.208648
+       dmdumiso6 |  -5.695218   .6775976    -8.41   0.000    -7.023285   -4.367151
+       dmdumiso7 |   -.283101   .3423475    -0.83   0.408    -.9540897    .3878878
+       dmdumiso8 |  -3.851915   .3552549   -10.84   0.000    -4.548202   -3.155629
+       dmdumiso9 |  -6.925192   .5485451   -12.62   0.000    -8.000321   -5.850064
+      dmdumiso10 |  -3.356355   .3437534    -9.76   0.000    -4.030099    -2.68261
+      dmdumiso11 |   17.19366   1.105367    15.55   0.000     15.02718    19.36014
+      dmdumiso12 |  -8.898718   .6948207   -12.81   0.000    -10.26054   -7.536895
+      dmdumiso13 |  -6.238885   .3647716   -17.10   0.000    -6.953824   -5.523945
+      dmdumiso14 |   -1.93867   .4924451    -3.94   0.000    -2.903844    -.973495
+      dmdumiso15 |  -1.893278   .3544441    -5.34   0.000    -2.587976   -1.198581
+      dmdumiso16 |  -4.403118   .7377145    -5.97   0.000    -5.849012   -2.957224
+           _cons |   38.39977   .0988163   388.60   0.000     38.20609    38.59344
+    ------------------------------------------------------------------------------
+    Underidentification test (Kleibergen-Paap rk LM statistic):             11.646
+                                                       Chi-sq(1) P-val =    0.0006
+    ------------------------------------------------------------------------------
+    Weak identification test (Cragg-Donald Wald F statistic):               47.695
+                             (Kleibergen-Paap rk Wald F statistic):         30.778
+    Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
+                                             15% maximal IV size              8.96
+                                             20% maximal IV size              6.66
+                                             25% maximal IV size              5.53
+    Source: Stock-Yogo (2005).  Reproduced by permission.
+    NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
+    ------------------------------------------------------------------------------
+    Warning: estimated covariance matrix of moment conditions not of full rank.
+             overidentification statistic not reported, and standard errors and
+             model tests should be interpreted with caution.
+    Possible causes:
+             number of clusters insufficient to calculate robust covariance matrix
+             singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
+    partial option may address problem.
+    ------------------------------------------------------------------------------
+    Instrumented:         fAA
+    Included instruments: hply dml0dly dml1dly dmdumiso1 dmdumiso2 dmdumiso3
+                          dmdumiso4 dmdumiso5 dmdumiso6 dmdumiso7 dmdumiso8
+                          dmdumiso9 dmdumiso10 dmdumiso11 dmdumiso12 dmdumiso13
+                          dmdumiso14 dmdumiso15 dmdumiso16
+    Excluded instruments: F.treatment
+    ------------------------------------------------------------------------------
+    Warning: time variable year has 1 gap(s) in relevant range
+    
+    IV (2SLS) estimation
+    --------------------
+    
+    Estimates efficient for homoskedasticity only
+    Statistics robust to heteroskedasticity and clustering on iso
+    
+    Number of clusters (iso) =          17                Number of obs =      389
+                                                          F( 20,    16) =   338.39
+                                                          Prob > F      =   0.0000
+    Total (centered) SS     =  176154.2849                Centered R2   =   0.8759
+    Total (uncentered) SS   =  778161.4393                Uncentered R2 =   0.9719
+    Residual SS             =  21865.72233                Root MSE      =    7.497
+    
+    ------------------------------------------------------------------------------
+                 |               Robust
+             ly6 |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+             fAA |  -2.769813   .9190269    -3.01   0.003    -4.571073   -.9685532
+            hply |  -9.771827   .3798241   -25.73   0.000    -10.51627   -9.027386
+         dml0dly |   4.126468   .2718897    15.18   0.000     3.593574    4.659362
+         dml1dly |    3.82109    .381545    10.01   0.000     3.073275    4.568904
+       dmdumiso1 |   2.746474   .2742567    10.01   0.000     2.208941    3.284007
+       dmdumiso2 |  -4.517034   .6740219    -6.70   0.000    -5.838093   -3.195975
+       dmdumiso3 |  -4.919195   .8864109    -5.55   0.000    -6.656528   -3.181861
+       dmdumiso4 |  -1.034399   .4686838    -2.21   0.027    -1.953002   -.1157957
+       dmdumiso5 |  -7.628522   .6680889   -11.42   0.000    -8.937952   -6.319092
+       dmdumiso6 |  -5.784531   .6695202    -8.64   0.000    -7.096767   -4.472296
+       dmdumiso7 |  -.3479516   .3678629    -0.95   0.344     -1.06895    .3730464
+       dmdumiso8 |  -3.907299   .3621118   -10.79   0.000    -4.617025   -3.197573
+       dmdumiso9 |  -6.967806   .5317349   -13.10   0.000    -8.009987   -5.925625
+      dmdumiso10 |  -3.391903   .3317884   -10.22   0.000    -4.042196   -2.741609
+      dmdumiso11 |   17.17099   1.131898    15.17   0.000     14.95251    19.38947
+      dmdumiso12 |  -8.983797   .6827406   -13.16   0.000    -10.32194    -7.64565
+      dmdumiso13 |  -6.306824    .388404   -16.24   0.000    -7.068082   -5.545566
+      dmdumiso14 |  -2.015919   .5024054    -4.01   0.000    -3.000616   -1.031223
+      dmdumiso15 |  -1.968061   .4109054    -4.79   0.000    -2.773421   -1.162702
+      dmdumiso16 |  -4.515806   .7435347    -6.07   0.000    -5.973107   -3.058504
+           _cons |   38.38234   .1088982   352.46   0.000      38.1689    38.59577
+    ------------------------------------------------------------------------------
+    Underidentification test (Kleibergen-Paap rk LM statistic):             10.319
+                                                       Chi-sq(1) P-val =    0.0013
+    ------------------------------------------------------------------------------
+    Weak identification test (Cragg-Donald Wald F statistic):               41.567
+                             (Kleibergen-Paap rk Wald F statistic):         42.390
+    Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
+                                             15% maximal IV size              8.96
+                                             20% maximal IV size              6.66
+                                             25% maximal IV size              5.53
+    Source: Stock-Yogo (2005).  Reproduced by permission.
+    NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
+    ------------------------------------------------------------------------------
+    Warning: estimated covariance matrix of moment conditions not of full rank.
+             overidentification statistic not reported, and standard errors and
+             model tests should be interpreted with caution.
+    Possible causes:
+             number of clusters insufficient to calculate robust covariance matrix
+             singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
+    partial option may address problem.
+    ------------------------------------------------------------------------------
+    Instrumented:         fAA
+    Included instruments: hply dml0dly dml1dly dmdumiso1 dmdumiso2 dmdumiso3
+                          dmdumiso4 dmdumiso5 dmdumiso6 dmdumiso7 dmdumiso8
+                          dmdumiso9 dmdumiso10 dmdumiso11 dmdumiso12 dmdumiso13
+                          dmdumiso14 dmdumiso15 dmdumiso16
+    Excluded instruments: F.total
+    ------------------------------------------------------------------------------
+    
+    
+
+<a class='anchor' id='tbl4A2'></a>
+
+---
+# Table 4 and A2 (table4andA2.do)
+---
+
+<a class='anchor' id='table4'></a>
+
+## Table 4
+
+![](https://github.com/htdanil/referenced_to_github/raw/master/GF0004_Jorda_Taylor_%282016%29_The_time_for_austerity__REPLICATION_WORK/results/table4.PNG)
+
+[Click here for summarized result of code below](https://github.com/htdanil/referenced_to_github/blob/master/GF0004_Jorda_Taylor_%282016%29_The_time_for_austerity__REPLICATION_WORK/results/table4.pdf)
+
+<span style="color:red">Standard Errors (SEs) for coefficients are slightly different than what have been published in the paper. [The included code's compiled tables also shows slightly different SEs.](https://github.com/htdanil/referenced_to_github/blob/master/GF0004_Jorda_Taylor_%282016%29_The_time_for_austerity__REPLICATION_WORK/results/tables_figures_compiled.pdf) However, the key result does not change. </span>
+
+![](https://github.com/htdanil/referenced_to_github/raw/master/GF0004_Jorda_Taylor_%282016%29_The_time_for_austerity__REPLICATION_WORK/results/table4_included.PNG)
+
+
+```python
+%%stata -os
+* #================================================================================
+* #Table 4: Fiscal multiplier, d.CAPB, IV estimate (binary), boom/slump
+* #================================================================================
+
+foreach c in boom slump {
+    gen z`c'=f.treatment*`c'
+}
+
+forvalues i = 1/6   {
+    foreach c in boom slump {
+        * #the dummy for the U.S. is dropped to avoid collinearity with the constant
+        ivreg2 ly`i'   (fAA= zboom zslump) ///
+            hply dml0dly dml1dly dmdumiso1-dmdumiso16 ///
+            if `c'==1 & year>=1980 & year<=2007,  cluster(iso) 
+    }
+}
+```
+
+    (17 missing values generated)
+    (17 missing values generated)
+    
+    . forvalues i = 1/6   {
+      2.     foreach c in boom slump {
+      3.         * #the dummy for the U.S. is dropped to avoid collinearity with the constant
+      4.     }
+      5. }
+    Warning - collinearities detected
+    Vars dropped:       zslump
+    
+    IV (2SLS) estimation
+    --------------------
+    
+    Estimates efficient for homoskedasticity only
+    Statistics robust to heteroskedasticity and clustering on iso
+    
+    Number of clusters (iso) =          17                Number of obs =      222
+                                                          F( 20,    16) =     6.49
+                                                          Prob > F      =   0.0002
+    Total (centered) SS     =  841.2086444                Centered R2   =   0.4100
+    Total (uncentered) SS   =  1897.843827                Uncentered R2 =   0.7385
+    Residual SS             =  496.3132301                Root MSE      =    1.495
+    
+    ------------------------------------------------------------------------------
+                 |               Robust
+             ly1 |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+             fAA |  -.3364402   .3020982    -1.11   0.265    -.9285417    .2556613
+            hply |  -.7130008   .0912941    -7.81   0.000    -.8919341   -.5340676
+         dml0dly |   .8989846   .1133013     7.93   0.000     .6769181    1.121051
+         dml1dly |   .1174223   .0959351     1.22   0.221    -.0706071    .3054516
+       dmdumiso1 |  -.2905719   .0612168    -4.75   0.000    -.4105546   -.1705893
+       dmdumiso2 |  -.0492154   .2352207    -0.21   0.834    -.5102395    .4118087
+       dmdumiso3 |  -.0921912   .0972836    -0.95   0.343    -.2828635     .098481
+       dmdumiso4 |   .1743934   .0904304     1.93   0.054    -.0028469    .3516337
+       dmdumiso5 |  -.5605052   .0982826    -5.70   0.000    -.7531357   -.3678748
+       dmdumiso6 |   .4307764    .126949     3.39   0.001     .1819609    .6795919
+       dmdumiso7 |   .4280654   .0391096    10.95   0.000      .351412    .5047188
+       dmdumiso8 |   .5018203   .0906412     5.54   0.000     .3241669    .6794737
+       dmdumiso9 |  -.0727008   .0860544    -0.84   0.398    -.2413642    .0959627
+      dmdumiso10 |   .5179529   .0471319    10.99   0.000     .4255761    .6103297
+      dmdumiso11 |   .5462726   .0927603     5.89   0.000     .3644658    .7280794
+      dmdumiso12 |   .1220036   .2584113     0.47   0.637    -.3844733    .6284804
+      dmdumiso13 |   .0029181   .0867757     0.03   0.973    -.1671592    .1729953
+      dmdumiso14 |   .0016861   .0684484     0.02   0.980    -.1324704    .1358426
+      dmdumiso15 |   .4225405   .2453333     1.72   0.085     -.058304    .9033849
+      dmdumiso16 |   .3876572   .0827894     4.68   0.000     .2253929    .5499214
+           _cons |   2.819585   .1094683    25.76   0.000     2.605031    3.034139
+    ------------------------------------------------------------------------------
+    Underidentification test (Kleibergen-Paap rk LM statistic):              7.284
+                                                       Chi-sq(1) P-val =    0.0070
+    ------------------------------------------------------------------------------
+    Weak identification test (Cragg-Donald Wald F statistic):               10.448
+                             (Kleibergen-Paap rk Wald F statistic):         11.602
+    Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
+                                             15% maximal IV size              8.96
+                                             20% maximal IV size              6.66
+                                             25% maximal IV size              5.53
+    Source: Stock-Yogo (2005).  Reproduced by permission.
+    NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
+    ------------------------------------------------------------------------------
+    Warning: estimated covariance matrix of moment conditions not of full rank.
+             overidentification statistic not reported, and standard errors and
+             model tests should be interpreted with caution.
+    Possible causes:
+             number of clusters insufficient to calculate robust covariance matrix
+             singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
+    partial option may address problem.
+    ------------------------------------------------------------------------------
+    Instrumented:         fAA
+    Included instruments: hply dml0dly dml1dly dmdumiso1 dmdumiso2 dmdumiso3
+                          dmdumiso4 dmdumiso5 dmdumiso6 dmdumiso7 dmdumiso8
+                          dmdumiso9 dmdumiso10 dmdumiso11 dmdumiso12 dmdumiso13
+                          dmdumiso14 dmdumiso15 dmdumiso16
+    Excluded instruments: zboom
+    Dropped collinear:    zslump
+    ------------------------------------------------------------------------------
+    Warning - collinearities detected
+    Vars dropped:       zboom
+    
+    IV (2SLS) estimation
+    --------------------
+    
+    Estimates efficient for homoskedasticity only
+    Statistics robust to heteroskedasticity and clustering on iso
+    
+    Number of clusters (iso) =          17                Number of obs =      235
+                                                          F( 20,    16) =    21.42
+                                                          Prob > F      =   0.0000
+    Total (centered) SS     =  745.7133475                Centered R2   =   0.6240
+    Total (uncentered) SS   =   2779.65654                Uncentered R2 =   0.8991
+    Residual SS             =  280.3750733                Root MSE      =    1.092
+    
+    ------------------------------------------------------------------------------
+                 |               Robust
+             ly1 |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+             fAA |  -.2467068   .1376605    -1.79   0.073    -.5165163    .0231028
+            hply |  -.6732361   .0802726    -8.39   0.000    -.8305675   -.5159047
+         dml0dly |   .4780317   .0446527    10.71   0.000     .3905141    .5655494
+         dml1dly |   .2416361   .0319196     7.57   0.000     .1790748    .3041974
+       dmdumiso1 |   .5058293   .0642344     7.87   0.000     .3799321    .6317264
+       dmdumiso2 |   .0166704   .0637826     0.26   0.794    -.1083412     .141682
+       dmdumiso3 |  -.0512688   .1209481    -0.42   0.672    -.2883227    .1857851
+       dmdumiso4 |  -.0297353   .1097453    -0.27   0.786    -.2448322    .1853616
+       dmdumiso5 |   .0523245   .1050941     0.50   0.619    -.1536563    .2583052
+       dmdumiso6 |   -.347221   .0804766    -4.31   0.000    -.5049521   -.1894898
+       dmdumiso7 |  -.2092306   .0962574    -2.17   0.030    -.3978917   -.0205696
+       dmdumiso8 |  -.5900831   .1040718    -5.67   0.000    -.7940602   -.3861061
+       dmdumiso9 |  -.1041465   .0738598    -1.41   0.159    -.2489089     .040616
+      dmdumiso10 |  -.4527771   .0705301    -6.42   0.000    -.5910136   -.3145405
+      dmdumiso11 |   .8548853    .118767     7.20   0.000     .6221062    1.087664
+      dmdumiso12 |  -.2014991    .050025    -4.03   0.000    -.2995463    -.103452
+      dmdumiso13 |  -.1260226   .1092386    -1.15   0.249    -.3401262     .088081
+      dmdumiso14 |   .0627404   .0751463     0.83   0.404    -.0845436    .2100245
+      dmdumiso15 |  -.4718824   .0818597    -5.76   0.000    -.6323245   -.3114404
+      dmdumiso16 |  -.1263474   .2056055    -0.61   0.539    -.5293268    .2766321
+           _cons |    2.46157   .1532954    16.06   0.000     2.161117    2.762024
+    ------------------------------------------------------------------------------
+    Underidentification test (Kleibergen-Paap rk LM statistic):             12.310
+                                                       Chi-sq(1) P-val =    0.0005
+    ------------------------------------------------------------------------------
+    Weak identification test (Cragg-Donald Wald F statistic):               40.007
+                             (Kleibergen-Paap rk Wald F statistic):         32.446
+    Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
+                                             15% maximal IV size              8.96
+                                             20% maximal IV size              6.66
+                                             25% maximal IV size              5.53
+    Source: Stock-Yogo (2005).  Reproduced by permission.
+    NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
+    ------------------------------------------------------------------------------
+    Warning: estimated covariance matrix of moment conditions not of full rank.
+             overidentification statistic not reported, and standard errors and
+             model tests should be interpreted with caution.
+    Possible causes:
+             number of clusters insufficient to calculate robust covariance matrix
+             singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
+    partial option may address problem.
+    ------------------------------------------------------------------------------
+    Instrumented:         fAA
+    Included instruments: hply dml0dly dml1dly dmdumiso1 dmdumiso2 dmdumiso3
+                          dmdumiso4 dmdumiso5 dmdumiso6 dmdumiso7 dmdumiso8
+                          dmdumiso9 dmdumiso10 dmdumiso11 dmdumiso12 dmdumiso13
+                          dmdumiso14 dmdumiso15 dmdumiso16
+    Excluded instruments: zslump
+    Dropped collinear:    zboom
+    ------------------------------------------------------------------------------
+    Warning - collinearities detected
+    Vars dropped:       zslump
+    
+    IV (2SLS) estimation
+    --------------------
+    
+    Estimates efficient for homoskedasticity only
+    Statistics robust to heteroskedasticity and clustering on iso
+    
+    Number of clusters (iso) =          17                Number of obs =      205
+                                                          F( 20,    16) =     5.91
+                                                          Prob > F      =   0.0004
+    Total (centered) SS     =  2283.818034                Centered R2   =   0.6656
+    Total (uncentered) SS   =  5507.883845                Uncentered R2 =   0.8614
+    Residual SS             =  763.6657287                Root MSE      =     1.93
+    
+    ------------------------------------------------------------------------------
+                 |               Robust
+             ly2 |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+             fAA |  -.3212279   .4642084    -0.69   0.489     -1.23106    .5886038
+            hply |  -1.779011     .17069   -10.42   0.000    -2.113557   -1.444465
+         dml0dly |   1.219138   .1237852     9.85   0.000     .9765232    1.461752
+         dml1dly |   .5066192   .1202161     4.21   0.000     .2710001    .7422384
+       dmdumiso1 |    -.55025   .0907442    -6.06   0.000    -.7281052   -.3723947
+       dmdumiso2 |  -.6664996   .3865633    -1.72   0.085     -1.42415    .0911505
+       dmdumiso3 |  -.4283102   .2303895    -1.86   0.063    -.8798653     .023245
+       dmdumiso4 |    .299081   .1654302     1.81   0.071    -.0251563    .6233183
+       dmdumiso5 |  -1.136937   .1733446    -6.56   0.000    -1.476686   -.7971879
+       dmdumiso6 |   .4282733   .2853344     1.50   0.133    -.1309719    .9875186
+       dmdumiso7 |   1.122402   .0772458    14.53   0.000     .9710026      1.2738
+       dmdumiso8 |    1.17893   .1667837     7.07   0.000     .8520403     1.50582
+       dmdumiso9 |  -.0756853   .1271055    -0.60   0.552    -.3248074    .1734369
+      dmdumiso10 |   .8133776   .0723871    11.24   0.000     .6715014    .9552537
+      dmdumiso11 |   1.501495   .1687389     8.90   0.000     1.170773    1.832218
+      dmdumiso12 |  -.2877485   .3898278    -0.74   0.460    -1.051797       .4763
+      dmdumiso13 |  -.2212295   .0906153    -2.44   0.015    -.3988322   -.0436268
+      dmdumiso14 |  -.2290519   .1654681    -1.38   0.166    -.5533635    .0952596
+      dmdumiso15 |   .5138345   .3754416     1.37   0.171    -.2220175    1.249686
+      dmdumiso16 |    .390287   .1384247     2.82   0.005     .1189795    .6615945
+           _cons |   5.777758   .2550482    22.65   0.000     5.277873    6.277643
+    ------------------------------------------------------------------------------
+    Underidentification test (Kleibergen-Paap rk LM statistic):              6.706
+                                                       Chi-sq(1) P-val =    0.0096
+    ------------------------------------------------------------------------------
+    Weak identification test (Cragg-Donald Wald F statistic):                8.859
+                             (Kleibergen-Paap rk Wald F statistic):         10.217
+    Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
+                                             15% maximal IV size              8.96
+                                             20% maximal IV size              6.66
+                                             25% maximal IV size              5.53
+    Source: Stock-Yogo (2005).  Reproduced by permission.
+    NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
+    ------------------------------------------------------------------------------
+    Warning: estimated covariance matrix of moment conditions not of full rank.
+             overidentification statistic not reported, and standard errors and
+             model tests should be interpreted with caution.
+    Possible causes:
+             number of clusters insufficient to calculate robust covariance matrix
+             singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
+    partial option may address problem.
+    ------------------------------------------------------------------------------
+    Instrumented:         fAA
+    Included instruments: hply dml0dly dml1dly dmdumiso1 dmdumiso2 dmdumiso3
+                          dmdumiso4 dmdumiso5 dmdumiso6 dmdumiso7 dmdumiso8
+                          dmdumiso9 dmdumiso10 dmdumiso11 dmdumiso12 dmdumiso13
+                          dmdumiso14 dmdumiso15 dmdumiso16
+    Excluded instruments: zboom
+    Dropped collinear:    zslump
+    ------------------------------------------------------------------------------
+    Warning - collinearities detected
+    Vars dropped:       zboom
+    
+    IV (2SLS) estimation
+    --------------------
+    
+    Estimates efficient for homoskedasticity only
+    Statistics robust to heteroskedasticity and clustering on iso
+    
+    Number of clusters (iso) =          17                Number of obs =      235
+                                                          F( 20,    16) =    33.81
+                                                          Prob > F      =   0.0000
+    Total (centered) SS     =  2138.177252                Centered R2   =   0.6861
+    Total (uncentered) SS   =  11385.37474                Uncentered R2 =   0.9410
+    Residual SS             =  671.1888959                Root MSE      =     1.69
+    
+    ------------------------------------------------------------------------------
+                 |               Robust
+             ly2 |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+             fAA |  -.7592792   .2308218    -3.29   0.001    -1.211682   -.3068767
+            hply |  -1.355097    .126096   -10.75   0.000    -1.602241   -1.107954
+         dml0dly |   .7102925   .0593294    11.97   0.000     .5940091    .8265759
+         dml1dly |   .5683425     .06419     8.85   0.000     .4425324    .6941525
+       dmdumiso1 |   1.185747   .1149303    10.32   0.000     .9604875    1.411006
+       dmdumiso2 |  -.0104326   .1064057    -0.10   0.922    -.2189839    .1981187
+       dmdumiso3 |     .04385   .2063399     0.21   0.832    -.3605687    .4482687
+       dmdumiso4 |   .1956325   .1348834     1.45   0.147    -.0687341    .4599992
+       dmdumiso5 |   .1202914   .1721975     0.70   0.485    -.2172095    .4577924
+       dmdumiso6 |  -.4113989   .1317523    -3.12   0.002    -.6696287   -.1531692
+       dmdumiso7 |  -.1093723    .147184    -0.74   0.457    -.3978475     .179103
+       dmdumiso8 |  -.9597787   .1106256    -8.68   0.000    -1.176601   -.7429565
+       dmdumiso9 |  -.4164719   .1232297    -3.38   0.001    -.6579977    -.174946
+      dmdumiso10 |   -.464327   .0925771    -5.02   0.000    -.6457748   -.2828793
+      dmdumiso11 |   2.904669   .2255358    12.88   0.000     2.462627    3.346711
+      dmdumiso12 |   -.683485   .0825268    -8.28   0.000    -.8452345   -.5217354
+      dmdumiso13 |  -.1658209   .1831921    -0.91   0.365    -.5248708    .1932291
+      dmdumiso14 |   .3720398   .1408542     2.64   0.008     .0959706    .6481089
+      dmdumiso15 |  -.3387708   .0985475    -3.44   0.001    -.5319204   -.1456212
+      dmdumiso16 |   .4913737   .3325228     1.48   0.139     -.160359    1.143106
+           _cons |   5.392704   .1688363    31.94   0.000     5.061791    5.723617
+    ------------------------------------------------------------------------------
+    Underidentification test (Kleibergen-Paap rk LM statistic):             12.310
+                                                       Chi-sq(1) P-val =    0.0005
+    ------------------------------------------------------------------------------
+    Weak identification test (Cragg-Donald Wald F statistic):               40.007
+                             (Kleibergen-Paap rk Wald F statistic):         32.446
+    Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
+                                             15% maximal IV size              8.96
+                                             20% maximal IV size              6.66
+                                             25% maximal IV size              5.53
+    Source: Stock-Yogo (2005).  Reproduced by permission.
+    NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
+    ------------------------------------------------------------------------------
+    Warning: estimated covariance matrix of moment conditions not of full rank.
+             overidentification statistic not reported, and standard errors and
+             model tests should be interpreted with caution.
+    Possible causes:
+             number of clusters insufficient to calculate robust covariance matrix
+             singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
+    partial option may address problem.
+    ------------------------------------------------------------------------------
+    Instrumented:         fAA
+    Included instruments: hply dml0dly dml1dly dmdumiso1 dmdumiso2 dmdumiso3
+                          dmdumiso4 dmdumiso5 dmdumiso6 dmdumiso7 dmdumiso8
+                          dmdumiso9 dmdumiso10 dmdumiso11 dmdumiso12 dmdumiso13
+                          dmdumiso14 dmdumiso15 dmdumiso16
+    Excluded instruments: zslump
+    Dropped collinear:    zboom
+    ------------------------------------------------------------------------------
+    Warning - collinearities detected
+    Vars dropped:       zslump
+    
+    IV (2SLS) estimation
+    --------------------
+    
+    Estimates efficient for homoskedasticity only
+    Statistics robust to heteroskedasticity and clustering on iso
+    
+    Number of clusters (iso) =          17                Number of obs =      192
+                                                          F( 20,    16) =    24.38
+                                                          Prob > F      =   0.0000
+    Total (centered) SS     =  3476.505858                Centered R2   =   0.8166
+    Total (uncentered) SS   =  9848.585745                Uncentered R2 =   0.9353
+    Residual SS             =  637.6715862                Root MSE      =    1.822
+    
+    ------------------------------------------------------------------------------
+                 |               Robust
+             ly3 |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+             fAA |  -.1283532   .4660857    -0.28   0.783    -1.041864     .785158
+            hply |  -2.523364   .2410887   -10.47   0.000    -2.995889   -2.050838
+         dml0dly |   1.035818   .1401237     7.39   0.000     .7611805    1.310455
+         dml1dly |    .799186   .1232089     6.49   0.000      .557701    1.040671
+       dmdumiso1 |  -.0423401   .0567637    -0.75   0.456    -.1535949    .0689147
+       dmdumiso2 |  -1.300621   .4850839    -2.68   0.007    -2.251368   -.3498744
+       dmdumiso3 |  -1.037279   .2448858    -4.24   0.000    -1.517247   -.5573118
+       dmdumiso4 |   .5849842   .2705651     2.16   0.031     .0546863    1.115282
+       dmdumiso5 |   -1.83144   .2491093    -7.35   0.000    -2.319686   -1.343195
+       dmdumiso6 |  -.5916514   .4627665    -1.28   0.201    -1.498657    .3153542
+       dmdumiso7 |   1.465693   .1262595    11.61   0.000     1.218229    1.713157
+       dmdumiso8 |   .9988764   .2690075     3.71   0.000     .4716314    1.526121
+       dmdumiso9 |  -.7200864   .1861063    -3.87   0.000    -1.084848   -.3553246
+      dmdumiso10 |   .4534775   .0986964     4.59   0.000      .260036    .6469189
+      dmdumiso11 |   3.379433   .2556454    13.22   0.000     2.878377    3.880489
+      dmdumiso12 |  -1.311025   .4795954    -2.73   0.006    -2.251014   -.3710348
+      dmdumiso13 |  -.6243845   .2145959    -2.91   0.004    -1.044985   -.2037843
+      dmdumiso14 |  -.5779181   .2785058    -2.08   0.038    -1.123779   -.0320568
+      dmdumiso15 |   .1431506   .5118569     0.28   0.780    -.8600705    1.146372
+      dmdumiso16 |  -.1969052   .1306797    -1.51   0.132    -.4530326    .0592222
+           _cons |     8.5865    .363283    23.64   0.000     7.874478    9.298521
+    ------------------------------------------------------------------------------
+    Underidentification test (Kleibergen-Paap rk LM statistic):              5.724
+                                                       Chi-sq(1) P-val =    0.0167
+    ------------------------------------------------------------------------------
+    Weak identification test (Cragg-Donald Wald F statistic):                8.642
+                             (Kleibergen-Paap rk Wald F statistic):          8.162
+    Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
+                                             15% maximal IV size              8.96
+                                             20% maximal IV size              6.66
+                                             25% maximal IV size              5.53
+    Source: Stock-Yogo (2005).  Reproduced by permission.
+    NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
+    ------------------------------------------------------------------------------
+    Warning: estimated covariance matrix of moment conditions not of full rank.
+             overidentification statistic not reported, and standard errors and
+             model tests should be interpreted with caution.
+    Possible causes:
+             number of clusters insufficient to calculate robust covariance matrix
+             singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
+    partial option may address problem.
+    ------------------------------------------------------------------------------
+    Instrumented:         fAA
+    Included instruments: hply dml0dly dml1dly dmdumiso1 dmdumiso2 dmdumiso3
+                          dmdumiso4 dmdumiso5 dmdumiso6 dmdumiso7 dmdumiso8
+                          dmdumiso9 dmdumiso10 dmdumiso11 dmdumiso12 dmdumiso13
+                          dmdumiso14 dmdumiso15 dmdumiso16
+    Excluded instruments: zboom
+    Dropped collinear:    zslump
+    ------------------------------------------------------------------------------
+    Warning - collinearities detected
+    Vars dropped:       zboom
+    
+    IV (2SLS) estimation
+    --------------------
+    
+    Estimates efficient for homoskedasticity only
+    Statistics robust to heteroskedasticity and clustering on iso
+    
+    Number of clusters (iso) =          17                Number of obs =      231
+                                                          F( 20,    16) =    20.82
+                                                          Prob > F      =   0.0000
+    Total (centered) SS     =  3918.949552                Centered R2   =   0.7723
+    Total (uncentered) SS   =  25315.41421                Uncentered R2 =   0.9647
+    Residual SS             =  892.4033791                Root MSE      =    1.966
+    
+    ------------------------------------------------------------------------------
+                 |               Robust
+             ly3 |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+             fAA |  -.9478581   .2870965    -3.30   0.001    -1.510557   -.3851593
+            hply |   -1.86612   .1246446   -14.97   0.000    -2.110419   -1.621821
+         dml0dly |   .9172108   .0665068    13.79   0.000     .7868599    1.047562
+         dml1dly |    .748266   .1091936     6.85   0.000     .5342505    .9622816
+       dmdumiso1 |    1.08554   .1761573     6.16   0.000     .7402784    1.430802
+       dmdumiso2 |  -.8205527   .1017245    -8.07   0.000    -1.019929   -.6211762
+       dmdumiso3 |  -.7641902    .198623    -3.85   0.000    -1.153484   -.3748962
+       dmdumiso4 |  -.3136219   .2031693    -1.54   0.123    -.7118264    .0845827
+       dmdumiso5 |  -.8640707    .143993    -6.00   0.000    -1.146292   -.5818496
+       dmdumiso6 |   -1.04693   .1219727    -8.58   0.000    -1.285992   -.8078674
+       dmdumiso7 |  -.4714356   .2185149    -2.16   0.031     -.899717   -.0431543
+       dmdumiso8 |  -1.183177   .1376609    -8.59   0.000    -1.452987   -.9133665
+       dmdumiso9 |  -1.355587   .1100878   -12.31   0.000    -1.571355   -1.139819
+      dmdumiso10 |  -.8414575   .1156834    -7.27   0.000    -1.068193   -.6147221
+      dmdumiso11 |   4.230584   .4868951     8.69   0.000     3.276287     5.18488
+      dmdumiso12 |   -1.92985   .0811235   -23.79   0.000     -2.08885   -1.770851
+      dmdumiso13 |  -1.089601   .2246771    -4.85   0.000     -1.52996   -.6492419
+      dmdumiso14 |   .0606976   .1632678     0.37   0.710    -.2593014    .3806967
+      dmdumiso15 |  -.5648773   .1304884    -4.33   0.000    -.8206298   -.3091248
+      dmdumiso16 |   .1158106   .4020463     0.29   0.773    -.6721857    .9038069
+           _cons |   8.281639    .221265    37.43   0.000     7.847967     8.71531
+    ------------------------------------------------------------------------------
+    Underidentification test (Kleibergen-Paap rk LM statistic):             11.264
+                                                       Chi-sq(1) P-val =    0.0008
+    ------------------------------------------------------------------------------
+    Weak identification test (Cragg-Donald Wald F statistic):               36.423
+                             (Kleibergen-Paap rk Wald F statistic):         27.741
+    Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
+                                             15% maximal IV size              8.96
+                                             20% maximal IV size              6.66
+                                             25% maximal IV size              5.53
+    Source: Stock-Yogo (2005).  Reproduced by permission.
+    NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
+    ------------------------------------------------------------------------------
+    Warning: estimated covariance matrix of moment conditions not of full rank.
+             overidentification statistic not reported, and standard errors and
+             model tests should be interpreted with caution.
+    Possible causes:
+             number of clusters insufficient to calculate robust covariance matrix
+             singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
+    partial option may address problem.
+    ------------------------------------------------------------------------------
+    Instrumented:         fAA
+    Included instruments: hply dml0dly dml1dly dmdumiso1 dmdumiso2 dmdumiso3
+                          dmdumiso4 dmdumiso5 dmdumiso6 dmdumiso7 dmdumiso8
+                          dmdumiso9 dmdumiso10 dmdumiso11 dmdumiso12 dmdumiso13
+                          dmdumiso14 dmdumiso15 dmdumiso16
+    Excluded instruments: zslump
+    Dropped collinear:    zboom
+    ------------------------------------------------------------------------------
+    Warning - collinearities detected
+    Vars dropped:       zslump
+    
+    IV (2SLS) estimation
+    --------------------
+    
+    Estimates efficient for homoskedasticity only
+    Statistics robust to heteroskedasticity and clustering on iso
+    
+    Number of clusters (iso) =          17                Number of obs =      180
+                                                          F( 20,    16) =    61.60
+                                                          Prob > F      =   0.0000
+    Total (centered) SS     =  4188.436097                Centered R2   =   0.8155
+    Total (uncentered) SS   =  14703.27526                Uncentered R2 =   0.9474
+    Residual SS             =  772.6617866                Root MSE      =    2.072
+    
+    ------------------------------------------------------------------------------
+                 |               Robust
+             ly4 |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+             fAA |  -.5907066   .4731726    -1.25   0.212    -1.518108    .3366946
+            hply |  -2.855864   .2856648   -10.00   0.000    -3.415756   -2.295971
+         dml0dly |   .6936281   .1698702     4.08   0.000     .3606885    1.026568
+         dml1dly |   1.147477   .1562135     7.35   0.000     .8413047     1.45365
+       dmdumiso1 |   .8017255   .0455108    17.62   0.000     .7125259     .890925
+       dmdumiso2 |   -2.07413   .5752251    -3.61   0.000    -3.201551   -.9467095
+       dmdumiso3 |  -1.829331   .4668058    -3.92   0.000    -2.744254   -.9144085
+       dmdumiso4 |   .4959256    .348874     1.42   0.155    -.1878548    1.179706
+       dmdumiso5 |  -2.894635   .4138046    -7.00   0.000    -3.705677   -2.083593
+       dmdumiso6 |  -1.799767   .5738696    -3.14   0.002     -2.92453   -.6750028
+       dmdumiso7 |   1.027905   .2068788     4.97   0.000     .6224304     1.43338
+       dmdumiso8 |  -.3118068   .3668713    -0.85   0.395    -1.030861    .4072477
+       dmdumiso9 |  -1.962811   .2964849    -6.62   0.000    -2.543911   -1.381712
+      dmdumiso10 |  -.4138773   .1934029    -2.14   0.032    -.7929401   -.0348145
+      dmdumiso11 |   5.126689   .2844841    18.02   0.000     4.569111    5.684268
+      dmdumiso12 |  -2.283178   .6162462    -3.70   0.000    -3.490999   -1.075358
+      dmdumiso13 |   -1.90943   .2525388    -7.56   0.000    -2.404397   -1.414463
+      dmdumiso14 |  -1.014064   .3880904    -2.61   0.009    -1.774707   -.2534207
+      dmdumiso15 |  -.7207662   .5777637    -1.25   0.212    -1.853162    .4116299
+      dmdumiso16 |  -1.713346   .2762785    -6.20   0.000    -2.254842    -1.17185
+           _cons |   10.71685   .4302485    24.91   0.000     9.873583    11.56013
+    ------------------------------------------------------------------------------
+    Underidentification test (Kleibergen-Paap rk LM statistic):              6.869
+                                                       Chi-sq(1) P-val =    0.0088
+    ------------------------------------------------------------------------------
+    Weak identification test (Cragg-Donald Wald F statistic):                9.642
+                             (Kleibergen-Paap rk Wald F statistic):         11.669
+    Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
+                                             15% maximal IV size              8.96
+                                             20% maximal IV size              6.66
+                                             25% maximal IV size              5.53
+    Source: Stock-Yogo (2005).  Reproduced by permission.
+    NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
+    ------------------------------------------------------------------------------
+    Warning: estimated covariance matrix of moment conditions not of full rank.
+             overidentification statistic not reported, and standard errors and
+             model tests should be interpreted with caution.
+    Possible causes:
+             number of clusters insufficient to calculate robust covariance matrix
+             singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
+    partial option may address problem.
+    ------------------------------------------------------------------------------
+    Instrumented:         fAA
+    Included instruments: hply dml0dly dml1dly dmdumiso1 dmdumiso2 dmdumiso3
+                          dmdumiso4 dmdumiso5 dmdumiso6 dmdumiso7 dmdumiso8
+                          dmdumiso9 dmdumiso10 dmdumiso11 dmdumiso12 dmdumiso13
+                          dmdumiso14 dmdumiso15 dmdumiso16
+    Excluded instruments: zboom
+    Dropped collinear:    zslump
+    ------------------------------------------------------------------------------
+    Warning - collinearities detected
+    Vars dropped:       zboom
+    
+    IV (2SLS) estimation
+    --------------------
+    
+    Estimates efficient for homoskedasticity only
+    Statistics robust to heteroskedasticity and clustering on iso
+    
+    Number of clusters (iso) =          17                Number of obs =      226
+                                                          F( 20,    16) =    64.22
+                                                          Prob > F      =   0.0000
+    Total (centered) SS     =  6079.066274                Centered R2   =   0.8324
+    Total (uncentered) SS   =   43815.3115                Uncentered R2 =   0.9767
+    Residual SS             =  1018.712028                Root MSE      =    2.123
+    
+    ------------------------------------------------------------------------------
+                 |               Robust
+             ly4 |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+             fAA |  -.7901855   .3058553    -2.58   0.010    -1.389651   -.1907201
+            hply |  -2.287524   .1844257   -12.40   0.000    -2.648991   -1.926056
+         dml0dly |   .9321808   .0687639    13.56   0.000      .797406    1.066956
+         dml1dly |   .9295774   .1436265     6.47   0.000     .6480747     1.21108
+       dmdumiso1 |   .8581689   .2367748     3.62   0.000     .3940989    1.322239
+       dmdumiso2 |  -1.524351   .1803019    -8.45   0.000    -1.877737   -1.170966
+       dmdumiso3 |  -1.481509   .1730639    -8.56   0.000    -1.820708    -1.14231
+       dmdumiso4 |  -.7532594   .2672271    -2.82   0.005    -1.277015   -.2295039
+       dmdumiso5 |  -2.101133    .126549   -16.60   0.000    -2.349164   -1.853101
+       dmdumiso6 |  -1.815655   .0881922   -20.59   0.000    -1.988508   -1.642801
+       dmdumiso7 |  -.5195846   .2743125    -1.89   0.058    -1.057227     .018058
+       dmdumiso8 |  -1.061065   .1906239    -5.57   0.000    -1.434681   -.6874488
+       dmdumiso9 |  -2.221194   .1030515   -21.55   0.000    -2.423171   -2.019216
+      dmdumiso10 |   -1.25705   .1238125   -10.15   0.000    -1.499718   -1.014382
+      dmdumiso11 |   6.212566   .8475005     7.33   0.000     4.551496    7.873636
+      dmdumiso12 |  -3.156605   .1342564   -23.51   0.000    -3.419742   -2.893467
+      dmdumiso13 |  -1.864485   .2450158    -7.61   0.000    -2.344707   -1.384263
+      dmdumiso14 |   -.312643   .1385774    -2.26   0.024    -.5842497   -.0410364
+      dmdumiso15 |  -.0457292   .2352782    -0.19   0.846     -.506866    .4154077
+      dmdumiso16 |  -.6006169   .4087068    -1.47   0.142    -1.401668    .2004338
+           _cons |   10.92661   .3277608    33.34   0.000     10.28421    11.56901
+    ------------------------------------------------------------------------------
+    Underidentification test (Kleibergen-Paap rk LM statistic):             11.701
+                                                       Chi-sq(1) P-val =    0.0006
+    ------------------------------------------------------------------------------
+    Weak identification test (Cragg-Donald Wald F statistic):               41.698
+                             (Kleibergen-Paap rk Wald F statistic):         28.345
+    Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
+                                             15% maximal IV size              8.96
+                                             20% maximal IV size              6.66
+                                             25% maximal IV size              5.53
+    Source: Stock-Yogo (2005).  Reproduced by permission.
+    NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
+    ------------------------------------------------------------------------------
+    Warning: estimated covariance matrix of moment conditions not of full rank.
+             overidentification statistic not reported, and standard errors and
+             model tests should be interpreted with caution.
+    Possible causes:
+             number of clusters insufficient to calculate robust covariance matrix
+             singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
+    partial option may address problem.
+    ------------------------------------------------------------------------------
+    Instrumented:         fAA
+    Included instruments: hply dml0dly dml1dly dmdumiso1 dmdumiso2 dmdumiso3
+                          dmdumiso4 dmdumiso5 dmdumiso6 dmdumiso7 dmdumiso8
+                          dmdumiso9 dmdumiso10 dmdumiso11 dmdumiso12 dmdumiso13
+                          dmdumiso14 dmdumiso15 dmdumiso16
+    Excluded instruments: zslump
+    Dropped collinear:    zboom
+    ------------------------------------------------------------------------------
+    Warning - collinearities detected
+    Vars dropped:       zslump
+    
+    IV (2SLS) estimation
+    --------------------
+    
+    Estimates efficient for homoskedasticity only
+    Statistics robust to heteroskedasticity and clustering on iso
+    
+    Number of clusters (iso) =          17                Number of obs =      175
+                                                          F( 20,    16) =    38.72
+                                                          Prob > F      =   0.0000
+    Total (centered) SS     =  5077.430846                Centered R2   =   0.7486
+    Total (uncentered) SS   =  21855.72521                Uncentered R2 =   0.9416
+    Residual SS             =  1276.273696                Root MSE      =    2.701
+    
+    ------------------------------------------------------------------------------
+                 |               Robust
+             ly5 |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+             fAA |  -.8103212   .5397478    -1.50   0.133    -1.868208     .247565
+            hply |  -2.687396   .3316341    -8.10   0.000    -3.337386   -2.037405
+         dml0dly |   .4582171   .2462981     1.86   0.063    -.0245183    .9409526
+         dml1dly |   1.362862   .2255108     6.04   0.000     .9208689    1.804855
+       dmdumiso1 |   1.624557    .076954    21.11   0.000      1.47373    1.775384
+       dmdumiso2 |  -2.115604   .6915266    -3.06   0.002    -3.470971   -.7602367
+       dmdumiso3 |  -2.383064   .6053122    -3.94   0.000    -3.569454   -1.196674
+       dmdumiso4 |  -.0576746   .4196947    -0.14   0.891    -.8802611    .7649119
+       dmdumiso5 |  -3.329074   .6410596    -5.19   0.000    -4.585528    -2.07262
+       dmdumiso6 |  -2.966516   .7322106    -4.05   0.000    -4.401623    -1.53141
+       dmdumiso7 |   .5219192   .3316021     1.57   0.116     -.128009    1.171847
+       dmdumiso8 |  -1.717544   .4302726    -3.99   0.000    -2.560863    -.874225
+       dmdumiso9 |  -2.945426   .4798471    -6.14   0.000    -3.885909   -2.004943
+      dmdumiso10 |  -1.337359   .3066451    -4.36   0.000    -1.938372   -.7363456
+      dmdumiso11 |   7.251337   .3719261    19.50   0.000     6.522375    7.980298
+      dmdumiso12 |  -3.244089   .7957334    -4.08   0.000    -4.803698    -1.68448
+      dmdumiso13 |  -4.149779   .3586197   -11.57   0.000    -4.852661   -3.446898
+      dmdumiso14 |  -.9041197   .5194477    -1.74   0.082    -1.922219    .1139792
+      dmdumiso15 |  -1.383544   .6568324    -2.11   0.035    -2.670912   -.0961757
+      dmdumiso16 |   -2.85041   .4775352    -5.97   0.000    -3.786362   -1.914458
+           _cons |   12.45284   .4019433    30.98   0.000     11.66505    13.24064
+    ------------------------------------------------------------------------------
+    Underidentification test (Kleibergen-Paap rk LM statistic):              6.988
+                                                       Chi-sq(1) P-val =    0.0082
+    ------------------------------------------------------------------------------
+    Weak identification test (Cragg-Donald Wald F statistic):                9.892
+                             (Kleibergen-Paap rk Wald F statistic):         11.867
+    Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
+                                             15% maximal IV size              8.96
+                                             20% maximal IV size              6.66
+                                             25% maximal IV size              5.53
+    Source: Stock-Yogo (2005).  Reproduced by permission.
+    NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
+    ------------------------------------------------------------------------------
+    Warning: estimated covariance matrix of moment conditions not of full rank.
+             overidentification statistic not reported, and standard errors and
+             model tests should be interpreted with caution.
+    Possible causes:
+             number of clusters insufficient to calculate robust covariance matrix
+             singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
+    partial option may address problem.
+    ------------------------------------------------------------------------------
+    Instrumented:         fAA
+    Included instruments: hply dml0dly dml1dly dmdumiso1 dmdumiso2 dmdumiso3
+                          dmdumiso4 dmdumiso5 dmdumiso6 dmdumiso7 dmdumiso8
+                          dmdumiso9 dmdumiso10 dmdumiso11 dmdumiso12 dmdumiso13
+                          dmdumiso14 dmdumiso15 dmdumiso16
+    Excluded instruments: zboom
+    Dropped collinear:    zslump
+    ------------------------------------------------------------------------------
+    Warning - collinearities detected
+    Vars dropped:       zboom
+    
+    IV (2SLS) estimation
+    --------------------
+    
+    Estimates efficient for homoskedasticity only
+    Statistics robust to heteroskedasticity and clustering on iso
+    
+    Number of clusters (iso) =          17                Number of obs =      214
+                                                          F( 20,    16) =    58.49
+                                                          Prob > F      =   0.0000
+    Total (centered) SS     =  8121.787859                Centered R2   =   0.8216
+    Total (uncentered) SS   =  63788.92268                Uncentered R2 =   0.9773
+    Residual SS             =  1449.310646                Root MSE      =    2.602
+    
+    ------------------------------------------------------------------------------
+                 |               Robust
+             ly5 |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+             fAA |  -.9263745   .4176029    -2.22   0.027    -1.744861   -.1078878
+            hply |  -2.631636   .2719977    -9.68   0.000    -3.164742    -2.09853
+         dml0dly |   .9415521   .1257806     7.49   0.000     .6950266    1.188078
+         dml1dly |     .88937   .1945238     4.57   0.000     .5081104     1.27063
+       dmdumiso1 |   1.008039   .3231164     3.12   0.002     .3747424    1.641336
+       dmdumiso2 |  -2.178462   .2858825    -7.62   0.000    -2.738782   -1.618143
+       dmdumiso3 |  -2.191777   .3660791    -5.99   0.000    -2.909278   -1.474275
+       dmdumiso4 |  -.8695986   .2960527    -2.94   0.003    -1.449851   -.2893459
+       dmdumiso5 |  -3.323257   .2631717   -12.63   0.000    -3.839064    -2.80745
+       dmdumiso6 |    -2.6422   .1789186   -14.77   0.000    -2.992874   -2.291526
+       dmdumiso7 |   -.257621   .3365606    -0.77   0.444    -.9172677    .4020258
+       dmdumiso8 |  -1.339142   .2297278    -5.83   0.000      -1.7894   -.8888834
+       dmdumiso9 |  -3.083234   .2097567   -14.70   0.000     -3.49435   -2.672119
+      dmdumiso10 |  -1.543952   .1519031   -10.16   0.000    -1.841676   -1.246227
+      dmdumiso11 |   8.632605   1.182867     7.30   0.000     6.314229    10.95098
+      dmdumiso12 |  -4.561705   .2074086   -21.99   0.000    -4.968219   -4.155192
+      dmdumiso13 |  -1.818513    .377354    -4.82   0.000    -2.558113   -1.078913
+      dmdumiso14 |  -1.003329   .2017802    -4.97   0.000    -1.398811   -.6078476
+      dmdumiso15 |  -.0304041   .3740369    -0.08   0.935    -.7635029    .7026947
+      dmdumiso16 |  -1.316697   .5345672    -2.46   0.014     -2.36443   -.2689646
+           _cons |   13.40886   .3934463    34.08   0.000     12.63772    14.18001
+    ------------------------------------------------------------------------------
+    Underidentification test (Kleibergen-Paap rk LM statistic):             11.353
+                                                       Chi-sq(1) P-val =    0.0008
+    ------------------------------------------------------------------------------
+    Weak identification test (Cragg-Donald Wald F statistic):               41.867
+                             (Kleibergen-Paap rk Wald F statistic):         28.104
+    Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
+                                             15% maximal IV size              8.96
+                                             20% maximal IV size              6.66
+                                             25% maximal IV size              5.53
+    Source: Stock-Yogo (2005).  Reproduced by permission.
+    NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
+    ------------------------------------------------------------------------------
+    Warning: estimated covariance matrix of moment conditions not of full rank.
+             overidentification statistic not reported, and standard errors and
+             model tests should be interpreted with caution.
+    Possible causes:
+             number of clusters insufficient to calculate robust covariance matrix
+             singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
+    partial option may address problem.
+    ------------------------------------------------------------------------------
+    Instrumented:         fAA
+    Included instruments: hply dml0dly dml1dly dmdumiso1 dmdumiso2 dmdumiso3
+                          dmdumiso4 dmdumiso5 dmdumiso6 dmdumiso7 dmdumiso8
+                          dmdumiso9 dmdumiso10 dmdumiso11 dmdumiso12 dmdumiso13
+                          dmdumiso14 dmdumiso15 dmdumiso16
+    Excluded instruments: zslump
+    Dropped collinear:    zboom
+    ------------------------------------------------------------------------------
+    Warning - collinearities detected
+    Vars dropped:       zslump
+    
+    IV (2SLS) estimation
+    --------------------
+    
+    Estimates efficient for homoskedasticity only
+    Statistics robust to heteroskedasticity and clustering on iso
+    
+    Number of clusters (iso) =          17                Number of obs =      175
+                                                          F( 20,    16) =    64.81
+                                                          Prob > F      =   0.0000
+    Total (centered) SS     =  55881.87671                Centered R2   =   0.8706
+    Total (uncentered) SS   =  195391.7526                Uncentered R2 =   0.9630
+    Residual SS             =  7228.622614                Root MSE      =    6.427
+    
+    ------------------------------------------------------------------------------
+                 |               Robust
+             ly6 |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+             fAA |  -1.363188   1.624715    -0.84   0.401    -4.547571    1.821194
+            hply |  -10.27931   .9692312   -10.61   0.000    -12.17896   -8.379647
+         dml0dly |   4.145997   .5887455     7.04   0.000     2.992077    5.299917
+         dml1dly |   4.145259   .4813313     8.61   0.000     3.201867    5.088651
+       dmdumiso1 |   1.391644   .1135846    12.25   0.000     1.169022    1.614266
+       dmdumiso2 |  -6.631056   1.976204    -3.36   0.001    -10.50434   -2.757767
+       dmdumiso3 |  -5.949769   1.589184    -3.74   0.000    -9.064513   -2.835025
+       dmdumiso4 |   .7188208    1.13729     0.63   0.527    -1.510227    2.947869
+       dmdumiso5 |  -9.109839   1.386947    -6.57   0.000    -11.82821   -6.391471
+       dmdumiso6 |  -4.575596   1.958947    -2.34   0.020    -8.415061   -.7361312
+       dmdumiso7 |   3.667385   .7420429     4.94   0.000     2.213008    5.121763
+       dmdumiso8 |  -.2423467   1.261424    -0.19   0.848    -2.714693        2.23
+       dmdumiso9 |  -5.587642   .9541373    -5.86   0.000    -7.457717   -3.717568
+      dmdumiso10 |  -.3121804   .5699439    -0.55   0.584     -1.42925    .8048891
+      dmdumiso11 |   14.82896    1.03898    14.27   0.000     12.79259    16.86532
+      dmdumiso12 |  -7.792029   2.108777    -3.70   0.000    -11.92516   -3.658901
+      dmdumiso13 |   -6.66125   .7770432    -8.57   0.000    -8.184227   -5.138274
+      dmdumiso14 |  -2.564627   1.323161    -1.94   0.053    -5.157974    .0287201
+      dmdumiso15 |  -1.603679   2.032105    -0.79   0.430     -5.58653    2.379173
+      dmdumiso16 |  -4.480815   .8714003    -5.14   0.000    -6.188729   -2.772902
+           _cons |   39.30789   1.563127    25.15   0.000     36.24422    42.37157
+    ------------------------------------------------------------------------------
+    Underidentification test (Kleibergen-Paap rk LM statistic):              6.988
+                                                       Chi-sq(1) P-val =    0.0082
+    ------------------------------------------------------------------------------
+    Weak identification test (Cragg-Donald Wald F statistic):                9.892
+                             (Kleibergen-Paap rk Wald F statistic):         11.867
+    Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
+                                             15% maximal IV size              8.96
+                                             20% maximal IV size              6.66
+                                             25% maximal IV size              5.53
+    Source: Stock-Yogo (2005).  Reproduced by permission.
+    NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
+    ------------------------------------------------------------------------------
+    Warning: estimated covariance matrix of moment conditions not of full rank.
+             overidentification statistic not reported, and standard errors and
+             model tests should be interpreted with caution.
+    Possible causes:
+             number of clusters insufficient to calculate robust covariance matrix
+             singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
+    partial option may address problem.
+    ------------------------------------------------------------------------------
+    Instrumented:         fAA
+    Included instruments: hply dml0dly dml1dly dmdumiso1 dmdumiso2 dmdumiso3
+                          dmdumiso4 dmdumiso5 dmdumiso6 dmdumiso7 dmdumiso8
+                          dmdumiso9 dmdumiso10 dmdumiso11 dmdumiso12 dmdumiso13
+                          dmdumiso14 dmdumiso15 dmdumiso16
+    Excluded instruments: zboom
+    Dropped collinear:    zslump
+    ------------------------------------------------------------------------------
+    Warning - collinearities detected
+    Vars dropped:       zboom
+    
+    IV (2SLS) estimation
+    --------------------
+    
+    Estimates efficient for homoskedasticity only
+    Statistics robust to heteroskedasticity and clustering on iso
+    
+    Number of clusters (iso) =          17                Number of obs =      214
+                                                          F( 20,    16) =    89.47
+                                                          Prob > F      =   0.0000
+    Total (centered) SS     =  81046.40543                Centered R2   =   0.8643
+    Total (uncentered) SS   =  582769.6867                Uncentered R2 =   0.9811
+    Residual SS             =  11001.75081                Root MSE      =     7.17
+    
+    ------------------------------------------------------------------------------
+                 |               Robust
+             ly6 |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+             fAA |  -3.351519   1.099076    -3.05   0.002    -5.505668    -1.19737
+            hply |  -8.983889   .5116421   -17.56   0.000    -9.986689   -7.981089
+         dml0dly |    3.94996   .2122927    18.61   0.000     3.533874    4.366047
+         dml1dly |   3.444368   .4721461     7.30   0.000     2.518979    4.369757
+       dmdumiso1 |   4.624659   .7715961     5.99   0.000     3.112358    6.136959
+       dmdumiso2 |  -4.484124   .4752145    -9.44   0.000    -5.415527   -3.552721
+       dmdumiso3 |  -4.430733   .7079351    -6.26   0.000     -5.81826   -3.043206
+       dmdumiso4 |   -1.94352   .8746841    -2.22   0.026    -3.657869   -.2291707
+       dmdumiso5 |  -6.283444    .451577   -13.91   0.000    -7.168518   -5.398369
+       dmdumiso6 |      -7.23   .2636619   -27.42   0.000    -7.746768   -6.713233
+       dmdumiso7 |  -1.699608   .9187165    -1.85   0.064    -3.500259    .1010432
+       dmdumiso8 |  -6.422603   .7238725    -8.87   0.000    -7.841367   -5.003839
+       dmdumiso9 |  -7.487854   .3297369   -22.71   0.000    -8.134126   -6.841581
+      dmdumiso10 |  -4.570439   .4363496   -10.47   0.000    -5.425669    -3.71521
+      dmdumiso11 |   22.40359   2.628137     8.52   0.000     17.25253    27.55464
+      dmdumiso12 |  -10.54171   .3430858   -30.73   0.000    -11.21415   -9.869278
+      dmdumiso13 |  -5.021164   .8959101    -5.60   0.000    -6.777116   -3.265213
+      dmdumiso14 |  -1.387213   .4498441    -3.08   0.002    -2.268891   -.5055347
+      dmdumiso15 |  -1.229436   .7914953    -1.55   0.120    -2.780738    .3218665
+      dmdumiso16 |  -2.667215   1.454244    -1.83   0.067    -5.517481    .1830522
+           _cons |   39.76873   1.053467    37.75   0.000     37.70397    41.83349
+    ------------------------------------------------------------------------------
+    Underidentification test (Kleibergen-Paap rk LM statistic):             11.353
+                                                       Chi-sq(1) P-val =    0.0008
+    ------------------------------------------------------------------------------
+    Weak identification test (Cragg-Donald Wald F statistic):               41.867
+                             (Kleibergen-Paap rk Wald F statistic):         28.104
+    Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
+                                             15% maximal IV size              8.96
+                                             20% maximal IV size              6.66
+                                             25% maximal IV size              5.53
+    Source: Stock-Yogo (2005).  Reproduced by permission.
+    NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
+    ------------------------------------------------------------------------------
+    Warning: estimated covariance matrix of moment conditions not of full rank.
+             overidentification statistic not reported, and standard errors and
+             model tests should be interpreted with caution.
+    Possible causes:
+             number of clusters insufficient to calculate robust covariance matrix
+             singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
+    partial option may address problem.
+    ------------------------------------------------------------------------------
+    Instrumented:         fAA
+    Included instruments: hply dml0dly dml1dly dmdumiso1 dmdumiso2 dmdumiso3
+                          dmdumiso4 dmdumiso5 dmdumiso6 dmdumiso7 dmdumiso8
+                          dmdumiso9 dmdumiso10 dmdumiso11 dmdumiso12 dmdumiso13
+                          dmdumiso14 dmdumiso15 dmdumiso16
+    Excluded instruments: zslump
+    Dropped collinear:    zboom
+    ------------------------------------------------------------------------------
+    
+    
+
+<a class='anchor' id='tableA2'></a>
+
+## Table A2
+
+![](https://github.com/htdanil/referenced_to_github/raw/master/GF0004_Jorda_Taylor_%282016%29_The_time_for_austerity__REPLICATION_WORK/results/tableA2.PNG)
+
+[Click here for summarized result of code below](https://github.com/htdanil/referenced_to_github/blob/master/GF0004_Jorda_Taylor_%282016%29_The_time_for_austerity__REPLICATION_WORK/results/tableA2.pdf)
+
+<span style="color:red">Standard Errors (SEs) for coefficients are slightly different than what have been published in the paper. [The included code's compiled tables also shows slightly different SEs.](https://github.com/htdanil/referenced_to_github/blob/master/GF0004_Jorda_Taylor_%282016%29_The_time_for_austerity__REPLICATION_WORK/results/tables_figures_compiled.pdf) However, the key result does not change. </span>
+
+![](https://github.com/htdanil/referenced_to_github/raw/master/GF0004_Jorda_Taylor_%282016%29_The_time_for_austerity__REPLICATION_WORK/results/tableA2_included.PNG)
+
+
+```python
+%%stata -os
+
+forvalues i = 1/6   {
+    foreach c in boom slump {
+        * #the dummy for the U.S. is dropped to avoid collinearity with the constant
+        ivreg2 ly`i'   (fAA= zboom zslump) ///
+            hply wgdp dml0dly dml1dly dmdumiso1-dmdumiso16 ///
+            if `c'==1 & year>=1980 & year<=2007,  cluster(iso) 
+    }
+}
+```
+
+    
+    . forvalues i = 1/6   {
+      2.     foreach c in boom slump {
+      3.         * #the dummy for the U.S. is dropped to avoid collinearity with the constant
+      4.     }
+      5. }
+    Warning - collinearities detected
+    Vars dropped:       zslump
+    
+    IV (2SLS) estimation
+    --------------------
+    
+    Estimates efficient for homoskedasticity only
+    Statistics robust to heteroskedasticity and clustering on iso
+    
+    Number of clusters (iso) =          17                Number of obs =      222
+                                                          F( 21,    16) =    14.11
+                                                          Prob > F      =   0.0000
+    Total (centered) SS     =  841.2086444                Centered R2   =   0.4642
+    Total (uncentered) SS   =  1897.843827                Uncentered R2 =   0.7625
+    Residual SS             =  450.7263607                Root MSE      =    1.425
+    
+    ------------------------------------------------------------------------------
+                 |               Robust
+             ly1 |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+             fAA |  -.3158274    .293822    -1.07   0.282    -.8917079    .2600531
+            hply |  -.7359433   .0847768    -8.68   0.000    -.9021029   -.5697838
+            wgdp |   .4063388   .0582553     6.98   0.000     .2921605     .520517
+         dml0dly |   .7314091   .1195985     6.12   0.000     .4970003    .9658179
+         dml1dly |   .2337827   .0911536     2.56   0.010     .0551251    .4124404
+       dmdumiso1 |  -.1560689   .0702595    -2.22   0.026    -.2937749   -.0183628
+       dmdumiso2 |   .1873032   .2136184     0.88   0.381    -.2313811    .6059875
+       dmdumiso3 |   .0698411   .0823605     0.85   0.396    -.0915825    .2312646
+       dmdumiso4 |   .2780811   .0807293     3.44   0.001     .1198546    .4363077
+       dmdumiso5 |  -.2915037   .0975401    -2.99   0.003    -.4826787   -.1003287
+       dmdumiso6 |     .39013   .1193681     3.27   0.001     .1561727    .6240872
+       dmdumiso7 |   .6107713   .0440071    13.88   0.000     .5245189    .6970238
+       dmdumiso8 |   .6379183   .0817356     7.80   0.000     .4777195    .7981171
+       dmdumiso9 |    .160365   .0918071     1.75   0.081    -.0195735    .3403035
+      dmdumiso10 |   .5416968   .0427932    12.66   0.000     .4578236      .62557
+      dmdumiso11 |   .8891748   .0983224     9.04   0.000     .6964664    1.081883
+      dmdumiso12 |   .2440544   .2371859     1.03   0.303    -.2208215    .7089302
+      dmdumiso13 |   .1083417   .0921436     1.18   0.240    -.0722564    .2889398
+      dmdumiso14 |   .3020459   .0617321     4.89   0.000     .1810532    .4230386
+      dmdumiso15 |   .7796383   .2197486     3.55   0.000     .3489389    1.210338
+      dmdumiso16 |   .4620693   .0857349     5.39   0.000      .294032    .6301065
+           _cons |   1.393791   .2458352     5.67   0.000     .9119625    1.875619
+    ------------------------------------------------------------------------------
+    Underidentification test (Kleibergen-Paap rk LM statistic):              7.274
+                                                       Chi-sq(1) P-val =    0.0070
+    ------------------------------------------------------------------------------
+    Weak identification test (Cragg-Donald Wald F statistic):               10.405
+                             (Kleibergen-Paap rk Wald F statistic):         11.504
+    Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
+                                             15% maximal IV size              8.96
+                                             20% maximal IV size              6.66
+                                             25% maximal IV size              5.53
+    Source: Stock-Yogo (2005).  Reproduced by permission.
+    NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
+    ------------------------------------------------------------------------------
+    Warning: estimated covariance matrix of moment conditions not of full rank.
+             overidentification statistic not reported, and standard errors and
+             model tests should be interpreted with caution.
+    Possible causes:
+             number of clusters insufficient to calculate robust covariance matrix
+             singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
+    partial option may address problem.
+    ------------------------------------------------------------------------------
+    Instrumented:         fAA
+    Included instruments: hply wgdp dml0dly dml1dly dmdumiso1 dmdumiso2 dmdumiso3
+                          dmdumiso4 dmdumiso5 dmdumiso6 dmdumiso7 dmdumiso8
+                          dmdumiso9 dmdumiso10 dmdumiso11 dmdumiso12 dmdumiso13
+                          dmdumiso14 dmdumiso15 dmdumiso16
+    Excluded instruments: zboom
+    Dropped collinear:    zslump
+    ------------------------------------------------------------------------------
+    Warning - collinearities detected
+    Vars dropped:       zboom
+    
+    IV (2SLS) estimation
+    --------------------
+    
+    Estimates efficient for homoskedasticity only
+    Statistics robust to heteroskedasticity and clustering on iso
+    
+    Number of clusters (iso) =          17                Number of obs =      235
+                                                          F( 21,    16) =    31.86
+                                                          Prob > F      =   0.0000
+    Total (centered) SS     =  745.7133475                Centered R2   =   0.6259
+    Total (uncentered) SS   =   2779.65654                Uncentered R2 =   0.8996
+    Residual SS             =    279.00785                Root MSE      =     1.09
+    
+    ------------------------------------------------------------------------------
+                 |               Robust
+             ly1 |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+             fAA |  -.2448995   .1410079    -1.74   0.082      -.52127     .031471
+            hply |   -.676167   .0816099    -8.29   0.000    -.8361194   -.5162145
+            wgdp |   .0741493   .0625606     1.19   0.236    -.0484673    .1967659
+         dml0dly |   .4613824   .0491009     9.40   0.000     .3651464    .5576183
+         dml1dly |   .2428548   .0318843     7.62   0.000     .1803627    .3053469
+       dmdumiso1 |   .4936066   .0689342     7.16   0.000      .358498    .6287152
+       dmdumiso2 |  -.0433635   .0738965    -0.59   0.557    -.1881979    .1014709
+       dmdumiso3 |  -.1005017   .1326426    -0.76   0.449    -.3604764    .1594731
+       dmdumiso4 |  -.0503195   .1193579    -0.42   0.673    -.2842567    .1836178
+       dmdumiso5 |  -.0240299   .1294306    -0.19   0.853    -.2777093    .2296495
+       dmdumiso6 |  -.3694762   .0849024    -4.35   0.000    -.5358818   -.2030706
+       dmdumiso7 |  -.2438081   .1107262    -2.20   0.028    -.4608276   -.0267887
+       dmdumiso8 |  -.6233416   .1191856    -5.23   0.000    -.8569411   -.3897421
+       dmdumiso9 |  -.1626569   .0910388    -1.79   0.074    -.3410897    .0157759
+      dmdumiso10 |   -.471608   .0779111    -6.05   0.000     -.624311   -.3189051
+      dmdumiso11 |   .8504716   .1223608     6.95   0.000     .6106489    1.090294
+      dmdumiso12 |  -.2527043   .0625144    -4.04   0.000    -.3752303   -.1301783
+      dmdumiso13 |  -.1590286   .1192337    -1.33   0.182    -.3927223    .0746651
+      dmdumiso14 |  -.0036461   .0991617    -0.04   0.971    -.1979995    .1907072
+      dmdumiso15 |  -.5594509   .1279766    -4.37   0.000    -.8102803   -.3086214
+      dmdumiso16 |  -.1588354   .2172271    -0.73   0.465    -.5845927    .2669219
+           _cons |   2.210789   .3028499     7.30   0.000     1.617214    2.804364
+    ------------------------------------------------------------------------------
+    Underidentification test (Kleibergen-Paap rk LM statistic):             12.311
+                                                       Chi-sq(1) P-val =    0.0005
+    ------------------------------------------------------------------------------
+    Weak identification test (Cragg-Donald Wald F statistic):               40.105
+                             (Kleibergen-Paap rk Wald F statistic):         32.893
+    Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
+                                             15% maximal IV size              8.96
+                                             20% maximal IV size              6.66
+                                             25% maximal IV size              5.53
+    Source: Stock-Yogo (2005).  Reproduced by permission.
+    NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
+    ------------------------------------------------------------------------------
+    Warning: estimated covariance matrix of moment conditions not of full rank.
+             overidentification statistic not reported, and standard errors and
+             model tests should be interpreted with caution.
+    Possible causes:
+             number of clusters insufficient to calculate robust covariance matrix
+             singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
+    partial option may address problem.
+    ------------------------------------------------------------------------------
+    Instrumented:         fAA
+    Included instruments: hply wgdp dml0dly dml1dly dmdumiso1 dmdumiso2 dmdumiso3
+                          dmdumiso4 dmdumiso5 dmdumiso6 dmdumiso7 dmdumiso8
+                          dmdumiso9 dmdumiso10 dmdumiso11 dmdumiso12 dmdumiso13
+                          dmdumiso14 dmdumiso15 dmdumiso16
+    Excluded instruments: zslump
+    Dropped collinear:    zboom
+    ------------------------------------------------------------------------------
+    Warning - collinearities detected
+    Vars dropped:       zslump
+    
+    IV (2SLS) estimation
+    --------------------
+    
+    Estimates efficient for homoskedasticity only
+    Statistics robust to heteroskedasticity and clustering on iso
+    
+    Number of clusters (iso) =          17                Number of obs =      205
+                                                          F( 21,    16) =    16.26
+                                                          Prob > F      =   0.0000
+    Total (centered) SS     =  2283.818034                Centered R2   =   0.6787
+    Total (uncentered) SS   =  5507.883845                Uncentered R2 =   0.8668
+    Residual SS             =  733.7946971                Root MSE      =    1.892
+    
+    ------------------------------------------------------------------------------
+                 |               Robust
+             ly2 |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+             fAA |  -.3330604   .4792317    -0.69   0.487    -1.272337    .6062165
+            hply |  -1.782973   .1814477    -9.83   0.000    -2.138604   -1.427342
+            wgdp |   .5007819   .1418014     3.53   0.000     .2228562    .7787076
+         dml0dly |   1.029496   .1535952     6.70   0.000     .7284549    1.330537
+         dml1dly |   .6012357   .0967459     6.21   0.000     .4116173    .7908542
+       dmdumiso1 |  -.3758698   .1321392    -2.84   0.004    -.6348578   -.1168818
+       dmdumiso2 |   -.323351   .3307569    -0.98   0.328    -.9716227    .3249206
+       dmdumiso3 |  -.2480847   .1958187    -1.27   0.205    -.6318823    .1357128
+       dmdumiso4 |   .4072967   .1519266     2.68   0.007     .1095261    .7050672
+       dmdumiso5 |  -.8462898   .1976517    -4.28   0.000     -1.23368   -.4588997
+       dmdumiso6 |   .3311078   .3153927     1.05   0.294    -.2870506    .9492662
+       dmdumiso7 |   1.323163    .081144    16.31   0.000     1.164124    1.482202
+       dmdumiso8 |   1.307086   .1708045     7.65   0.000     .9723153    1.641857
+       dmdumiso9 |   .1738825   .1218744     1.43   0.154     -.064987     .412752
+      dmdumiso10 |   .7981254   .0774674    10.30   0.000     .6462922    .9499587
+      dmdumiso11 |   1.946521   .2155191     9.03   0.000     1.524112    2.368931
+      dmdumiso12 |  -.1604372   .3734224    -0.43   0.667    -.8923316    .5714572
+      dmdumiso13 |   -.114544   .1126692    -1.02   0.309    -.3353716    .1062836
+      dmdumiso14 |   .1416128   .1229572     1.15   0.249    -.0993788    .3826044
+      dmdumiso15 |   .9890973   .3292773     3.00   0.003     .3437257    1.634469
+      dmdumiso16 |   .4071206   .1502175     2.71   0.007     .1126997    .7015415
+           _cons |   4.066012   .5319504     7.64   0.000     3.023408    5.108615
+    ------------------------------------------------------------------------------
+    Underidentification test (Kleibergen-Paap rk LM statistic):              6.746
+                                                       Chi-sq(1) P-val =    0.0094
+    ------------------------------------------------------------------------------
+    Weak identification test (Cragg-Donald Wald F statistic):                8.850
+                             (Kleibergen-Paap rk Wald F statistic):         10.312
+    Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
+                                             15% maximal IV size              8.96
+                                             20% maximal IV size              6.66
+                                             25% maximal IV size              5.53
+    Source: Stock-Yogo (2005).  Reproduced by permission.
+    NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
+    ------------------------------------------------------------------------------
+    Warning: estimated covariance matrix of moment conditions not of full rank.
+             overidentification statistic not reported, and standard errors and
+             model tests should be interpreted with caution.
+    Possible causes:
+             number of clusters insufficient to calculate robust covariance matrix
+             singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
+    partial option may address problem.
+    ------------------------------------------------------------------------------
+    Instrumented:         fAA
+    Included instruments: hply wgdp dml0dly dml1dly dmdumiso1 dmdumiso2 dmdumiso3
+                          dmdumiso4 dmdumiso5 dmdumiso6 dmdumiso7 dmdumiso8
+                          dmdumiso9 dmdumiso10 dmdumiso11 dmdumiso12 dmdumiso13
+                          dmdumiso14 dmdumiso15 dmdumiso16
+    Excluded instruments: zboom
+    Dropped collinear:    zslump
+    ------------------------------------------------------------------------------
+    Warning - collinearities detected
+    Vars dropped:       zboom
+    
+    IV (2SLS) estimation
+    --------------------
+    
+    Estimates efficient for homoskedasticity only
+    Statistics robust to heteroskedasticity and clustering on iso
+    
+    Number of clusters (iso) =          17                Number of obs =      235
+                                                          F( 21,    16) =    39.82
+                                                          Prob > F      =   0.0000
+    Total (centered) SS     =  2138.177252                Centered R2   =   0.6860
+    Total (uncentered) SS   =  11385.37474                Uncentered R2 =   0.9410
+    Residual SS             =  671.3493062                Root MSE      =     1.69
+    
+    ------------------------------------------------------------------------------
+                 |               Robust
+             ly2 |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+             fAA |  -.7608772   .2267663    -3.36   0.001    -1.205331   -.3164234
+            hply |  -1.352506   .1253488   -10.79   0.000    -1.598185   -1.106827
+            wgdp |  -.0655632   .0847923    -0.77   0.439    -.2317531    .1006267
+         dml0dly |    .725014   .0620552    11.68   0.000     .6033881    .8466398
+         dml1dly |   .5672649   .0635592     8.92   0.000     .4426912    .6918386
+       dmdumiso1 |   1.196554    .115208    10.39   0.000     .9707507    1.422358
+       dmdumiso2 |   .0426498   .1454277     0.29   0.769    -.2423833    .3276828
+       dmdumiso3 |    .087382   .2276494     0.38   0.701    -.3588027    .5335667
+       dmdumiso4 |   .2138332    .134523     1.59   0.112     -.049827    .4774934
+       dmdumiso5 |   .1878044   .2135877     0.88   0.379    -.2308199    .6064287
+       dmdumiso6 |  -.3917207    .140747    -2.78   0.005    -.6675799   -.1158616
+       dmdumiso7 |  -.0787986   .1540987    -0.51   0.609    -.3808265    .2232292
+       dmdumiso8 |  -.9303714   .1101933    -8.44   0.000    -1.146346   -.7143964
+       dmdumiso9 |  -.3647366   .1566977    -2.33   0.020    -.6718585   -.0576147
+      dmdumiso10 |  -.4476766   .0964312    -4.64   0.000    -.6366783   -.2586749
+      dmdumiso11 |   2.908572   .2227108    13.06   0.000     2.472067    3.345077
+      dmdumiso12 |   -.638209   .1167677    -5.47   0.000    -.8670695   -.4093486
+      dmdumiso13 |  -.1366367   .1921664    -0.71   0.477     -.513276    .2400025
+      dmdumiso14 |   .4307392   .1761036     2.45   0.014     .0855824     .775896
+      dmdumiso15 |  -.2613423   .1205145    -2.17   0.030    -.4975463   -.0251382
+      dmdumiso16 |   .5200999   .3367559     1.54   0.122    -.1399295    1.180129
+           _cons |   5.614446   .3052944    18.39   0.000      5.01608    6.212812
+    ------------------------------------------------------------------------------
+    Underidentification test (Kleibergen-Paap rk LM statistic):             12.311
+                                                       Chi-sq(1) P-val =    0.0005
+    ------------------------------------------------------------------------------
+    Weak identification test (Cragg-Donald Wald F statistic):               40.105
+                             (Kleibergen-Paap rk Wald F statistic):         32.893
+    Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
+                                             15% maximal IV size              8.96
+                                             20% maximal IV size              6.66
+                                             25% maximal IV size              5.53
+    Source: Stock-Yogo (2005).  Reproduced by permission.
+    NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
+    ------------------------------------------------------------------------------
+    Warning: estimated covariance matrix of moment conditions not of full rank.
+             overidentification statistic not reported, and standard errors and
+             model tests should be interpreted with caution.
+    Possible causes:
+             number of clusters insufficient to calculate robust covariance matrix
+             singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
+    partial option may address problem.
+    ------------------------------------------------------------------------------
+    Instrumented:         fAA
+    Included instruments: hply wgdp dml0dly dml1dly dmdumiso1 dmdumiso2 dmdumiso3
+                          dmdumiso4 dmdumiso5 dmdumiso6 dmdumiso7 dmdumiso8
+                          dmdumiso9 dmdumiso10 dmdumiso11 dmdumiso12 dmdumiso13
+                          dmdumiso14 dmdumiso15 dmdumiso16
+    Excluded instruments: zslump
+    Dropped collinear:    zboom
+    ------------------------------------------------------------------------------
+    Warning - collinearities detected
+    Vars dropped:       zslump
+    
+    IV (2SLS) estimation
+    --------------------
+    
+    Estimates efficient for homoskedasticity only
+    Statistics robust to heteroskedasticity and clustering on iso
+    
+    Number of clusters (iso) =          17                Number of obs =      192
+                                                          F( 21,    16) =    27.92
+                                                          Prob > F      =   0.0000
+    Total (centered) SS     =  3476.505858                Centered R2   =   0.8170
+    Total (uncentered) SS   =  9848.585745                Uncentered R2 =   0.9354
+    Residual SS             =  636.3418694                Root MSE      =    1.821
+    
+    ------------------------------------------------------------------------------
+                 |               Robust
+             ly3 |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+             fAA |  -.1389606   .4663065    -0.30   0.766    -1.052905    .7749833
+            hply |  -2.528579   .2452102   -10.31   0.000    -3.009183   -2.047976
+            wgdp |    .160872   .2039923     0.79   0.430    -.2389457    .5606896
+         dml0dly |   .9746789   .1941436     5.02   0.000     .5941644    1.355193
+         dml1dly |   .8284089   .0961573     8.62   0.000      .639944    1.016874
+       dmdumiso1 |   .0136415   .1180264     0.12   0.908    -.2176861     .244969
+       dmdumiso2 |  -1.196961   .4011893    -2.98   0.003    -1.983278    -.410645
+       dmdumiso3 |  -.9709966   .1917042    -5.07   0.000     -1.34673   -.5952633
+       dmdumiso4 |   .6228438   .2449045     2.54   0.011     .1428398    1.102848
+       dmdumiso5 |  -1.754857   .2231516    -7.86   0.000    -2.192226   -1.317488
+       dmdumiso6 |  -.6210204   .5002002    -1.24   0.214    -1.601395    .3593541
+       dmdumiso7 |   1.533599   .1221766    12.55   0.000     1.294137    1.773061
+       dmdumiso8 |   1.047921   .2650382     3.95   0.000     .5284561    1.567387
+       dmdumiso9 |   -.633218   .1572726    -4.03   0.000    -.9414666   -.3249693
+      dmdumiso10 |   .4508526   .1012137     4.45   0.000     .2524774    .6492278
+      dmdumiso11 |   3.526324   .3719941     9.48   0.000     2.797229    4.255419
+      dmdumiso12 |  -1.258551   .4381217    -2.87   0.004    -2.117254   -.3998479
+      dmdumiso13 |   -.583711   .2643606    -2.21   0.027    -1.101848   -.0655738
+      dmdumiso14 |  -.4696386    .205156    -2.29   0.022    -.8717369   -.0675404
+      dmdumiso15 |   .2942733   .4588985     0.64   0.521    -.6051513    1.193698
+      dmdumiso16 |  -.1933783   .1315975    -1.47   0.142    -.4513047    .0645481
+           _cons |   8.053205   .6850247    11.76   0.000     6.710581    9.395829
+    ------------------------------------------------------------------------------
+    Underidentification test (Kleibergen-Paap rk LM statistic):              6.041
+                                                       Chi-sq(1) P-val =    0.0140
+    ------------------------------------------------------------------------------
+    Weak identification test (Cragg-Donald Wald F statistic):                8.985
+                             (Kleibergen-Paap rk Wald F statistic):          9.031
+    Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
+                                             15% maximal IV size              8.96
+                                             20% maximal IV size              6.66
+                                             25% maximal IV size              5.53
+    Source: Stock-Yogo (2005).  Reproduced by permission.
+    NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
+    ------------------------------------------------------------------------------
+    Warning: estimated covariance matrix of moment conditions not of full rank.
+             overidentification statistic not reported, and standard errors and
+             model tests should be interpreted with caution.
+    Possible causes:
+             number of clusters insufficient to calculate robust covariance matrix
+             singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
+    partial option may address problem.
+    ------------------------------------------------------------------------------
+    Instrumented:         fAA
+    Included instruments: hply wgdp dml0dly dml1dly dmdumiso1 dmdumiso2 dmdumiso3
+                          dmdumiso4 dmdumiso5 dmdumiso6 dmdumiso7 dmdumiso8
+                          dmdumiso9 dmdumiso10 dmdumiso11 dmdumiso12 dmdumiso13
+                          dmdumiso14 dmdumiso15 dmdumiso16
+    Excluded instruments: zboom
+    Dropped collinear:    zslump
+    ------------------------------------------------------------------------------
+    Warning - collinearities detected
+    Vars dropped:       zboom
+    
+    IV (2SLS) estimation
+    --------------------
+    
+    Estimates efficient for homoskedasticity only
+    Statistics robust to heteroskedasticity and clustering on iso
+    
+    Number of clusters (iso) =          17                Number of obs =      231
+                                                          F( 21,    16) =    21.01
+                                                          Prob > F      =   0.0000
+    Total (centered) SS     =  3918.949552                Centered R2   =   0.7722
+    Total (uncentered) SS   =  25315.41421                Uncentered R2 =   0.9647
+    Residual SS             =   892.929866                Root MSE      =    1.966
+    
+    ------------------------------------------------------------------------------
+                 |               Robust
+             ly3 |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+             fAA |  -.9488127   .2827481    -3.36   0.001    -1.502989   -.3946365
+            hply |  -1.865515   .1238227   -15.07   0.000    -2.108203   -1.622827
+            wgdp |  -.0242736   .1514045    -0.16   0.873    -.3210208    .2724737
+         dml0dly |   .9227503    .081175    11.37   0.000     .7636503     1.08185
+         dml1dly |   .7479047    .107969     6.93   0.000     .5362894      .95952
+       dmdumiso1 |   1.089716   .1629407     6.69   0.000     .7703583    1.409074
+       dmdumiso2 |  -.8019186   .1827406    -4.39   0.000    -1.160084   -.4437537
+       dmdumiso3 |  -.7476049     .21542    -3.47   0.001     -1.16982   -.3253895
+       dmdumiso4 |   -.306907   .1876295    -1.64   0.102    -.6746541    .0608402
+       dmdumiso5 |  -.8405349   .2032561    -4.14   0.000     -1.23891   -.4421601
+       dmdumiso6 |  -1.039337   .1310809    -7.93   0.000    -1.296251   -.7824229
+       dmdumiso7 |  -.4600075   .1956594    -2.35   0.019    -.8434928   -.0765222
+       dmdumiso8 |  -1.172438   .1365758    -8.58   0.000    -1.440121   -.9047542
+       dmdumiso9 |  -1.336118    .162989    -8.20   0.000     -1.65557   -1.016665
+      dmdumiso10 |  -.8351953   .1085308    -7.70   0.000    -1.047912   -.6224788
+      dmdumiso11 |   4.231683   .4801413     8.81   0.000     3.290623    5.172743
+      dmdumiso12 |  -1.912841   .1618982   -11.82   0.000    -2.230156   -1.595527
+      dmdumiso13 |  -1.078457   .2066297    -5.22   0.000    -1.483444   -.6734701
+      dmdumiso14 |   .0810109   .1833903     0.44   0.659    -.2784275    .4404493
+      dmdumiso15 |  -.5386233   .2045358    -2.63   0.008    -.9395061   -.1377405
+      dmdumiso16 |   .1269584   .3828482     0.33   0.740    -.6234102     .877327
+           _cons |   8.362997   .4785944    17.47   0.000     7.424969    9.301025
+    ------------------------------------------------------------------------------
+    Underidentification test (Kleibergen-Paap rk LM statistic):             11.248
+                                                       Chi-sq(1) P-val =    0.0008
+    ------------------------------------------------------------------------------
+    Weak identification test (Cragg-Donald Wald F statistic):               36.536
+                             (Kleibergen-Paap rk Wald F statistic):         27.990
+    Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
+                                             15% maximal IV size              8.96
+                                             20% maximal IV size              6.66
+                                             25% maximal IV size              5.53
+    Source: Stock-Yogo (2005).  Reproduced by permission.
+    NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
+    ------------------------------------------------------------------------------
+    Warning: estimated covariance matrix of moment conditions not of full rank.
+             overidentification statistic not reported, and standard errors and
+             model tests should be interpreted with caution.
+    Possible causes:
+             number of clusters insufficient to calculate robust covariance matrix
+             singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
+    partial option may address problem.
+    ------------------------------------------------------------------------------
+    Instrumented:         fAA
+    Included instruments: hply wgdp dml0dly dml1dly dmdumiso1 dmdumiso2 dmdumiso3
+                          dmdumiso4 dmdumiso5 dmdumiso6 dmdumiso7 dmdumiso8
+                          dmdumiso9 dmdumiso10 dmdumiso11 dmdumiso12 dmdumiso13
+                          dmdumiso14 dmdumiso15 dmdumiso16
+    Excluded instruments: zslump
+    Dropped collinear:    zboom
+    ------------------------------------------------------------------------------
+    Warning - collinearities detected
+    Vars dropped:       zslump
+    
+    IV (2SLS) estimation
+    --------------------
+    
+    Estimates efficient for homoskedasticity only
+    Statistics robust to heteroskedasticity and clustering on iso
+    
+    Number of clusters (iso) =          17                Number of obs =      180
+                                                          F( 21,    16) =    30.42
+                                                          Prob > F      =   0.0000
+    Total (centered) SS     =  4188.436097                Centered R2   =   0.8246
+    Total (uncentered) SS   =  14703.27526                Uncentered R2 =   0.9500
+    Residual SS             =  734.5555214                Root MSE      =     2.02
+    
+    ------------------------------------------------------------------------------
+                 |               Robust
+             ly4 |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+             fAA |  -.5377072    .410803    -1.31   0.191    -1.342866    .2674518
+            hply |  -2.820519   .2691166   -10.48   0.000    -3.347978    -2.29306
+            wgdp |  -.3832207   .2693794    -1.42   0.155    -.9111946    .1447533
+         dml0dly |    .824216   .2305308     3.58   0.000     .3723839    1.276048
+         dml1dly |   1.104735   .1426096     7.75   0.000     .8252256    1.384245
+       dmdumiso1 |   .6566265   .1262563     5.20   0.000     .4091688    .9040843
+       dmdumiso2 |  -2.309106   .4305632    -5.36   0.000    -3.152995   -1.465218
+       dmdumiso3 |  -2.011385    .371769    -5.41   0.000    -2.740039   -1.282732
+       dmdumiso4 |   .3849993   .2893555     1.33   0.183     -.182127    .9521256
+       dmdumiso5 |  -3.014985   .3823534    -7.89   0.000    -3.764384   -2.265586
+       dmdumiso6 |  -1.703919   .5936086    -2.87   0.004    -2.867371   -.5404677
+       dmdumiso7 |    .839024   .2189508     3.83   0.000     .4098883     1.26816
+       dmdumiso8 |  -.4598043   .3421474    -1.34   0.179    -1.130401    .2107922
+       dmdumiso9 |  -2.177324   .2862646    -7.61   0.000    -2.738392   -1.616255
+      dmdumiso10 |  -.4100472     .18541    -2.21   0.027    -.7734442   -.0466503
+      dmdumiso11 |   4.724348   .4663543    10.13   0.000      3.81031    5.638385
+      dmdumiso12 |  -2.450302   .5127739    -4.78   0.000    -3.455321   -1.445284
+      dmdumiso13 |  -2.035939   .2869165    -7.10   0.000    -2.598285   -1.473593
+      dmdumiso14 |  -1.240438   .2938345    -4.22   0.000    -1.816343    -.664533
+      dmdumiso15 |  -1.107168   .4856772    -2.28   0.023    -2.059078   -.1552583
+      dmdumiso16 |  -1.706953   .2633318    -6.48   0.000    -2.223074   -1.190832
+           _cons |   11.90457   .8166288    14.58   0.000     10.30401    13.50513
+    ------------------------------------------------------------------------------
+    Underidentification test (Kleibergen-Paap rk LM statistic):              7.552
+                                                       Chi-sq(1) P-val =    0.0060
+    ------------------------------------------------------------------------------
+    Weak identification test (Cragg-Donald Wald F statistic):               10.697
+                             (Kleibergen-Paap rk Wald F statistic):         14.427
+    Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
+                                             15% maximal IV size              8.96
+                                             20% maximal IV size              6.66
+                                             25% maximal IV size              5.53
+    Source: Stock-Yogo (2005).  Reproduced by permission.
+    NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
+    ------------------------------------------------------------------------------
+    Warning: estimated covariance matrix of moment conditions not of full rank.
+             overidentification statistic not reported, and standard errors and
+             model tests should be interpreted with caution.
+    Possible causes:
+             number of clusters insufficient to calculate robust covariance matrix
+             singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
+    partial option may address problem.
+    ------------------------------------------------------------------------------
+    Instrumented:         fAA
+    Included instruments: hply wgdp dml0dly dml1dly dmdumiso1 dmdumiso2 dmdumiso3
+                          dmdumiso4 dmdumiso5 dmdumiso6 dmdumiso7 dmdumiso8
+                          dmdumiso9 dmdumiso10 dmdumiso11 dmdumiso12 dmdumiso13
+                          dmdumiso14 dmdumiso15 dmdumiso16
+    Excluded instruments: zboom
+    Dropped collinear:    zslump
+    ------------------------------------------------------------------------------
+    Warning - collinearities detected
+    Vars dropped:       zboom
+    
+    IV (2SLS) estimation
+    --------------------
+    
+    Estimates efficient for homoskedasticity only
+    Statistics robust to heteroskedasticity and clustering on iso
+    
+    Number of clusters (iso) =          17                Number of obs =      226
+                                                          F( 21,    16) =    76.67
+                                                          Prob > F      =   0.0000
+    Total (centered) SS     =  6079.066274                Centered R2   =   0.8323
+    Total (uncentered) SS   =   43815.3115                Uncentered R2 =   0.9767
+    Residual SS             =  1019.232745                Root MSE      =    2.124
+    
+    ------------------------------------------------------------------------------
+                 |               Robust
+             ly4 |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+             fAA |  -.7920797   .2950977    -2.68   0.007    -1.370461   -.2136989
+            hply |  -2.287804   .1852443   -12.35   0.000    -2.650876   -1.924732
+            wgdp |  -.0456965   .2300774    -0.20   0.843    -.4966399     .405247
+         dml0dly |   .9422972   .1120789     8.41   0.000     .7226266    1.161968
+         dml1dly |   .9301144   .1442486     6.45   0.000     .6473923    1.212837
+       dmdumiso1 |   .8655133    .207483     4.17   0.000     .4588541    1.272172
+       dmdumiso2 |  -1.492759   .3042951    -4.91   0.000    -2.089167   -.8963519
+       dmdumiso3 |  -1.449245   .2111035    -6.87   0.000       -1.863    -1.03549
+       dmdumiso4 |  -.7414282   .2343276    -3.16   0.002    -1.200702   -.2821545
+       dmdumiso5 |  -2.061327   .2214883    -9.31   0.000    -2.495436   -1.627218
+       dmdumiso6 |  -1.807254   .1080548   -16.73   0.000    -2.019038   -1.595471
+       dmdumiso7 |  -.4985602   .2116193    -2.36   0.018    -.9133264    -.083794
+       dmdumiso8 |  -1.041696   .1927181    -5.41   0.000    -1.419416   -.6639753
+       dmdumiso9 |  -2.183861   .2124722   -10.28   0.000    -2.600299   -1.767424
+      dmdumiso10 |  -1.245444   .1037624   -12.00   0.000    -1.448815   -1.042074
+      dmdumiso11 |   6.210898   .8490271     7.32   0.000     4.546836    7.874961
+      dmdumiso12 |  -3.123677   .2664948   -11.72   0.000    -3.645997   -2.601356
+      dmdumiso13 |  -1.843569   .1849917    -9.97   0.000    -2.206146   -1.480992
+      dmdumiso14 |  -.2789489   .1478989    -1.89   0.059    -.5688254    .0109277
+      dmdumiso15 |  -.0026719   .2758483    -0.01   0.992    -.5433247    .5379809
+      dmdumiso16 |  -.5793081    .347568    -1.67   0.096    -1.260529    .1019126
+           _cons |   11.07666   .7009114    15.80   0.000     9.702896    12.45042
+    ------------------------------------------------------------------------------
+    Underidentification test (Kleibergen-Paap rk LM statistic):             11.719
+                                                       Chi-sq(1) P-val =    0.0006
+    ------------------------------------------------------------------------------
+    Weak identification test (Cragg-Donald Wald F statistic):               41.613
+                             (Kleibergen-Paap rk Wald F statistic):         28.816
+    Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
+                                             15% maximal IV size              8.96
+                                             20% maximal IV size              6.66
+                                             25% maximal IV size              5.53
+    Source: Stock-Yogo (2005).  Reproduced by permission.
+    NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
+    ------------------------------------------------------------------------------
+    Warning: estimated covariance matrix of moment conditions not of full rank.
+             overidentification statistic not reported, and standard errors and
+             model tests should be interpreted with caution.
+    Possible causes:
+             number of clusters insufficient to calculate robust covariance matrix
+             singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
+    partial option may address problem.
+    ------------------------------------------------------------------------------
+    Instrumented:         fAA
+    Included instruments: hply wgdp dml0dly dml1dly dmdumiso1 dmdumiso2 dmdumiso3
+                          dmdumiso4 dmdumiso5 dmdumiso6 dmdumiso7 dmdumiso8
+                          dmdumiso9 dmdumiso10 dmdumiso11 dmdumiso12 dmdumiso13
+                          dmdumiso14 dmdumiso15 dmdumiso16
+    Excluded instruments: zslump
+    Dropped collinear:    zboom
+    ------------------------------------------------------------------------------
+    Warning - collinearities detected
+    Vars dropped:       zslump
+    
+    IV (2SLS) estimation
+    --------------------
+    
+    Estimates efficient for homoskedasticity only
+    Statistics robust to heteroskedasticity and clustering on iso
+    
+    Number of clusters (iso) =          17                Number of obs =      175
+                                                          F( 21,    16) =    33.77
+                                                          Prob > F      =   0.0000
+    Total (centered) SS     =  5077.430846                Centered R2   =   0.7769
+    Total (uncentered) SS   =  21855.72521                Uncentered R2 =   0.9482
+    Residual SS             =  1132.922673                Root MSE      =    2.544
+    
+    ------------------------------------------------------------------------------
+                 |               Robust
+             ly5 |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+             fAA |  -.6728448   .4058634    -1.66   0.097    -1.468323     .122633
+            hply |  -2.596845   .2987792    -8.69   0.000    -3.182441   -2.011248
+            wgdp |  -.7995731   .3215211    -2.49   0.013    -1.429743   -.1694033
+         dml0dly |   .7288918   .2710985     2.69   0.007     .1975485    1.260235
+         dml1dly |   1.270258   .2005189     6.33   0.000     .8772484    1.663268
+       dmdumiso1 |   1.284588   .1643523     7.82   0.000     .9624629    1.606712
+       dmdumiso2 |  -2.631679   .5194195    -5.07   0.000    -3.649723   -1.613636
+       dmdumiso3 |  -2.781038   .5094634    -5.46   0.000    -3.779568   -1.782508
+       dmdumiso4 |  -.3526093   .3503781    -1.01   0.314    -1.039338    .3341191
+       dmdumiso5 |   -3.57745   .6130143    -5.84   0.000    -4.778936   -2.375964
+       dmdumiso6 |  -2.790219   .6809858    -4.10   0.000    -4.124927   -1.455512
+       dmdumiso7 |   .0684883   .3639555     0.19   0.851    -.6448514     .781828
+       dmdumiso8 |  -2.047436   .3918138    -5.23   0.000    -2.815377   -1.279495
+       dmdumiso9 |  -3.392557   .4936032    -6.87   0.000    -4.360002   -2.425113
+      dmdumiso10 |  -1.333592   .2835485    -4.70   0.000    -1.889337   -.7778473
+      dmdumiso11 |    6.35351   .5289008    12.01   0.000     5.316884    7.390137
+      dmdumiso12 |  -3.616838   .6692817    -5.40   0.000    -4.928606    -2.30507
+      dmdumiso13 |  -4.410938   .3790328   -11.64   0.000    -5.153829   -3.668048
+      dmdumiso14 |  -1.388472    .453284    -3.06   0.002    -2.276892   -.5000516
+      dmdumiso15 |  -2.227743   .5331546    -4.18   0.000    -3.272706   -1.182779
+      dmdumiso16 |  -2.833869   .4449277    -6.37   0.000    -3.705911   -1.961827
+           _cons |   14.90486   .9907541    15.04   0.000     12.96301     16.8467
+    ------------------------------------------------------------------------------
+    Underidentification test (Kleibergen-Paap rk LM statistic):              7.755
+                                                       Chi-sq(1) P-val =    0.0054
+    ------------------------------------------------------------------------------
+    Weak identification test (Cragg-Donald Wald F statistic):               11.344
+                             (Kleibergen-Paap rk Wald F statistic):         14.748
+    Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
+                                             15% maximal IV size              8.96
+                                             20% maximal IV size              6.66
+                                             25% maximal IV size              5.53
+    Source: Stock-Yogo (2005).  Reproduced by permission.
+    NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
+    ------------------------------------------------------------------------------
+    Warning: estimated covariance matrix of moment conditions not of full rank.
+             overidentification statistic not reported, and standard errors and
+             model tests should be interpreted with caution.
+    Possible causes:
+             number of clusters insufficient to calculate robust covariance matrix
+             singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
+    partial option may address problem.
+    ------------------------------------------------------------------------------
+    Instrumented:         fAA
+    Included instruments: hply wgdp dml0dly dml1dly dmdumiso1 dmdumiso2 dmdumiso3
+                          dmdumiso4 dmdumiso5 dmdumiso6 dmdumiso7 dmdumiso8
+                          dmdumiso9 dmdumiso10 dmdumiso11 dmdumiso12 dmdumiso13
+                          dmdumiso14 dmdumiso15 dmdumiso16
+    Excluded instruments: zboom
+    Dropped collinear:    zslump
+    ------------------------------------------------------------------------------
+    Warning - collinearities detected
+    Vars dropped:       zboom
+    
+    IV (2SLS) estimation
+    --------------------
+    
+    Estimates efficient for homoskedasticity only
+    Statistics robust to heteroskedasticity and clustering on iso
+    
+    Number of clusters (iso) =          17                Number of obs =      214
+                                                          F( 21,    16) =    59.15
+                                                          Prob > F      =   0.0000
+    Total (centered) SS     =  8121.787859                Centered R2   =   0.8230
+    Total (uncentered) SS   =  63788.92268                Uncentered R2 =   0.9775
+    Residual SS             =  1437.322874                Root MSE      =    2.592
+    
+    ------------------------------------------------------------------------------
+                 |               Robust
+             ly5 |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+             fAA |  -.9362862   .3857872    -2.43   0.015    -1.692415   -.1801572
+            hply |  -2.643197   .2771629    -9.54   0.000    -3.186427   -2.099968
+            wgdp |  -.3147605   .3093148    -1.02   0.309    -.9210064    .2914854
+         dml0dly |   1.014306   .1913614     5.30   0.000     .6392446    1.389368
+         dml1dly |   .8971677   .1941319     4.62   0.000     .5166762    1.277659
+       dmdumiso1 |   1.079427   .2687712     4.02   0.000     .5526455    1.606209
+       dmdumiso2 |  -1.937944   .4755008    -4.08   0.000    -2.869909    -1.00598
+       dmdumiso3 |  -1.952523   .4752954    -4.11   0.000    -2.884085   -1.020961
+       dmdumiso4 |  -.7712556   .2442853    -3.16   0.002    -1.250046   -.2924651
+       dmdumiso5 |  -3.035963   .4324323    -7.02   0.000    -3.883515   -2.188411
+       dmdumiso6 |  -2.585342   .2193311   -11.79   0.000    -3.015223    -2.15546
+       dmdumiso7 |  -.0944061   .2622234    -0.36   0.719    -.6083545    .4195423
+       dmdumiso8 |  -1.204582   .2389487    -5.04   0.000    -1.672912   -.7362507
+       dmdumiso9 |  -2.807365   .3998639    -7.02   0.000    -3.591084   -2.023646
+      dmdumiso10 |  -1.440565   .1652659    -8.72   0.000    -1.764481    -1.11665
+      dmdumiso11 |   8.614063   1.165398     7.39   0.000     6.329925     10.8982
+      dmdumiso12 |  -4.321753   .4116204   -10.50   0.000    -5.128514   -3.514992
+      dmdumiso13 |  -1.666792   .3287611    -5.07   0.000    -2.311152   -1.022433
+      dmdumiso14 |  -.7646259   .2797518    -2.73   0.006    -1.312929   -.2163225
+      dmdumiso15 |   .2539204   .3247002     0.78   0.434    -.3824802    .8903211
+      dmdumiso16 |  -1.161474   .4871111    -2.38   0.017    -2.116194   -.2067537
+           _cons |    14.4158   .8729989    16.51   0.000     12.70476    16.12685
+    ------------------------------------------------------------------------------
+    Underidentification test (Kleibergen-Paap rk LM statistic):             11.382
+                                                       Chi-sq(1) P-val =    0.0007
+    ------------------------------------------------------------------------------
+    Weak identification test (Cragg-Donald Wald F statistic):               41.728
+                             (Kleibergen-Paap rk Wald F statistic):         28.555
+    Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
+                                             15% maximal IV size              8.96
+                                             20% maximal IV size              6.66
+                                             25% maximal IV size              5.53
+    Source: Stock-Yogo (2005).  Reproduced by permission.
+    NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
+    ------------------------------------------------------------------------------
+    Warning: estimated covariance matrix of moment conditions not of full rank.
+             overidentification statistic not reported, and standard errors and
+             model tests should be interpreted with caution.
+    Possible causes:
+             number of clusters insufficient to calculate robust covariance matrix
+             singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
+    partial option may address problem.
+    ------------------------------------------------------------------------------
+    Instrumented:         fAA
+    Included instruments: hply wgdp dml0dly dml1dly dmdumiso1 dmdumiso2 dmdumiso3
+                          dmdumiso4 dmdumiso5 dmdumiso6 dmdumiso7 dmdumiso8
+                          dmdumiso9 dmdumiso10 dmdumiso11 dmdumiso12 dmdumiso13
+                          dmdumiso14 dmdumiso15 dmdumiso16
+    Excluded instruments: zslump
+    Dropped collinear:    zboom
+    ------------------------------------------------------------------------------
+    Warning - collinearities detected
+    Vars dropped:       zslump
+    
+    IV (2SLS) estimation
+    --------------------
+    
+    Estimates efficient for homoskedasticity only
+    Statistics robust to heteroskedasticity and clustering on iso
+    
+    Number of clusters (iso) =          17                Number of obs =      175
+                                                          F( 21,    16) =   111.84
+                                                          Prob > F      =   0.0000
+    Total (centered) SS     =  55881.87671                Centered R2   =   0.8773
+    Total (uncentered) SS   =  195391.7526                Uncentered R2 =   0.9649
+    Residual SS             =  6858.792196                Root MSE      =     6.26
+    
+    ------------------------------------------------------------------------------
+                 |               Robust
+             ly6 |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+             fAA |  -1.176815    1.39683    -0.84   0.400    -3.914551    1.560921
+            hply |  -10.15655   .9256371   -10.97   0.000    -11.97076   -8.342333
+            wgdp |  -1.083961   1.064961    -1.02   0.309    -3.171246    1.003325
+         dml0dly |   4.512944   .8612774     5.24   0.000     2.824871    6.201017
+         dml1dly |   4.019718   .3951327    10.17   0.000     3.245272    4.794164
+       dmdumiso1 |   .9307568   .4754751     1.96   0.050    -.0011573    1.862671
+       dmdumiso2 |  -7.330686   1.332508    -5.50   0.000    -9.942355   -4.719018
+       dmdumiso3 |  -6.489292   1.114631    -5.82   0.000    -8.673929   -4.304656
+       dmdumiso4 |   .3189855   .8893474     0.36   0.720    -1.424103    2.062074
+       dmdumiso5 |  -9.446556   1.184363    -7.98   0.000    -11.76787   -7.125246
+       dmdumiso6 |  -4.336595    2.09052    -2.07   0.038    -8.433939   -.2392512
+       dmdumiso7 |   3.052681   .8173139     3.74   0.000     1.450775    4.654586
+       dmdumiso8 |  -.6895728   1.196864    -0.58   0.565    -3.035384    1.656238
+       dmdumiso9 |  -6.193807   .7665944    -8.08   0.000    -7.696304   -4.691309
+      dmdumiso10 |  -.3070739   .5467666    -0.56   0.574    -1.378717     .764569
+      dmdumiso11 |    13.6118   2.048779     6.64   0.000     9.596265    17.62733
+      dmdumiso12 |  -8.297355   1.630575    -5.09   0.000    -11.49322   -5.101487
+      dmdumiso13 |  -7.015296   .9365579    -7.49   0.000    -8.850916   -5.179677
+      dmdumiso14 |  -3.221251   .8105432    -3.97   0.000    -4.809886   -1.632615
+      dmdumiso15 |  -2.748137   1.751378    -1.57   0.117    -6.180775    .6845004
+      dmdumiso16 |  -4.458392   .8496793    -5.25   0.000    -6.123732   -2.793051
+           _cons |   42.63202   2.998416    14.22   0.000     36.75524    48.50881
+    ------------------------------------------------------------------------------
+    Underidentification test (Kleibergen-Paap rk LM statistic):              7.755
+                                                       Chi-sq(1) P-val =    0.0054
+    ------------------------------------------------------------------------------
+    Weak identification test (Cragg-Donald Wald F statistic):               11.344
+                             (Kleibergen-Paap rk Wald F statistic):         14.748
+    Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
+                                             15% maximal IV size              8.96
+                                             20% maximal IV size              6.66
+                                             25% maximal IV size              5.53
+    Source: Stock-Yogo (2005).  Reproduced by permission.
+    NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
+    ------------------------------------------------------------------------------
+    Warning: estimated covariance matrix of moment conditions not of full rank.
+             overidentification statistic not reported, and standard errors and
+             model tests should be interpreted with caution.
+    Possible causes:
+             number of clusters insufficient to calculate robust covariance matrix
+             singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
+    partial option may address problem.
+    ------------------------------------------------------------------------------
+    Instrumented:         fAA
+    Included instruments: hply wgdp dml0dly dml1dly dmdumiso1 dmdumiso2 dmdumiso3
+                          dmdumiso4 dmdumiso5 dmdumiso6 dmdumiso7 dmdumiso8
+                          dmdumiso9 dmdumiso10 dmdumiso11 dmdumiso12 dmdumiso13
+                          dmdumiso14 dmdumiso15 dmdumiso16
+    Excluded instruments: zboom
+    Dropped collinear:    zslump
+    ------------------------------------------------------------------------------
+    Warning - collinearities detected
+    Vars dropped:       zboom
+    
+    IV (2SLS) estimation
+    --------------------
+    
+    Estimates efficient for homoskedasticity only
+    Statistics robust to heteroskedasticity and clustering on iso
+    
+    Number of clusters (iso) =          17                Number of obs =      214
+                                                          F( 21,    16) =   105.03
+                                                          Prob > F      =   0.0000
+    Total (centered) SS     =  81046.40543                Centered R2   =   0.8649
+    Total (uncentered) SS   =  582769.6867                Uncentered R2 =   0.9812
+    Residual SS             =  10948.43181                Root MSE      =    7.153
+    
+    ------------------------------------------------------------------------------
+                 |               Robust
+             ly6 |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+             fAA |  -3.376282   1.010138    -3.34   0.001    -5.356117   -1.396447
+            hply |  -9.012774   .5384134   -16.74   0.000    -10.06804   -7.957503
+            wgdp |  -.7863847     .72064    -1.09   0.275    -2.198813    .6260439
+         dml0dly |   4.131726    .346584    11.92   0.000     3.452434    4.811018
+         dml1dly |   3.463849   .4715045     7.35   0.000     2.539717    4.387981
+       dmdumiso1 |   4.803013   .6157016     7.80   0.000      3.59626    6.009766
+       dmdumiso2 |  -3.883223   .9060149    -4.29   0.000    -5.658979   -2.107466
+       dmdumiso3 |  -3.832991   .8141563    -4.71   0.000    -5.428708   -2.237274
+       dmdumiso4 |  -1.697824   .7476366    -2.27   0.023    -3.163165   -.2324831
+       dmdumiso5 |   -5.56568   .7393794    -7.53   0.000    -7.014837   -4.116523
+       dmdumiso6 |  -7.087948   .3584319   -19.77   0.000    -7.790461   -6.385434
+       dmdumiso7 |  -1.291839   .7087664    -1.82   0.068    -2.680995    .0973179
+       dmdumiso8 |  -6.086423   .7067413    -8.61   0.000    -7.471611   -4.701236
+       dmdumiso9 |  -6.798634   .7145028    -9.52   0.000    -8.199034   -5.398234
+      dmdumiso10 |  -4.312143    .390723   -11.04   0.000    -5.077946    -3.54634
+      dmdumiso11 |   22.35727   2.584488     8.65   0.000     17.29176    27.42277
+      dmdumiso12 |  -9.942226   .8107415   -12.26   0.000    -11.53125   -8.353202
+      dmdumiso13 |  -4.642113   .6779455    -6.85   0.000    -5.970862   -3.313364
+      dmdumiso14 |   -.790846   .5130189    -1.54   0.123    -1.796345    .2146525
+      dmdumiso15 |   -.519091   .8246087    -0.63   0.529    -2.135294    1.097112
+      dmdumiso16 |  -2.279411   1.240389    -1.84   0.066    -4.710528    .1517061
+           _cons |   42.28442   2.160711    19.57   0.000     38.04951    46.51934
+    ------------------------------------------------------------------------------
+    Underidentification test (Kleibergen-Paap rk LM statistic):             11.382
+                                                       Chi-sq(1) P-val =    0.0007
+    ------------------------------------------------------------------------------
+    Weak identification test (Cragg-Donald Wald F statistic):               41.728
+                             (Kleibergen-Paap rk Wald F statistic):         28.555
+    Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
+                                             15% maximal IV size              8.96
+                                             20% maximal IV size              6.66
+                                             25% maximal IV size              5.53
+    Source: Stock-Yogo (2005).  Reproduced by permission.
+    NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
+    ------------------------------------------------------------------------------
+    Warning: estimated covariance matrix of moment conditions not of full rank.
+             overidentification statistic not reported, and standard errors and
+             model tests should be interpreted with caution.
+    Possible causes:
+             number of clusters insufficient to calculate robust covariance matrix
+             singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
+    partial option may address problem.
+    ------------------------------------------------------------------------------
+    Instrumented:         fAA
+    Included instruments: hply wgdp dml0dly dml1dly dmdumiso1 dmdumiso2 dmdumiso3
+                          dmdumiso4 dmdumiso5 dmdumiso6 dmdumiso7 dmdumiso8
+                          dmdumiso9 dmdumiso10 dmdumiso11 dmdumiso12 dmdumiso13
+                          dmdumiso14 dmdumiso15 dmdumiso16
+    Excluded instruments: zslump
+    Dropped collinear:    zboom
+    ------------------------------------------------------------------------------
+    
+    end of do-file
+    
+    . forvalues i = 1/6   {
+      2.     foreach c in boom slump {
+      3.         * #the dummy for the U.S. is dropped to avoid collinearity with the constant
+      4.     }
+      5. }
+    Warning - collinearities detected
+    Vars dropped:       zslump
+    
+    IV (2SLS) estimation
+    --------------------
+    
+    Estimates efficient for homoskedasticity only
+    Statistics robust to heteroskedasticity and clustering on iso
+    
+    Number of clusters (iso) =          17                Number of obs =      222
+                                                          F( 21,    16) =    14.11
+                                                          Prob > F      =   0.0000
+    Total (centered) SS     =  841.2086444                Centered R2   =   0.4642
+    Total (uncentered) SS   =  1897.843827                Uncentered R2 =   0.7625
+    Residual SS             =  450.7263607                Root MSE      =    1.425
+    
+    ------------------------------------------------------------------------------
+                 |               Robust
+             ly1 |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+             fAA |  -.3158274    .293822    -1.07   0.282    -.8917079    .2600531
+            hply |  -.7359433   .0847768    -8.68   0.000    -.9021029   -.5697838
+            wgdp |   .4063388   .0582553     6.98   0.000     .2921605     .520517
+         dml0dly |   .7314091   .1195985     6.12   0.000     .4970003    .9658179
+         dml1dly |   .2337827   .0911536     2.56   0.010     .0551251    .4124404
+       dmdumiso1 |  -.1560689   .0702595    -2.22   0.026    -.2937749   -.0183628
+       dmdumiso2 |   .1873032   .2136184     0.88   0.381    -.2313811    .6059875
+       dmdumiso3 |   .0698411   .0823605     0.85   0.396    -.0915825    .2312646
+       dmdumiso4 |   .2780811   .0807293     3.44   0.001     .1198546    .4363077
+       dmdumiso5 |  -.2915037   .0975401    -2.99   0.003    -.4826787   -.1003287
+       dmdumiso6 |     .39013   .1193681     3.27   0.001     .1561727    .6240872
+       dmdumiso7 |   .6107713   .0440071    13.88   0.000     .5245189    .6970238
+       dmdumiso8 |   .6379183   .0817356     7.80   0.000     .4777195    .7981171
+       dmdumiso9 |    .160365   .0918071     1.75   0.081    -.0195735    .3403035
+      dmdumiso10 |   .5416968   .0427932    12.66   0.000     .4578236      .62557
+      dmdumiso11 |   .8891748   .0983224     9.04   0.000     .6964664    1.081883
+      dmdumiso12 |   .2440544   .2371859     1.03   0.303    -.2208215    .7089302
+      dmdumiso13 |   .1083417   .0921436     1.18   0.240    -.0722564    .2889398
+      dmdumiso14 |   .3020459   .0617321     4.89   0.000     .1810532    .4230386
+      dmdumiso15 |   .7796383   .2197486     3.55   0.000     .3489389    1.210338
+      dmdumiso16 |   .4620693   .0857349     5.39   0.000      .294032    .6301065
+           _cons |   1.393791   .2458352     5.67   0.000     .9119625    1.875619
+    ------------------------------------------------------------------------------
+    Underidentification test (Kleibergen-Paap rk LM statistic):              7.274
+                                                       Chi-sq(1) P-val =    0.0070
+    ------------------------------------------------------------------------------
+    Weak identification test (Cragg-Donald Wald F statistic):               10.405
+                             (Kleibergen-Paap rk Wald F statistic):         11.504
+    Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
+                                             15% maximal IV size              8.96
+                                             20% maximal IV size              6.66
+                                             25% maximal IV size              5.53
+    Source: Stock-Yogo (2005).  Reproduced by permission.
+    NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
+    ------------------------------------------------------------------------------
+    Warning: estimated covariance matrix of moment conditions not of full rank.
+             overidentification statistic not reported, and standard errors and
+             model tests should be interpreted with caution.
+    Possible causes:
+             number of clusters insufficient to calculate robust covariance matrix
+             singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
+    partial option may address problem.
+    ------------------------------------------------------------------------------
+    Instrumented:         fAA
+    Included instruments: hply wgdp dml0dly dml1dly dmdumiso1 dmdumiso2 dmdumiso3
+                          dmdumiso4 dmdumiso5 dmdumiso6 dmdumiso7 dmdumiso8
+                          dmdumiso9 dmdumiso10 dmdumiso11 dmdumiso12 dmdumiso13
+                          dmdumiso14 dmdumiso15 dmdumiso16
+    Excluded instruments: zboom
+    Dropped collinear:    zslump
+    ------------------------------------------------------------------------------
+    Warning - collinearities detected
+    Vars dropped:       zboom
+    
+    IV (2SLS) estimation
+    --------------------
+    
+    Estimates efficient for homoskedasticity only
+    Statistics robust to heteroskedasticity and clustering on iso
+    
+    Number of clusters (iso) =          17                Number of obs =      235
+                                                          F( 21,    16) =    31.86
+                                                          Prob > F      =   0.0000
+    Total (centered) SS     =  745.7133475                Centered R2   =   0.6259
+    Total (uncentered) SS   =   2779.65654                Uncentered R2 =   0.8996
+    Residual SS             =    279.00785                Root MSE      =     1.09
+    
+    ------------------------------------------------------------------------------
+                 |               Robust
+             ly1 |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+             fAA |  -.2448995   .1410079    -1.74   0.082      -.52127     .031471
+            hply |   -.676167   .0816099    -8.29   0.000    -.8361194   -.5162145
+            wgdp |   .0741493   .0625606     1.19   0.236    -.0484673    .1967659
+         dml0dly |   .4613824   .0491009     9.40   0.000     .3651464    .5576183
+         dml1dly |   .2428548   .0318843     7.62   0.000     .1803627    .3053469
+       dmdumiso1 |   .4936066   .0689342     7.16   0.000      .358498    .6287152
+       dmdumiso2 |  -.0433635   .0738965    -0.59   0.557    -.1881979    .1014709
+       dmdumiso3 |  -.1005017   .1326426    -0.76   0.449    -.3604764    .1594731
+       dmdumiso4 |  -.0503195   .1193579    -0.42   0.673    -.2842567    .1836178
+       dmdumiso5 |  -.0240299   .1294306    -0.19   0.853    -.2777093    .2296495
+       dmdumiso6 |  -.3694762   .0849024    -4.35   0.000    -.5358818   -.2030706
+       dmdumiso7 |  -.2438081   .1107262    -2.20   0.028    -.4608276   -.0267887
+       dmdumiso8 |  -.6233416   .1191856    -5.23   0.000    -.8569411   -.3897421
+       dmdumiso9 |  -.1626569   .0910388    -1.79   0.074    -.3410897    .0157759
+      dmdumiso10 |   -.471608   .0779111    -6.05   0.000     -.624311   -.3189051
+      dmdumiso11 |   .8504716   .1223608     6.95   0.000     .6106489    1.090294
+      dmdumiso12 |  -.2527043   .0625144    -4.04   0.000    -.3752303   -.1301783
+      dmdumiso13 |  -.1590286   .1192337    -1.33   0.182    -.3927223    .0746651
+      dmdumiso14 |  -.0036461   .0991617    -0.04   0.971    -.1979995    .1907072
+      dmdumiso15 |  -.5594509   .1279766    -4.37   0.000    -.8102803   -.3086214
+      dmdumiso16 |  -.1588354   .2172271    -0.73   0.465    -.5845927    .2669219
+           _cons |   2.210789   .3028499     7.30   0.000     1.617214    2.804364
+    ------------------------------------------------------------------------------
+    Underidentification test (Kleibergen-Paap rk LM statistic):             12.311
+                                                       Chi-sq(1) P-val =    0.0005
+    ------------------------------------------------------------------------------
+    Weak identification test (Cragg-Donald Wald F statistic):               40.105
+                             (Kleibergen-Paap rk Wald F statistic):         32.893
+    Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
+                                             15% maximal IV size              8.96
+                                             20% maximal IV size              6.66
+                                             25% maximal IV size              5.53
+    Source: Stock-Yogo (2005).  Reproduced by permission.
+    NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
+    ------------------------------------------------------------------------------
+    Warning: estimated covariance matrix of moment conditions not of full rank.
+             overidentification statistic not reported, and standard errors and
+             model tests should be interpreted with caution.
+    Possible causes:
+             number of clusters insufficient to calculate robust covariance matrix
+             singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
+    partial option may address problem.
+    ------------------------------------------------------------------------------
+    Instrumented:         fAA
+    Included instruments: hply wgdp dml0dly dml1dly dmdumiso1 dmdumiso2 dmdumiso3
+                          dmdumiso4 dmdumiso5 dmdumiso6 dmdumiso7 dmdumiso8
+                          dmdumiso9 dmdumiso10 dmdumiso11 dmdumiso12 dmdumiso13
+                          dmdumiso14 dmdumiso15 dmdumiso16
+    Excluded instruments: zslump
+    Dropped collinear:    zboom
+    ------------------------------------------------------------------------------
+    Warning - collinearities detected
+    Vars dropped:       zslump
+    
+    IV (2SLS) estimation
+    --------------------
+    
+    Estimates efficient for homoskedasticity only
+    Statistics robust to heteroskedasticity and clustering on iso
+    
+    Number of clusters (iso) =          17                Number of obs =      205
+                                                          F( 21,    16) =    16.26
+                                                          Prob > F      =   0.0000
+    Total (centered) SS     =  2283.818034                Centered R2   =   0.6787
+    Total (uncentered) SS   =  5507.883845                Uncentered R2 =   0.8668
+    Residual SS             =  733.7946971                Root MSE      =    1.892
+    
+    ------------------------------------------------------------------------------
+                 |               Robust
+             ly2 |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+             fAA |  -.3330604   .4792317    -0.69   0.487    -1.272337    .6062165
+            hply |  -1.782973   .1814477    -9.83   0.000    -2.138604   -1.427342
+            wgdp |   .5007819   .1418014     3.53   0.000     .2228562    .7787076
+         dml0dly |   1.029496   .1535952     6.70   0.000     .7284549    1.330537
+         dml1dly |   .6012357   .0967459     6.21   0.000     .4116173    .7908542
+       dmdumiso1 |  -.3758698   .1321392    -2.84   0.004    -.6348578   -.1168818
+       dmdumiso2 |   -.323351   .3307569    -0.98   0.328    -.9716227    .3249206
+       dmdumiso3 |  -.2480847   .1958187    -1.27   0.205    -.6318823    .1357128
+       dmdumiso4 |   .4072967   .1519266     2.68   0.007     .1095261    .7050672
+       dmdumiso5 |  -.8462898   .1976517    -4.28   0.000     -1.23368   -.4588997
+       dmdumiso6 |   .3311078   .3153927     1.05   0.294    -.2870506    .9492662
+       dmdumiso7 |   1.323163    .081144    16.31   0.000     1.164124    1.482202
+       dmdumiso8 |   1.307086   .1708045     7.65   0.000     .9723153    1.641857
+       dmdumiso9 |   .1738825   .1218744     1.43   0.154     -.064987     .412752
+      dmdumiso10 |   .7981254   .0774674    10.30   0.000     .6462922    .9499587
+      dmdumiso11 |   1.946521   .2155191     9.03   0.000     1.524112    2.368931
+      dmdumiso12 |  -.1604372   .3734224    -0.43   0.667    -.8923316    .5714572
+      dmdumiso13 |   -.114544   .1126692    -1.02   0.309    -.3353716    .1062836
+      dmdumiso14 |   .1416128   .1229572     1.15   0.249    -.0993788    .3826044
+      dmdumiso15 |   .9890973   .3292773     3.00   0.003     .3437257    1.634469
+      dmdumiso16 |   .4071206   .1502175     2.71   0.007     .1126997    .7015415
+           _cons |   4.066012   .5319504     7.64   0.000     3.023408    5.108615
+    ------------------------------------------------------------------------------
+    Underidentification test (Kleibergen-Paap rk LM statistic):              6.746
+                                                       Chi-sq(1) P-val =    0.0094
+    ------------------------------------------------------------------------------
+    Weak identification test (Cragg-Donald Wald F statistic):                8.850
+                             (Kleibergen-Paap rk Wald F statistic):         10.312
+    Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
+                                             15% maximal IV size              8.96
+                                             20% maximal IV size              6.66
+                                             25% maximal IV size              5.53
+    Source: Stock-Yogo (2005).  Reproduced by permission.
+    NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
+    ------------------------------------------------------------------------------
+    Warning: estimated covariance matrix of moment conditions not of full rank.
+             overidentification statistic not reported, and standard errors and
+             model tests should be interpreted with caution.
+    Possible causes:
+             number of clusters insufficient to calculate robust covariance matrix
+             singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
+    partial option may address problem.
+    ------------------------------------------------------------------------------
+    Instrumented:         fAA
+    Included instruments: hply wgdp dml0dly dml1dly dmdumiso1 dmdumiso2 dmdumiso3
+                          dmdumiso4 dmdumiso5 dmdumiso6 dmdumiso7 dmdumiso8
+                          dmdumiso9 dmdumiso10 dmdumiso11 dmdumiso12 dmdumiso13
+                          dmdumiso14 dmdumiso15 dmdumiso16
+    Excluded instruments: zboom
+    Dropped collinear:    zslump
+    ------------------------------------------------------------------------------
+    Warning - collinearities detected
+    Vars dropped:       zboom
+    
+    IV (2SLS) estimation
+    --------------------
+    
+    Estimates efficient for homoskedasticity only
+    Statistics robust to heteroskedasticity and clustering on iso
+    
+    Number of clusters (iso) =          17                Number of obs =      235
+                                                          F( 21,    16) =    39.82
+                                                          Prob > F      =   0.0000
+    Total (centered) SS     =  2138.177252                Centered R2   =   0.6860
+    Total (uncentered) SS   =  11385.37474                Uncentered R2 =   0.9410
+    Residual SS             =  671.3493062                Root MSE      =     1.69
+    
+    ------------------------------------------------------------------------------
+                 |               Robust
+             ly2 |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+             fAA |  -.7608772   .2267663    -3.36   0.001    -1.205331   -.3164234
+            hply |  -1.352506   .1253488   -10.79   0.000    -1.598185   -1.106827
+            wgdp |  -.0655632   .0847923    -0.77   0.439    -.2317531    .1006267
+         dml0dly |    .725014   .0620552    11.68   0.000     .6033881    .8466398
+         dml1dly |   .5672649   .0635592     8.92   0.000     .4426912    .6918386
+       dmdumiso1 |   1.196554    .115208    10.39   0.000     .9707507    1.422358
+       dmdumiso2 |   .0426498   .1454277     0.29   0.769    -.2423833    .3276828
+       dmdumiso3 |    .087382   .2276494     0.38   0.701    -.3588027    .5335667
+       dmdumiso4 |   .2138332    .134523     1.59   0.112     -.049827    .4774934
+       dmdumiso5 |   .1878044   .2135877     0.88   0.379    -.2308199    .6064287
+       dmdumiso6 |  -.3917207    .140747    -2.78   0.005    -.6675799   -.1158616
+       dmdumiso7 |  -.0787986   .1540987    -0.51   0.609    -.3808265    .2232292
+       dmdumiso8 |  -.9303714   .1101933    -8.44   0.000    -1.146346   -.7143964
+       dmdumiso9 |  -.3647366   .1566977    -2.33   0.020    -.6718585   -.0576147
+      dmdumiso10 |  -.4476766   .0964312    -4.64   0.000    -.6366783   -.2586749
+      dmdumiso11 |   2.908572   .2227108    13.06   0.000     2.472067    3.345077
+      dmdumiso12 |   -.638209   .1167677    -5.47   0.000    -.8670695   -.4093486
+      dmdumiso13 |  -.1366367   .1921664    -0.71   0.477     -.513276    .2400025
+      dmdumiso14 |   .4307392   .1761036     2.45   0.014     .0855824     .775896
+      dmdumiso15 |  -.2613423   .1205145    -2.17   0.030    -.4975463   -.0251382
+      dmdumiso16 |   .5200999   .3367559     1.54   0.122    -.1399295    1.180129
+           _cons |   5.614446   .3052944    18.39   0.000      5.01608    6.212812
+    ------------------------------------------------------------------------------
+    Underidentification test (Kleibergen-Paap rk LM statistic):             12.311
+                                                       Chi-sq(1) P-val =    0.0005
+    ------------------------------------------------------------------------------
+    Weak identification test (Cragg-Donald Wald F statistic):               40.105
+                             (Kleibergen-Paap rk Wald F statistic):         32.893
+    Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
+                                             15% maximal IV size              8.96
+                                             20% maximal IV size              6.66
+                                             25% maximal IV size              5.53
+    Source: Stock-Yogo (2005).  Reproduced by permission.
+    NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
+    ------------------------------------------------------------------------------
+    Warning: estimated covariance matrix of moment conditions not of full rank.
+             overidentification statistic not reported, and standard errors and
+             model tests should be interpreted with caution.
+    Possible causes:
+             number of clusters insufficient to calculate robust covariance matrix
+             singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
+    partial option may address problem.
+    ------------------------------------------------------------------------------
+    Instrumented:         fAA
+    Included instruments: hply wgdp dml0dly dml1dly dmdumiso1 dmdumiso2 dmdumiso3
+                          dmdumiso4 dmdumiso5 dmdumiso6 dmdumiso7 dmdumiso8
+                          dmdumiso9 dmdumiso10 dmdumiso11 dmdumiso12 dmdumiso13
+                          dmdumiso14 dmdumiso15 dmdumiso16
+    Excluded instruments: zslump
+    Dropped collinear:    zboom
+    ------------------------------------------------------------------------------
+    Warning - collinearities detected
+    Vars dropped:       zslump
+    
+    IV (2SLS) estimation
+    --------------------
+    
+    Estimates efficient for homoskedasticity only
+    Statistics robust to heteroskedasticity and clustering on iso
+    
+    Number of clusters (iso) =          17                Number of obs =      192
+                                                          F( 21,    16) =    27.92
+                                                          Prob > F      =   0.0000
+    Total (centered) SS     =  3476.505858                Centered R2   =   0.8170
+    Total (uncentered) SS   =  9848.585745                Uncentered R2 =   0.9354
+    Residual SS             =  636.3418694                Root MSE      =    1.821
+    
+    ------------------------------------------------------------------------------
+                 |               Robust
+             ly3 |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+             fAA |  -.1389606   .4663065    -0.30   0.766    -1.052905    .7749833
+            hply |  -2.528579   .2452102   -10.31   0.000    -3.009183   -2.047976
+            wgdp |    .160872   .2039923     0.79   0.430    -.2389457    .5606896
+         dml0dly |   .9746789   .1941436     5.02   0.000     .5941644    1.355193
+         dml1dly |   .8284089   .0961573     8.62   0.000      .639944    1.016874
+       dmdumiso1 |   .0136415   .1180264     0.12   0.908    -.2176861     .244969
+       dmdumiso2 |  -1.196961   .4011893    -2.98   0.003    -1.983278    -.410645
+       dmdumiso3 |  -.9709966   .1917042    -5.07   0.000     -1.34673   -.5952633
+       dmdumiso4 |   .6228438   .2449045     2.54   0.011     .1428398    1.102848
+       dmdumiso5 |  -1.754857   .2231516    -7.86   0.000    -2.192226   -1.317488
+       dmdumiso6 |  -.6210204   .5002002    -1.24   0.214    -1.601395    .3593541
+       dmdumiso7 |   1.533599   .1221766    12.55   0.000     1.294137    1.773061
+       dmdumiso8 |   1.047921   .2650382     3.95   0.000     .5284561    1.567387
+       dmdumiso9 |   -.633218   .1572726    -4.03   0.000    -.9414666   -.3249693
+      dmdumiso10 |   .4508526   .1012137     4.45   0.000     .2524774    .6492278
+      dmdumiso11 |   3.526324   .3719941     9.48   0.000     2.797229    4.255419
+      dmdumiso12 |  -1.258551   .4381217    -2.87   0.004    -2.117254   -.3998479
+      dmdumiso13 |   -.583711   .2643606    -2.21   0.027    -1.101848   -.0655738
+      dmdumiso14 |  -.4696386    .205156    -2.29   0.022    -.8717369   -.0675404
+      dmdumiso15 |   .2942733   .4588985     0.64   0.521    -.6051513    1.193698
+      dmdumiso16 |  -.1933783   .1315975    -1.47   0.142    -.4513047    .0645481
+           _cons |   8.053205   .6850247    11.76   0.000     6.710581    9.395829
+    ------------------------------------------------------------------------------
+    Underidentification test (Kleibergen-Paap rk LM statistic):              6.041
+                                                       Chi-sq(1) P-val =    0.0140
+    ------------------------------------------------------------------------------
+    Weak identification test (Cragg-Donald Wald F statistic):                8.985
+                             (Kleibergen-Paap rk Wald F statistic):          9.031
+    Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
+                                             15% maximal IV size              8.96
+                                             20% maximal IV size              6.66
+                                             25% maximal IV size              5.53
+    Source: Stock-Yogo (2005).  Reproduced by permission.
+    NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
+    ------------------------------------------------------------------------------
+    Warning: estimated covariance matrix of moment conditions not of full rank.
+             overidentification statistic not reported, and standard errors and
+             model tests should be interpreted with caution.
+    Possible causes:
+             number of clusters insufficient to calculate robust covariance matrix
+             singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
+    partial option may address problem.
+    ------------------------------------------------------------------------------
+    Instrumented:         fAA
+    Included instruments: hply wgdp dml0dly dml1dly dmdumiso1 dmdumiso2 dmdumiso3
+                          dmdumiso4 dmdumiso5 dmdumiso6 dmdumiso7 dmdumiso8
+                          dmdumiso9 dmdumiso10 dmdumiso11 dmdumiso12 dmdumiso13
+                          dmdumiso14 dmdumiso15 dmdumiso16
+    Excluded instruments: zboom
+    Dropped collinear:    zslump
+    ------------------------------------------------------------------------------
+    Warning - collinearities detected
+    Vars dropped:       zboom
+    
+    IV (2SLS) estimation
+    --------------------
+    
+    Estimates efficient for homoskedasticity only
+    Statistics robust to heteroskedasticity and clustering on iso
+    
+    Number of clusters (iso) =          17                Number of obs =      231
+                                                          F( 21,    16) =    21.01
+                                                          Prob > F      =   0.0000
+    Total (centered) SS     =  3918.949552                Centered R2   =   0.7722
+    Total (uncentered) SS   =  25315.41421                Uncentered R2 =   0.9647
+    Residual SS             =   892.929866                Root MSE      =    1.966
+    
+    ------------------------------------------------------------------------------
+                 |               Robust
+             ly3 |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+             fAA |  -.9488127   .2827481    -3.36   0.001    -1.502989   -.3946365
+            hply |  -1.865515   .1238227   -15.07   0.000    -2.108203   -1.622827
+            wgdp |  -.0242736   .1514045    -0.16   0.873    -.3210208    .2724737
+         dml0dly |   .9227503    .081175    11.37   0.000     .7636503     1.08185
+         dml1dly |   .7479047    .107969     6.93   0.000     .5362894      .95952
+       dmdumiso1 |   1.089716   .1629407     6.69   0.000     .7703583    1.409074
+       dmdumiso2 |  -.8019186   .1827406    -4.39   0.000    -1.160084   -.4437537
+       dmdumiso3 |  -.7476049     .21542    -3.47   0.001     -1.16982   -.3253895
+       dmdumiso4 |   -.306907   .1876295    -1.64   0.102    -.6746541    .0608402
+       dmdumiso5 |  -.8405349   .2032561    -4.14   0.000     -1.23891   -.4421601
+       dmdumiso6 |  -1.039337   .1310809    -7.93   0.000    -1.296251   -.7824229
+       dmdumiso7 |  -.4600075   .1956594    -2.35   0.019    -.8434928   -.0765222
+       dmdumiso8 |  -1.172438   .1365758    -8.58   0.000    -1.440121   -.9047542
+       dmdumiso9 |  -1.336118    .162989    -8.20   0.000     -1.65557   -1.016665
+      dmdumiso10 |  -.8351953   .1085308    -7.70   0.000    -1.047912   -.6224788
+      dmdumiso11 |   4.231683   .4801413     8.81   0.000     3.290623    5.172743
+      dmdumiso12 |  -1.912841   .1618982   -11.82   0.000    -2.230156   -1.595527
+      dmdumiso13 |  -1.078457   .2066297    -5.22   0.000    -1.483444   -.6734701
+      dmdumiso14 |   .0810109   .1833903     0.44   0.659    -.2784275    .4404493
+      dmdumiso15 |  -.5386233   .2045358    -2.63   0.008    -.9395061   -.1377405
+      dmdumiso16 |   .1269584   .3828482     0.33   0.740    -.6234102     .877327
+           _cons |   8.362997   .4785944    17.47   0.000     7.424969    9.301025
+    ------------------------------------------------------------------------------
+    Underidentification test (Kleibergen-Paap rk LM statistic):             11.248
+                                                       Chi-sq(1) P-val =    0.0008
+    ------------------------------------------------------------------------------
+    Weak identification test (Cragg-Donald Wald F statistic):               36.536
+                             (Kleibergen-Paap rk Wald F statistic):         27.990
+    Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
+                                             15% maximal IV size              8.96
+                                             20% maximal IV size              6.66
+                                             25% maximal IV size              5.53
+    Source: Stock-Yogo (2005).  Reproduced by permission.
+    NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
+    ------------------------------------------------------------------------------
+    Warning: estimated covariance matrix of moment conditions not of full rank.
+             overidentification statistic not reported, and standard errors and
+             model tests should be interpreted with caution.
+    Possible causes:
+             number of clusters insufficient to calculate robust covariance matrix
+             singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
+    partial option may address problem.
+    ------------------------------------------------------------------------------
+    Instrumented:         fAA
+    Included instruments: hply wgdp dml0dly dml1dly dmdumiso1 dmdumiso2 dmdumiso3
+                          dmdumiso4 dmdumiso5 dmdumiso6 dmdumiso7 dmdumiso8
+                          dmdumiso9 dmdumiso10 dmdumiso11 dmdumiso12 dmdumiso13
+                          dmdumiso14 dmdumiso15 dmdumiso16
+    Excluded instruments: zslump
+    Dropped collinear:    zboom
+    ------------------------------------------------------------------------------
+    Warning - collinearities detected
+    Vars dropped:       zslump
+    
+    IV (2SLS) estimation
+    --------------------
+    
+    Estimates efficient for homoskedasticity only
+    Statistics robust to heteroskedasticity and clustering on iso
+    
+    Number of clusters (iso) =          17                Number of obs =      180
+                                                          F( 21,    16) =    30.42
+                                                          Prob > F      =   0.0000
+    Total (centered) SS     =  4188.436097                Centered R2   =   0.8246
+    Total (uncentered) SS   =  14703.27526                Uncentered R2 =   0.9500
+    Residual SS             =  734.5555214                Root MSE      =     2.02
+    
+    ------------------------------------------------------------------------------
+                 |               Robust
+             ly4 |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+             fAA |  -.5377072    .410803    -1.31   0.191    -1.342866    .2674518
+            hply |  -2.820519   .2691166   -10.48   0.000    -3.347978    -2.29306
+            wgdp |  -.3832207   .2693794    -1.42   0.155    -.9111946    .1447533
+         dml0dly |    .824216   .2305308     3.58   0.000     .3723839    1.276048
+         dml1dly |   1.104735   .1426096     7.75   0.000     .8252256    1.384245
+       dmdumiso1 |   .6566265   .1262563     5.20   0.000     .4091688    .9040843
+       dmdumiso2 |  -2.309106   .4305632    -5.36   0.000    -3.152995   -1.465218
+       dmdumiso3 |  -2.011385    .371769    -5.41   0.000    -2.740039   -1.282732
+       dmdumiso4 |   .3849993   .2893555     1.33   0.183     -.182127    .9521256
+       dmdumiso5 |  -3.014985   .3823534    -7.89   0.000    -3.764384   -2.265586
+       dmdumiso6 |  -1.703919   .5936086    -2.87   0.004    -2.867371   -.5404677
+       dmdumiso7 |    .839024   .2189508     3.83   0.000     .4098883     1.26816
+       dmdumiso8 |  -.4598043   .3421474    -1.34   0.179    -1.130401    .2107922
+       dmdumiso9 |  -2.177324   .2862646    -7.61   0.000    -2.738392   -1.616255
+      dmdumiso10 |  -.4100472     .18541    -2.21   0.027    -.7734442   -.0466503
+      dmdumiso11 |   4.724348   .4663543    10.13   0.000      3.81031    5.638385
+      dmdumiso12 |  -2.450302   .5127739    -4.78   0.000    -3.455321   -1.445284
+      dmdumiso13 |  -2.035939   .2869165    -7.10   0.000    -2.598285   -1.473593
+      dmdumiso14 |  -1.240438   .2938345    -4.22   0.000    -1.816343    -.664533
+      dmdumiso15 |  -1.107168   .4856772    -2.28   0.023    -2.059078   -.1552583
+      dmdumiso16 |  -1.706953   .2633318    -6.48   0.000    -2.223074   -1.190832
+           _cons |   11.90457   .8166288    14.58   0.000     10.30401    13.50513
+    ------------------------------------------------------------------------------
+    Underidentification test (Kleibergen-Paap rk LM statistic):              7.552
+                                                       Chi-sq(1) P-val =    0.0060
+    ------------------------------------------------------------------------------
+    Weak identification test (Cragg-Donald Wald F statistic):               10.697
+                             (Kleibergen-Paap rk Wald F statistic):         14.427
+    Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
+                                             15% maximal IV size              8.96
+                                             20% maximal IV size              6.66
+                                             25% maximal IV size              5.53
+    Source: Stock-Yogo (2005).  Reproduced by permission.
+    NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
+    ------------------------------------------------------------------------------
+    Warning: estimated covariance matrix of moment conditions not of full rank.
+             overidentification statistic not reported, and standard errors and
+             model tests should be interpreted with caution.
+    Possible causes:
+             number of clusters insufficient to calculate robust covariance matrix
+             singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
+    partial option may address problem.
+    ------------------------------------------------------------------------------
+    Instrumented:         fAA
+    Included instruments: hply wgdp dml0dly dml1dly dmdumiso1 dmdumiso2 dmdumiso3
+                          dmdumiso4 dmdumiso5 dmdumiso6 dmdumiso7 dmdumiso8
+                          dmdumiso9 dmdumiso10 dmdumiso11 dmdumiso12 dmdumiso13
+                          dmdumiso14 dmdumiso15 dmdumiso16
+    Excluded instruments: zboom
+    Dropped collinear:    zslump
+    ------------------------------------------------------------------------------
+    Warning - collinearities detected
+    Vars dropped:       zboom
+    
+    IV (2SLS) estimation
+    --------------------
+    
+    Estimates efficient for homoskedasticity only
+    Statistics robust to heteroskedasticity and clustering on iso
+    
+    Number of clusters (iso) =          17                Number of obs =      226
+                                                          F( 21,    16) =    76.67
+                                                          Prob > F      =   0.0000
+    Total (centered) SS     =  6079.066274                Centered R2   =   0.8323
+    Total (uncentered) SS   =   43815.3115                Uncentered R2 =   0.9767
+    Residual SS             =  1019.232745                Root MSE      =    2.124
+    
+    ------------------------------------------------------------------------------
+                 |               Robust
+             ly4 |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+             fAA |  -.7920797   .2950977    -2.68   0.007    -1.370461   -.2136989
+            hply |  -2.287804   .1852443   -12.35   0.000    -2.650876   -1.924732
+            wgdp |  -.0456965   .2300774    -0.20   0.843    -.4966399     .405247
+         dml0dly |   .9422972   .1120789     8.41   0.000     .7226266    1.161968
+         dml1dly |   .9301144   .1442486     6.45   0.000     .6473923    1.212837
+       dmdumiso1 |   .8655133    .207483     4.17   0.000     .4588541    1.272172
+       dmdumiso2 |  -1.492759   .3042951    -4.91   0.000    -2.089167   -.8963519
+       dmdumiso3 |  -1.449245   .2111035    -6.87   0.000       -1.863    -1.03549
+       dmdumiso4 |  -.7414282   .2343276    -3.16   0.002    -1.200702   -.2821545
+       dmdumiso5 |  -2.061327   .2214883    -9.31   0.000    -2.495436   -1.627218
+       dmdumiso6 |  -1.807254   .1080548   -16.73   0.000    -2.019038   -1.595471
+       dmdumiso7 |  -.4985602   .2116193    -2.36   0.018    -.9133264    -.083794
+       dmdumiso8 |  -1.041696   .1927181    -5.41   0.000    -1.419416   -.6639753
+       dmdumiso9 |  -2.183861   .2124722   -10.28   0.000    -2.600299   -1.767424
+      dmdumiso10 |  -1.245444   .1037624   -12.00   0.000    -1.448815   -1.042074
+      dmdumiso11 |   6.210898   .8490271     7.32   0.000     4.546836    7.874961
+      dmdumiso12 |  -3.123677   .2664948   -11.72   0.000    -3.645997   -2.601356
+      dmdumiso13 |  -1.843569   .1849917    -9.97   0.000    -2.206146   -1.480992
+      dmdumiso14 |  -.2789489   .1478989    -1.89   0.059    -.5688254    .0109277
+      dmdumiso15 |  -.0026719   .2758483    -0.01   0.992    -.5433247    .5379809
+      dmdumiso16 |  -.5793081    .347568    -1.67   0.096    -1.260529    .1019126
+           _cons |   11.07666   .7009114    15.80   0.000     9.702896    12.45042
+    ------------------------------------------------------------------------------
+    Underidentification test (Kleibergen-Paap rk LM statistic):             11.719
+                                                       Chi-sq(1) P-val =    0.0006
+    ------------------------------------------------------------------------------
+    Weak identification test (Cragg-Donald Wald F statistic):               41.613
+                             (Kleibergen-Paap rk Wald F statistic):         28.816
+    Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
+                                             15% maximal IV size              8.96
+                                             20% maximal IV size              6.66
+                                             25% maximal IV size              5.53
+    Source: Stock-Yogo (2005).  Reproduced by permission.
+    NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
+    ------------------------------------------------------------------------------
+    Warning: estimated covariance matrix of moment conditions not of full rank.
+             overidentification statistic not reported, and standard errors and
+             model tests should be interpreted with caution.
+    Possible causes:
+             number of clusters insufficient to calculate robust covariance matrix
+             singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
+    partial option may address problem.
+    ------------------------------------------------------------------------------
+    Instrumented:         fAA
+    Included instruments: hply wgdp dml0dly dml1dly dmdumiso1 dmdumiso2 dmdumiso3
+                          dmdumiso4 dmdumiso5 dmdumiso6 dmdumiso7 dmdumiso8
+                          dmdumiso9 dmdumiso10 dmdumiso11 dmdumiso12 dmdumiso13
+                          dmdumiso14 dmdumiso15 dmdumiso16
+    Excluded instruments: zslump
+    Dropped collinear:    zboom
+    ------------------------------------------------------------------------------
+    Warning - collinearities detected
+    Vars dropped:       zslump
+    
+    IV (2SLS) estimation
+    --------------------
+    
+    Estimates efficient for homoskedasticity only
+    Statistics robust to heteroskedasticity and clustering on iso
+    
+    Number of clusters (iso) =          17                Number of obs =      175
+                                                          F( 21,    16) =    33.77
+                                                          Prob > F      =   0.0000
+    Total (centered) SS     =  5077.430846                Centered R2   =   0.7769
+    Total (uncentered) SS   =  21855.72521                Uncentered R2 =   0.9482
+    Residual SS             =  1132.922673                Root MSE      =    2.544
+    
+    ------------------------------------------------------------------------------
+                 |               Robust
+             ly5 |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+             fAA |  -.6728448   .4058634    -1.66   0.097    -1.468323     .122633
+            hply |  -2.596845   .2987792    -8.69   0.000    -3.182441   -2.011248
+            wgdp |  -.7995731   .3215211    -2.49   0.013    -1.429743   -.1694033
+         dml0dly |   .7288918   .2710985     2.69   0.007     .1975485    1.260235
+         dml1dly |   1.270258   .2005189     6.33   0.000     .8772484    1.663268
+       dmdumiso1 |   1.284588   .1643523     7.82   0.000     .9624629    1.606712
+       dmdumiso2 |  -2.631679   .5194195    -5.07   0.000    -3.649723   -1.613636
+       dmdumiso3 |  -2.781038   .5094634    -5.46   0.000    -3.779568   -1.782508
+       dmdumiso4 |  -.3526093   .3503781    -1.01   0.314    -1.039338    .3341191
+       dmdumiso5 |   -3.57745   .6130143    -5.84   0.000    -4.778936   -2.375964
+       dmdumiso6 |  -2.790219   .6809858    -4.10   0.000    -4.124927   -1.455512
+       dmdumiso7 |   .0684883   .3639555     0.19   0.851    -.6448514     .781828
+       dmdumiso8 |  -2.047436   .3918138    -5.23   0.000    -2.815377   -1.279495
+       dmdumiso9 |  -3.392557   .4936032    -6.87   0.000    -4.360002   -2.425113
+      dmdumiso10 |  -1.333592   .2835485    -4.70   0.000    -1.889337   -.7778473
+      dmdumiso11 |    6.35351   .5289008    12.01   0.000     5.316884    7.390137
+      dmdumiso12 |  -3.616838   .6692817    -5.40   0.000    -4.928606    -2.30507
+      dmdumiso13 |  -4.410938   .3790328   -11.64   0.000    -5.153829   -3.668048
+      dmdumiso14 |  -1.388472    .453284    -3.06   0.002    -2.276892   -.5000516
+      dmdumiso15 |  -2.227743   .5331546    -4.18   0.000    -3.272706   -1.182779
+      dmdumiso16 |  -2.833869   .4449277    -6.37   0.000    -3.705911   -1.961827
+           _cons |   14.90486   .9907541    15.04   0.000     12.96301     16.8467
+    ------------------------------------------------------------------------------
+    Underidentification test (Kleibergen-Paap rk LM statistic):              7.755
+                                                       Chi-sq(1) P-val =    0.0054
+    ------------------------------------------------------------------------------
+    Weak identification test (Cragg-Donald Wald F statistic):               11.344
+                             (Kleibergen-Paap rk Wald F statistic):         14.748
+    Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
+                                             15% maximal IV size              8.96
+                                             20% maximal IV size              6.66
+                                             25% maximal IV size              5.53
+    Source: Stock-Yogo (2005).  Reproduced by permission.
+    NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
+    ------------------------------------------------------------------------------
+    Warning: estimated covariance matrix of moment conditions not of full rank.
+             overidentification statistic not reported, and standard errors and
+             model tests should be interpreted with caution.
+    Possible causes:
+             number of clusters insufficient to calculate robust covariance matrix
+             singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
+    partial option may address problem.
+    ------------------------------------------------------------------------------
+    Instrumented:         fAA
+    Included instruments: hply wgdp dml0dly dml1dly dmdumiso1 dmdumiso2 dmdumiso3
+                          dmdumiso4 dmdumiso5 dmdumiso6 dmdumiso7 dmdumiso8
+                          dmdumiso9 dmdumiso10 dmdumiso11 dmdumiso12 dmdumiso13
+                          dmdumiso14 dmdumiso15 dmdumiso16
+    Excluded instruments: zboom
+    Dropped collinear:    zslump
+    ------------------------------------------------------------------------------
+    Warning - collinearities detected
+    Vars dropped:       zboom
+    
+    IV (2SLS) estimation
+    --------------------
+    
+    Estimates efficient for homoskedasticity only
+    Statistics robust to heteroskedasticity and clustering on iso
+    
+    Number of clusters (iso) =          17                Number of obs =      214
+                                                          F( 21,    16) =    59.15
+                                                          Prob > F      =   0.0000
+    Total (centered) SS     =  8121.787859                Centered R2   =   0.8230
+    Total (uncentered) SS   =  63788.92268                Uncentered R2 =   0.9775
+    Residual SS             =  1437.322874                Root MSE      =    2.592
+    
+    ------------------------------------------------------------------------------
+                 |               Robust
+             ly5 |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+             fAA |  -.9362862   .3857872    -2.43   0.015    -1.692415   -.1801572
+            hply |  -2.643197   .2771629    -9.54   0.000    -3.186427   -2.099968
+            wgdp |  -.3147605   .3093148    -1.02   0.309    -.9210064    .2914854
+         dml0dly |   1.014306   .1913614     5.30   0.000     .6392446    1.389368
+         dml1dly |   .8971677   .1941319     4.62   0.000     .5166762    1.277659
+       dmdumiso1 |   1.079427   .2687712     4.02   0.000     .5526455    1.606209
+       dmdumiso2 |  -1.937944   .4755008    -4.08   0.000    -2.869909    -1.00598
+       dmdumiso3 |  -1.952523   .4752954    -4.11   0.000    -2.884085   -1.020961
+       dmdumiso4 |  -.7712556   .2442853    -3.16   0.002    -1.250046   -.2924651
+       dmdumiso5 |  -3.035963   .4324323    -7.02   0.000    -3.883515   -2.188411
+       dmdumiso6 |  -2.585342   .2193311   -11.79   0.000    -3.015223    -2.15546
+       dmdumiso7 |  -.0944061   .2622234    -0.36   0.719    -.6083545    .4195423
+       dmdumiso8 |  -1.204582   .2389487    -5.04   0.000    -1.672912   -.7362507
+       dmdumiso9 |  -2.807365   .3998639    -7.02   0.000    -3.591084   -2.023646
+      dmdumiso10 |  -1.440565   .1652659    -8.72   0.000    -1.764481    -1.11665
+      dmdumiso11 |   8.614063   1.165398     7.39   0.000     6.329925     10.8982
+      dmdumiso12 |  -4.321753   .4116204   -10.50   0.000    -5.128514   -3.514992
+      dmdumiso13 |  -1.666792   .3287611    -5.07   0.000    -2.311152   -1.022433
+      dmdumiso14 |  -.7646259   .2797518    -2.73   0.006    -1.312929   -.2163225
+      dmdumiso15 |   .2539204   .3247002     0.78   0.434    -.3824802    .8903211
+      dmdumiso16 |  -1.161474   .4871111    -2.38   0.017    -2.116194   -.2067537
+           _cons |    14.4158   .8729989    16.51   0.000     12.70476    16.12685
+    ------------------------------------------------------------------------------
+    Underidentification test (Kleibergen-Paap rk LM statistic):             11.382
+                                                       Chi-sq(1) P-val =    0.0007
+    ------------------------------------------------------------------------------
+    Weak identification test (Cragg-Donald Wald F statistic):               41.728
+                             (Kleibergen-Paap rk Wald F statistic):         28.555
+    Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
+                                             15% maximal IV size              8.96
+                                             20% maximal IV size              6.66
+                                             25% maximal IV size              5.53
+    Source: Stock-Yogo (2005).  Reproduced by permission.
+    NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
+    ------------------------------------------------------------------------------
+    Warning: estimated covariance matrix of moment conditions not of full rank.
+             overidentification statistic not reported, and standard errors and
+             model tests should be interpreted with caution.
+    Possible causes:
+             number of clusters insufficient to calculate robust covariance matrix
+             singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
+    partial option may address problem.
+    ------------------------------------------------------------------------------
+    Instrumented:         fAA
+    Included instruments: hply wgdp dml0dly dml1dly dmdumiso1 dmdumiso2 dmdumiso3
+                          dmdumiso4 dmdumiso5 dmdumiso6 dmdumiso7 dmdumiso8
+                          dmdumiso9 dmdumiso10 dmdumiso11 dmdumiso12 dmdumiso13
+                          dmdumiso14 dmdumiso15 dmdumiso16
+    Excluded instruments: zslump
+    Dropped collinear:    zboom
+    ------------------------------------------------------------------------------
+    Warning - collinearities detected
+    Vars dropped:       zslump
+    
+    IV (2SLS) estimation
+    --------------------
+    
+    Estimates efficient for homoskedasticity only
+    Statistics robust to heteroskedasticity and clustering on iso
+    
+    Number of clusters (iso) =          17                Number of obs =      175
+                                                          F( 21,    16) =   111.84
+                                                          Prob > F      =   0.0000
+    Total (centered) SS     =  55881.87671                Centered R2   =   0.8773
+    Total (uncentered) SS   =  195391.7526                Uncentered R2 =   0.9649
+    Residual SS             =  6858.792196                Root MSE      =     6.26
+    
+    ------------------------------------------------------------------------------
+                 |               Robust
+             ly6 |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+             fAA |  -1.176815    1.39683    -0.84   0.400    -3.914551    1.560921
+            hply |  -10.15655   .9256371   -10.97   0.000    -11.97076   -8.342333
+            wgdp |  -1.083961   1.064961    -1.02   0.309    -3.171246    1.003325
+         dml0dly |   4.512944   .8612774     5.24   0.000     2.824871    6.201017
+         dml1dly |   4.019718   .3951327    10.17   0.000     3.245272    4.794164
+       dmdumiso1 |   .9307568   .4754751     1.96   0.050    -.0011573    1.862671
+       dmdumiso2 |  -7.330686   1.332508    -5.50   0.000    -9.942355   -4.719018
+       dmdumiso3 |  -6.489292   1.114631    -5.82   0.000    -8.673929   -4.304656
+       dmdumiso4 |   .3189855   .8893474     0.36   0.720    -1.424103    2.062074
+       dmdumiso5 |  -9.446556   1.184363    -7.98   0.000    -11.76787   -7.125246
+       dmdumiso6 |  -4.336595    2.09052    -2.07   0.038    -8.433939   -.2392512
+       dmdumiso7 |   3.052681   .8173139     3.74   0.000     1.450775    4.654586
+       dmdumiso8 |  -.6895728   1.196864    -0.58   0.565    -3.035384    1.656238
+       dmdumiso9 |  -6.193807   .7665944    -8.08   0.000    -7.696304   -4.691309
+      dmdumiso10 |  -.3070739   .5467666    -0.56   0.574    -1.378717     .764569
+      dmdumiso11 |    13.6118   2.048779     6.64   0.000     9.596265    17.62733
+      dmdumiso12 |  -8.297355   1.630575    -5.09   0.000    -11.49322   -5.101487
+      dmdumiso13 |  -7.015296   .9365579    -7.49   0.000    -8.850916   -5.179677
+      dmdumiso14 |  -3.221251   .8105432    -3.97   0.000    -4.809886   -1.632615
+      dmdumiso15 |  -2.748137   1.751378    -1.57   0.117    -6.180775    .6845004
+      dmdumiso16 |  -4.458392   .8496793    -5.25   0.000    -6.123732   -2.793051
+           _cons |   42.63202   2.998416    14.22   0.000     36.75524    48.50881
+    ------------------------------------------------------------------------------
+    Underidentification test (Kleibergen-Paap rk LM statistic):              7.755
+                                                       Chi-sq(1) P-val =    0.0054
+    ------------------------------------------------------------------------------
+    Weak identification test (Cragg-Donald Wald F statistic):               11.344
+                             (Kleibergen-Paap rk Wald F statistic):         14.748
+    Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
+                                             15% maximal IV size              8.96
+                                             20% maximal IV size              6.66
+                                             25% maximal IV size              5.53
+    Source: Stock-Yogo (2005).  Reproduced by permission.
+    NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
+    ------------------------------------------------------------------------------
+    Warning: estimated covariance matrix of moment conditions not of full rank.
+             overidentification statistic not reported, and standard errors and
+             model tests should be interpreted with caution.
+    Possible causes:
+             number of clusters insufficient to calculate robust covariance matrix
+             singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
+    partial option may address problem.
+    ------------------------------------------------------------------------------
+    Instrumented:         fAA
+    Included instruments: hply wgdp dml0dly dml1dly dmdumiso1 dmdumiso2 dmdumiso3
+                          dmdumiso4 dmdumiso5 dmdumiso6 dmdumiso7 dmdumiso8
+                          dmdumiso9 dmdumiso10 dmdumiso11 dmdumiso12 dmdumiso13
+                          dmdumiso14 dmdumiso15 dmdumiso16
+    Excluded instruments: zboom
+    Dropped collinear:    zslump
+    ------------------------------------------------------------------------------
+    Warning - collinearities detected
+    Vars dropped:       zboom
+    
+    IV (2SLS) estimation
+    --------------------
+    
+    Estimates efficient for homoskedasticity only
+    Statistics robust to heteroskedasticity and clustering on iso
+    
+    Number of clusters (iso) =          17                Number of obs =      214
+                                                          F( 21,    16) =   105.03
+                                                          Prob > F      =   0.0000
+    Total (centered) SS     =  81046.40543                Centered R2   =   0.8649
+    Total (uncentered) SS   =  582769.6867                Uncentered R2 =   0.9812
+    Residual SS             =  10948.43181                Root MSE      =    7.153
+    
+    ------------------------------------------------------------------------------
+                 |               Robust
+             ly6 |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+             fAA |  -3.376282   1.010138    -3.34   0.001    -5.356117   -1.396447
+            hply |  -9.012774   .5384134   -16.74   0.000    -10.06804   -7.957503
+            wgdp |  -.7863847     .72064    -1.09   0.275    -2.198813    .6260439
+         dml0dly |   4.131726    .346584    11.92   0.000     3.452434    4.811018
+         dml1dly |   3.463849   .4715045     7.35   0.000     2.539717    4.387981
+       dmdumiso1 |   4.803013   .6157016     7.80   0.000      3.59626    6.009766
+       dmdumiso2 |  -3.883223   .9060149    -4.29   0.000    -5.658979   -2.107466
+       dmdumiso3 |  -3.832991   .8141563    -4.71   0.000    -5.428708   -2.237274
+       dmdumiso4 |  -1.697824   .7476366    -2.27   0.023    -3.163165   -.2324831
+       dmdumiso5 |   -5.56568   .7393794    -7.53   0.000    -7.014837   -4.116523
+       dmdumiso6 |  -7.087948   .3584319   -19.77   0.000    -7.790461   -6.385434
+       dmdumiso7 |  -1.291839   .7087664    -1.82   0.068    -2.680995    .0973179
+       dmdumiso8 |  -6.086423   .7067413    -8.61   0.000    -7.471611   -4.701236
+       dmdumiso9 |  -6.798634   .7145028    -9.52   0.000    -8.199034   -5.398234
+      dmdumiso10 |  -4.312143    .390723   -11.04   0.000    -5.077946    -3.54634
+      dmdumiso11 |   22.35727   2.584488     8.65   0.000     17.29176    27.42277
+      dmdumiso12 |  -9.942226   .8107415   -12.26   0.000    -11.53125   -8.353202
+      dmdumiso13 |  -4.642113   .6779455    -6.85   0.000    -5.970862   -3.313364
+      dmdumiso14 |   -.790846   .5130189    -1.54   0.123    -1.796345    .2146525
+      dmdumiso15 |   -.519091   .8246087    -0.63   0.529    -2.135294    1.097112
+      dmdumiso16 |  -2.279411   1.240389    -1.84   0.066    -4.710528    .1517061
+           _cons |   42.28442   2.160711    19.57   0.000     38.04951    46.51934
+    ------------------------------------------------------------------------------
+    Underidentification test (Kleibergen-Paap rk LM statistic):             11.382
+                                                       Chi-sq(1) P-val =    0.0007
+    ------------------------------------------------------------------------------
+    Weak identification test (Cragg-Donald Wald F statistic):               41.728
+                             (Kleibergen-Paap rk Wald F statistic):         28.555
+    Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
+                                             15% maximal IV size              8.96
+                                             20% maximal IV size              6.66
+                                             25% maximal IV size              5.53
+    Source: Stock-Yogo (2005).  Reproduced by permission.
+    NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
+    ------------------------------------------------------------------------------
+    Warning: estimated covariance matrix of moment conditions not of full rank.
+             overidentification statistic not reported, and standard errors and
+             model tests should be interpreted with caution.
+    Possible causes:
+             number of clusters insufficient to calculate robust covariance matrix
+             singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
+    partial option may address problem.
+    ------------------------------------------------------------------------------
+    Instrumented:         fAA
+    Included instruments: hply wgdp dml0dly dml1dly dmdumiso1 dmdumiso2 dmdumiso3
+                          dmdumiso4 dmdumiso5 dmdumiso6 dmdumiso7 dmdumiso8
+                          dmdumiso9 dmdumiso10 dmdumiso11 dmdumiso12 dmdumiso13
+                          dmdumiso14 dmdumiso15 dmdumiso16
+    Excluded instruments: zslump
+    Dropped collinear:    zboom
     ------------------------------------------------------------------------------
     
     
