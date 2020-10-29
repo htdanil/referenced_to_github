@@ -26,6 +26,9 @@ Replication Code Downloaded from https://sites.google.com/site/oscarjorda/home/l
 * [Table 7 : Fiscal Treatment Regression, Pooled Probit Estimators (average marginal effects)](#table7)
 * [Table 8 : Average Treatment Effect of Fiscal Consolidation, AIPW Estimates, Full Sample](#table8)
 * [Table 9 : Average Treatment Effect of Fiscal Consolidation, AIPW Estimates, Booms Vs Slumps](#table9)
+---
+* [Figure 1 : Fig 1. An example of Allocation Bias and the IPWRA Estimator](#fig1)
+* [Figure 2 : Overlap Check : Empirical Distributions of the Treatment Propensity Score](#fig2)
 
 <a class="anchor" id="initiating_env"></a>
 
@@ -7534,3 +7537,173 @@ forvalues i=1/6 {
     ---------------------------------------------------------------------------------
     
     
+
+<a class='anchor' id='fig1'></a>
+[Go to Table of Contents](#table_of_contents)
+
+---
+# Figure 1 (figure1.do)
+---
+
+![](https://github.com/htdanil/referenced_to_github/raw/master/GF0004_Jorda_Taylor_%282016%29_The_time_for_austerity__REPLICATION_WORK/results/fig1.PNG)
+
+
+```python
+%%stata -os
+
+* #================================================================================================
+* # Figure 1. Illustrative scatters for GM, IP, RA, IPWRA
+* #================================================================================================
+
+preserve
+
+* #control
+clear
+qui input x
+1
+2
+3
+4
+5
+6
+7
+8
+9
+end
+
+* #p(treatment)=p(T) depends on x, n= nobs
+
+qui gen nt = x
+qui gen nc = 10-x
+
+qui gen pt = nt/10
+qui gen pc = nc/10
+
+qui gen ipwt = 1/pt
+sum ipwt
+qui replace ipwt = ipwt/r(sum)
+
+qui gen ipwc = 1/pc
+sum ipwc
+qui replace ipwc = ipwc/r(sum)
+
+* #outcome y depends on x and T
+
+qui gen yt = x + 1
+qui gen yc = x
+
+qui gen ten=10
+
+* #means with n weghts
+
+sum yc [fweight=nc]
+sum yt [fweight=nt]
+
+
+* #scatters
+
+set scheme s1color
+
+qui graph set window fontface "Palatino"
+
+qui gr drop _all
+
+qui twoway   (scatter yc x [w=nc], mc(blue)) (scatter yt x [w=nt], mc(red)) ///
+	, ytitle("y") title("(a) Group Means") legend(off) ///
+	text(9.8   1 "Treated mean = 7.33",  place(e)) ///
+	text(9.1   1 "Control mean = 3.67",  place(e)) ///
+	text(8.4   1 "ATE-GM = 3.67",        place(e)) 
+	
+qui gr rename GM
+
+qui twoway  (scatter yc x [w=nc], mc(blue)) (scatter yt x [w=nt], mc(red))  (line yc x, lc(black)) (line yt x, lc(black)) ///
+	, ytitle("y") title("(b) Regression Adjustment") legend(off) ///
+	text(9.8   1 "Treated mean = 6",  place(e)) ///
+	text(9.1   1 "Control mean = 5",  place(e)) ///
+	text(8.4   1 "ATE-RA = 1",        place(e)) 
+gr rename RA
+	
+qui twoway  (scatter yc x [w=ten], mc(blue)) (scatter yt x [w=ten], mc(red))  ///
+	, ytitle("y") title("(c) Inverse Probability Weights") legend(off) ///
+	text(9.8   1 "Treated mean = 6",  place(e)) ///
+	text(9.1   1 "Control mean = 5",  place(e)) ///
+	text(8.4   1 "ATE-IPW = 1",        place(e)) 
+gr rename IPW
+	
+qui twoway  (scatter yc x [w=ten], mc(blue)) (scatter yt x [w=ten], mc(red)) (line yc x, lc(black)) (line yt x, lc(black))  ///
+	, ytitle("y") title("(d) IPWRA (doubly robust)") legend(off) ///
+	text(9.8   1 "Treated mean = 6",  place(e)) ///
+	text(9.1   1 "Control mean = 5",  place(e)) ///
+	text(8.4   1 "ATE-IPWRA = 1",        place(e)) 
+gr rename IPWRA
+
+restore
+```
+
+    
+        Variable |        Obs        Mean    Std. Dev.       Min        Max
+    -------------+---------------------------------------------------------
+            ipwt |          9    3.143298    2.851619   1.111111         10
+    
+        Variable |        Obs        Mean    Std. Dev.       Min        Max
+    -------------+---------------------------------------------------------
+            ipwc |          9    3.143298    2.851619   1.111111         10
+    
+        Variable |        Obs        Mean    Std. Dev.       Min        Max
+    -------------+---------------------------------------------------------
+              yc |         45    3.666667    2.236068          1          9
+    
+        Variable |        Obs        Mean    Std. Dev.       Min        Max
+    -------------+---------------------------------------------------------
+              yt |         45    7.333333    2.236068          2         10
+    
+    
+
+
+![png](output_46_1.png)
+
+
+
+![png](output_46_2.png)
+
+
+
+![png](output_46_3.png)
+
+
+
+![png](output_46_4.png)
+
+
+<a class='anchor' id='fig2'></a>
+[Go to Table of Contents](#table_of_contents)
+
+---
+# Figure 2 (figure2.do)
+---
+
+![](https://github.com/htdanil/referenced_to_github/raw/master/GF0004_Jorda_Taylor_%282016%29_The_time_for_austerity__REPLICATION_WORK/results/fig2.PNG)
+
+
+```python
+%%stata -os
+
+twoway (kdensity pihat0 if ftreatment==1, lpattern(dash) color(red) lwidth(medthick)) ///
+	(kdensity pihat0 if ftreatment==0, color(blue) lwidth(thick)), ///
+	text(2.9 .16 "Distribution for control units", placement(e) color(blue) size()) ///
+	text(1.9 .58 "Distribution for treated units", placement(e) color(red) size()) ///
+	title("") legend(label(1 "Treatment dist.") label(2 "Control dist.")) ///
+	ylabel(, labsize(small)) xlabel(0(1)1, labsize(small)) ///
+	ytitle("Frequency") ///
+	xtitle("Estimated probability of treatment") ///
+	plotregion(lpattern(blank)) scheme(s1color) legend(off)
+```
+
+
+![png](output_48_0.png)
+
+
+
+```python
+
+```
