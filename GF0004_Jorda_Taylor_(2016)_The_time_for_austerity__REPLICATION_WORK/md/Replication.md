@@ -29,6 +29,8 @@ Replication Code Downloaded from https://sites.google.com/site/oscarjorda/home/l
 ---
 * [Figure 1 : Fig 1. An example of Allocation Bias and the IPWRA Estimator](#fig1)
 * [Figure 2 : Overlap Check : Empirical Distributions of the Treatment Propensity Score](#fig2)
+* [Figure 3 : Comparing AIPW and IV Estimates of the Response](#fig3)
+    - [Figure 3 using python](#fig3_python)
 
 <a class="anchor" id="initiating_env"></a>
 
@@ -1394,7 +1396,7 @@ forvalues i=1/6 {
 
     . forvalues i=1/6 {
       2.     foreach c in boom slump {
-      3.         reg ly`i'   smfAA lgfAA hply dml0dly dml1dly dmdumiso1-dmdumiso16 if `c' == 1 & year >= 1980 & yea
+      3.         reg ly`i'   smfAA lgfAA hply dml0dly dml1dly dmdumiso1-dmdumiso16 if `c' == 1 & year >= 1980 & year 
       4.     }
       5. }
     
@@ -2300,7 +2302,7 @@ forvalues i=1/6 {
 
     . forvalues i=1/6 {
       2.     foreach c in boom slump {
-      3.         reg ly`i'   smfAA lgfAA hply dml0dly dml1dly dmdumiso1-dmdumiso16 wgdp if `c' == 1 & year >= 1980 
+      3.         reg ly`i'   smfAA lgfAA hply dml0dly dml1dly dmdumiso1-dmdumiso16 wgdp if `c' == 1 & year >= 1980 & 
       4.     }
       5. }
     
@@ -2777,7 +2779,6 @@ forvalues i = 1/6   {
       4. 
     .     }
       5. }
-    Warning: time variable year has 1 gap(s) in relevant range
     
     IV (2SLS) estimation
     --------------------
@@ -2785,7 +2786,7 @@ forvalues i = 1/6   {
     Estimates efficient for homoskedasticity only
     Statistics robust to heteroskedasticity and clustering on iso
     
-    Number of clusters (iso) =          17                Number of obs =      457
+    Number of clusters (iso) = 17                         Number of obs =      457
                                                           F( 20,    16) =    19.69
                                                           Prob > F      =   0.0000
     Total (centered) SS     =  1652.910839                Centered R2   =   0.4727
@@ -2818,11 +2819,10 @@ forvalues i = 1/6   {
       dmdumiso16 |   .1013191   .0781983     1.30   0.195    -.0519467    .2545849
            _cons |   2.681106   .0206692   129.71   0.000     2.640595    2.721617
     ------------------------------------------------------------------------------
-    Underidentification test (Kleibergen-Paap rk LM statistic):             12.247
-                                                       Chi-sq(1) P-val =    0.0005
+    Underidentification test (Kleibergen-Paap rk LM statistic):              1.000
+                                                       Chi-sq(1) P-val =    0.3173
     ------------------------------------------------------------------------------
-    Weak identification test (Cragg-Donald Wald F statistic):               45.907
-                             (Kleibergen-Paap rk Wald F statistic):         32.853
+    Weak identification test (Kleibergen-Paap rk Wald F statistic):              .
     Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
                                              15% maximal IV size              8.96
                                              20% maximal IV size              6.66
@@ -2831,8 +2831,7 @@ forvalues i = 1/6   {
     NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
     ------------------------------------------------------------------------------
     Warning: estimated covariance matrix of moment conditions not of full rank.
-             overidentification statistic not reported, and standard errors and
-             model tests should be interpreted with caution.
+             standard errors and model tests should be interpreted with caution.
     Possible causes:
              number of clusters insufficient to calculate robust covariance matrix
              singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
@@ -2845,7 +2844,6 @@ forvalues i = 1/6   {
                           dmdumiso14 dmdumiso15 dmdumiso16
     Excluded instruments: F.treatment
     ------------------------------------------------------------------------------
-    Warning: time variable year has 1 gap(s) in relevant range
     
     IV (2SLS) estimation
     --------------------
@@ -2853,7 +2851,7 @@ forvalues i = 1/6   {
     Estimates efficient for homoskedasticity only
     Statistics robust to heteroskedasticity and clustering on iso
     
-    Number of clusters (iso) =          17                Number of obs =      457
+    Number of clusters (iso) = 17                         Number of obs =      457
                                                           F( 20,    16) =    16.46
                                                           Prob > F      =   0.0000
     Total (centered) SS     =  1652.910839                Centered R2   =   0.3897
@@ -2886,11 +2884,10 @@ forvalues i = 1/6   {
       dmdumiso16 |    .182561   .0905627     2.02   0.044     .0050614    .3600606
            _cons |   2.702533   .0229384   117.82   0.000     2.657575    2.747491
     ------------------------------------------------------------------------------
-    Underidentification test (Kleibergen-Paap rk LM statistic):             10.796
-                                                       Chi-sq(1) P-val =    0.0010
+    Underidentification test (Kleibergen-Paap rk LM statistic):              1.000
+                                                       Chi-sq(1) P-val =    0.3173
     ------------------------------------------------------------------------------
-    Weak identification test (Cragg-Donald Wald F statistic):               45.052
-                             (Kleibergen-Paap rk Wald F statistic):         53.901
+    Weak identification test (Kleibergen-Paap rk Wald F statistic):              .
     Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
                                              15% maximal IV size              8.96
                                              20% maximal IV size              6.66
@@ -2899,8 +2896,7 @@ forvalues i = 1/6   {
     NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
     ------------------------------------------------------------------------------
     Warning: estimated covariance matrix of moment conditions not of full rank.
-             overidentification statistic not reported, and standard errors and
-             model tests should be interpreted with caution.
+             standard errors and model tests should be interpreted with caution.
     Possible causes:
              number of clusters insufficient to calculate robust covariance matrix
              singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
@@ -2913,7 +2909,6 @@ forvalues i = 1/6   {
                           dmdumiso14 dmdumiso15 dmdumiso16
     Excluded instruments: F.total
     ------------------------------------------------------------------------------
-    Warning: time variable year has 1 gap(s) in relevant range
     
     IV (2SLS) estimation
     --------------------
@@ -2921,7 +2916,7 @@ forvalues i = 1/6   {
     Estimates efficient for homoskedasticity only
     Statistics robust to heteroskedasticity and clustering on iso
     
-    Number of clusters (iso) =          17                Number of obs =      440
+    Number of clusters (iso) = 17                         Number of obs =      440
                                                           F( 20,    16) =    45.45
                                                           Prob > F      =   0.0000
     Total (centered) SS     =  5004.818523                Centered R2   =   0.5986
@@ -2954,11 +2949,10 @@ forvalues i = 1/6   {
       dmdumiso16 |   .1481709   .1538531     0.96   0.336    -.1533755    .4497174
            _cons |   5.281711   .0384269   137.45   0.000     5.206395    5.357026
     ------------------------------------------------------------------------------
-    Underidentification test (Kleibergen-Paap rk LM statistic):             12.227
-                                                       Chi-sq(1) P-val =    0.0005
+    Underidentification test (Kleibergen-Paap rk LM statistic):              1.000
+                                                       Chi-sq(1) P-val =    0.3173
     ------------------------------------------------------------------------------
-    Weak identification test (Cragg-Donald Wald F statistic):               43.847
-                             (Kleibergen-Paap rk Wald F statistic):         33.406
+    Weak identification test (Kleibergen-Paap rk Wald F statistic):              .
     Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
                                              15% maximal IV size              8.96
                                              20% maximal IV size              6.66
@@ -2967,8 +2961,7 @@ forvalues i = 1/6   {
     NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
     ------------------------------------------------------------------------------
     Warning: estimated covariance matrix of moment conditions not of full rank.
-             overidentification statistic not reported, and standard errors and
-             model tests should be interpreted with caution.
+             standard errors and model tests should be interpreted with caution.
     Possible causes:
              number of clusters insufficient to calculate robust covariance matrix
              singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
@@ -2981,7 +2974,6 @@ forvalues i = 1/6   {
                           dmdumiso14 dmdumiso15 dmdumiso16
     Excluded instruments: F.treatment
     ------------------------------------------------------------------------------
-    Warning: time variable year has 1 gap(s) in relevant range
     
     IV (2SLS) estimation
     --------------------
@@ -2989,7 +2981,7 @@ forvalues i = 1/6   {
     Estimates efficient for homoskedasticity only
     Statistics robust to heteroskedasticity and clustering on iso
     
-    Number of clusters (iso) =          17                Number of obs =      440
+    Number of clusters (iso) = 17                         Number of obs =      440
                                                           F( 20,    16) =    37.94
                                                           Prob > F      =   0.0000
     Total (centered) SS     =  5004.818523                Centered R2   =   0.5662
@@ -3022,11 +3014,10 @@ forvalues i = 1/6   {
       dmdumiso16 |   .2029867   .1599172     1.27   0.204    -.1104453    .5164187
            _cons |   5.295156   .0370116   143.07   0.000     5.222615    5.367698
     ------------------------------------------------------------------------------
-    Underidentification test (Kleibergen-Paap rk LM statistic):             10.639
-                                                       Chi-sq(1) P-val =    0.0011
+    Underidentification test (Kleibergen-Paap rk LM statistic):              1.000
+                                                       Chi-sq(1) P-val =    0.3173
     ------------------------------------------------------------------------------
-    Weak identification test (Cragg-Donald Wald F statistic):               42.928
-                             (Kleibergen-Paap rk Wald F statistic):         51.519
+    Weak identification test (Kleibergen-Paap rk Wald F statistic):              .
     Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
                                              15% maximal IV size              8.96
                                              20% maximal IV size              6.66
@@ -3035,8 +3026,7 @@ forvalues i = 1/6   {
     NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
     ------------------------------------------------------------------------------
     Warning: estimated covariance matrix of moment conditions not of full rank.
-             overidentification statistic not reported, and standard errors and
-             model tests should be interpreted with caution.
+             standard errors and model tests should be interpreted with caution.
     Possible causes:
              number of clusters insufficient to calculate robust covariance matrix
              singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
@@ -3049,7 +3039,6 @@ forvalues i = 1/6   {
                           dmdumiso14 dmdumiso15 dmdumiso16
     Excluded instruments: F.total
     ------------------------------------------------------------------------------
-    Warning: time variable year has 1 gap(s) in relevant range
     
     IV (2SLS) estimation
     --------------------
@@ -3057,7 +3046,7 @@ forvalues i = 1/6   {
     Estimates efficient for homoskedasticity only
     Statistics robust to heteroskedasticity and clustering on iso
     
-    Number of clusters (iso) =          17                Number of obs =      423
+    Number of clusters (iso) = 17                         Number of obs =      423
                                                           F( 20,    16) =   163.23
                                                           Prob > F      =   0.0000
     Total (centered) SS     =  8960.377194                Centered R2   =   0.7772
@@ -3090,11 +3079,10 @@ forvalues i = 1/6   {
       dmdumiso16 |  -.4065454   .1904445    -2.13   0.033    -.7798096   -.0332811
            _cons |   7.804612   .0324396   240.59   0.000     7.741031    7.868192
     ------------------------------------------------------------------------------
-    Underidentification test (Kleibergen-Paap rk LM statistic):             11.192
-                                                       Chi-sq(1) P-val =    0.0008
+    Underidentification test (Kleibergen-Paap rk LM statistic):              1.000
+                                                       Chi-sq(1) P-val =    0.3173
     ------------------------------------------------------------------------------
-    Weak identification test (Cragg-Donald Wald F statistic):               41.969
-                             (Kleibergen-Paap rk Wald F statistic):         26.611
+    Weak identification test (Kleibergen-Paap rk Wald F statistic):              .
     Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
                                              15% maximal IV size              8.96
                                              20% maximal IV size              6.66
@@ -3103,8 +3091,7 @@ forvalues i = 1/6   {
     NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
     ------------------------------------------------------------------------------
     Warning: estimated covariance matrix of moment conditions not of full rank.
-             overidentification statistic not reported, and standard errors and
-             model tests should be interpreted with caution.
+             standard errors and model tests should be interpreted with caution.
     Possible causes:
              number of clusters insufficient to calculate robust covariance matrix
              singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
@@ -3117,7 +3104,6 @@ forvalues i = 1/6   {
                           dmdumiso14 dmdumiso15 dmdumiso16
     Excluded instruments: F.treatment
     ------------------------------------------------------------------------------
-    Warning: time variable year has 1 gap(s) in relevant range
     
     IV (2SLS) estimation
     --------------------
@@ -3125,7 +3111,7 @@ forvalues i = 1/6   {
     Estimates efficient for homoskedasticity only
     Statistics robust to heteroskedasticity and clustering on iso
     
-    Number of clusters (iso) =          17                Number of obs =      423
+    Number of clusters (iso) = 17                         Number of obs =      423
                                                           F( 20,    16) =   144.39
                                                           Prob > F      =   0.0000
     Total (centered) SS     =  8960.377194                Centered R2   =   0.7886
@@ -3158,11 +3144,10 @@ forvalues i = 1/6   {
       dmdumiso16 |  -.4576091    .219116    -2.09   0.037    -.8870685   -.0281497
            _cons |   7.795968   .0353677   220.43   0.000     7.726649    7.865288
     ------------------------------------------------------------------------------
-    Underidentification test (Kleibergen-Paap rk LM statistic):             10.423
-                                                       Chi-sq(1) P-val =    0.0012
+    Underidentification test (Kleibergen-Paap rk LM statistic):              1.000
+                                                       Chi-sq(1) P-val =    0.3173
     ------------------------------------------------------------------------------
-    Weak identification test (Cragg-Donald Wald F statistic):               41.436
-                             (Kleibergen-Paap rk Wald F statistic):         48.954
+    Weak identification test (Kleibergen-Paap rk Wald F statistic):              .
     Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
                                              15% maximal IV size              8.96
                                              20% maximal IV size              6.66
@@ -3171,8 +3156,7 @@ forvalues i = 1/6   {
     NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
     ------------------------------------------------------------------------------
     Warning: estimated covariance matrix of moment conditions not of full rank.
-             overidentification statistic not reported, and standard errors and
-             model tests should be interpreted with caution.
+             standard errors and model tests should be interpreted with caution.
     Possible causes:
              number of clusters insufficient to calculate robust covariance matrix
              singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
@@ -3185,7 +3169,6 @@ forvalues i = 1/6   {
                           dmdumiso14 dmdumiso15 dmdumiso16
     Excluded instruments: F.total
     ------------------------------------------------------------------------------
-    Warning: time variable year has 1 gap(s) in relevant range
     
     IV (2SLS) estimation
     --------------------
@@ -3193,7 +3176,7 @@ forvalues i = 1/6   {
     Estimates efficient for homoskedasticity only
     Statistics robust to heteroskedasticity and clustering on iso
     
-    Number of clusters (iso) =          17                Number of obs =      406
+    Number of clusters (iso) = 17                         Number of obs =      406
                                                           F( 20,    16) =   309.17
                                                           Prob > F      =   0.0000
     Total (centered) SS     =  13059.61003                Centered R2   =   0.8450
@@ -3226,11 +3209,10 @@ forvalues i = 1/6   {
       dmdumiso16 |  -1.125434   .2036396    -5.53   0.000     -1.52456   -.7263077
            _cons |   10.36245   .0244919   423.10   0.000     10.31445    10.41046
     ------------------------------------------------------------------------------
-    Underidentification test (Kleibergen-Paap rk LM statistic):             11.864
-                                                       Chi-sq(1) P-val =    0.0006
+    Underidentification test (Kleibergen-Paap rk LM statistic):              1.000
+                                                       Chi-sq(1) P-val =    0.3173
     ------------------------------------------------------------------------------
-    Weak identification test (Cragg-Donald Wald F statistic):               48.039
-                             (Kleibergen-Paap rk Wald F statistic):         31.993
+    Weak identification test (Kleibergen-Paap rk Wald F statistic):              .
     Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
                                              15% maximal IV size              8.96
                                              20% maximal IV size              6.66
@@ -3239,8 +3221,7 @@ forvalues i = 1/6   {
     NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
     ------------------------------------------------------------------------------
     Warning: estimated covariance matrix of moment conditions not of full rank.
-             overidentification statistic not reported, and standard errors and
-             model tests should be interpreted with caution.
+             standard errors and model tests should be interpreted with caution.
     Possible causes:
              number of clusters insufficient to calculate robust covariance matrix
              singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
@@ -3253,7 +3234,6 @@ forvalues i = 1/6   {
                           dmdumiso14 dmdumiso15 dmdumiso16
     Excluded instruments: F.treatment
     ------------------------------------------------------------------------------
-    Warning: time variable year has 1 gap(s) in relevant range
     
     IV (2SLS) estimation
     --------------------
@@ -3261,7 +3241,7 @@ forvalues i = 1/6   {
     Estimates efficient for homoskedasticity only
     Statistics robust to heteroskedasticity and clustering on iso
     
-    Number of clusters (iso) =          17                Number of obs =      406
+    Number of clusters (iso) = 17                         Number of obs =      406
                                                           F( 20,    16) =   373.63
                                                           Prob > F      =   0.0000
     Total (centered) SS     =  13059.61003                Centered R2   =   0.8599
@@ -3294,11 +3274,10 @@ forvalues i = 1/6   {
       dmdumiso16 |  -1.273448   .2220103    -5.74   0.000     -1.70858   -.8383158
            _cons |   10.34006    .027778   372.24   0.000     10.28562     10.3945
     ------------------------------------------------------------------------------
-    Underidentification test (Kleibergen-Paap rk LM statistic):             10.458
-                                                       Chi-sq(1) P-val =    0.0012
+    Underidentification test (Kleibergen-Paap rk LM statistic):              1.000
+                                                       Chi-sq(1) P-val =    0.3173
     ------------------------------------------------------------------------------
-    Weak identification test (Cragg-Donald Wald F statistic):               43.089
-                             (Kleibergen-Paap rk Wald F statistic):         45.255
+    Weak identification test (Kleibergen-Paap rk Wald F statistic):              .
     Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
                                              15% maximal IV size              8.96
                                              20% maximal IV size              6.66
@@ -3307,8 +3286,7 @@ forvalues i = 1/6   {
     NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
     ------------------------------------------------------------------------------
     Warning: estimated covariance matrix of moment conditions not of full rank.
-             overidentification statistic not reported, and standard errors and
-             model tests should be interpreted with caution.
+             standard errors and model tests should be interpreted with caution.
     Possible causes:
              number of clusters insufficient to calculate robust covariance matrix
              singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
@@ -3321,7 +3299,6 @@ forvalues i = 1/6   {
                           dmdumiso14 dmdumiso15 dmdumiso16
     Excluded instruments: F.total
     ------------------------------------------------------------------------------
-    Warning: time variable year has 1 gap(s) in relevant range
     
     IV (2SLS) estimation
     --------------------
@@ -3329,7 +3306,7 @@ forvalues i = 1/6   {
     Estimates efficient for homoskedasticity only
     Statistics robust to heteroskedasticity and clustering on iso
     
-    Number of clusters (iso) =          17                Number of obs =      389
+    Number of clusters (iso) = 17                         Number of obs =      389
                                                           F( 20,    16) =   441.16
                                                           Prob > F      =   0.0000
     Total (centered) SS     =  17065.06769                Centered R2   =   0.8294
@@ -3362,11 +3339,10 @@ forvalues i = 1/6   {
       dmdumiso16 |  -1.948283   .3008309    -6.48   0.000    -2.537901   -1.358665
            _cons |   12.98298   .0322624   402.42   0.000     12.91974    13.04621
     ------------------------------------------------------------------------------
-    Underidentification test (Kleibergen-Paap rk LM statistic):             11.646
-                                                       Chi-sq(1) P-val =    0.0006
+    Underidentification test (Kleibergen-Paap rk LM statistic):              1.000
+                                                       Chi-sq(1) P-val =    0.3173
     ------------------------------------------------------------------------------
-    Weak identification test (Cragg-Donald Wald F statistic):               47.695
-                             (Kleibergen-Paap rk Wald F statistic):         30.778
+    Weak identification test (Kleibergen-Paap rk Wald F statistic):              .
     Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
                                              15% maximal IV size              8.96
                                              20% maximal IV size              6.66
@@ -3375,8 +3351,7 @@ forvalues i = 1/6   {
     NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
     ------------------------------------------------------------------------------
     Warning: estimated covariance matrix of moment conditions not of full rank.
-             overidentification statistic not reported, and standard errors and
-             model tests should be interpreted with caution.
+             standard errors and model tests should be interpreted with caution.
     Possible causes:
              number of clusters insufficient to calculate robust covariance matrix
              singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
@@ -3389,7 +3364,6 @@ forvalues i = 1/6   {
                           dmdumiso14 dmdumiso15 dmdumiso16
     Excluded instruments: F.treatment
     ------------------------------------------------------------------------------
-    Warning: time variable year has 1 gap(s) in relevant range
     
     IV (2SLS) estimation
     --------------------
@@ -3397,7 +3371,7 @@ forvalues i = 1/6   {
     Estimates efficient for homoskedasticity only
     Statistics robust to heteroskedasticity and clustering on iso
     
-    Number of clusters (iso) =          17                Number of obs =      389
+    Number of clusters (iso) = 17                         Number of obs =      389
                                                           F( 20,    16) =   487.92
                                                           Prob > F      =   0.0000
     Total (centered) SS     =  17065.06769                Centered R2   =   0.8399
@@ -3430,11 +3404,10 @@ forvalues i = 1/6   {
       dmdumiso16 |  -2.082258   .3199796    -6.51   0.000    -2.709406   -1.455109
            _cons |   12.96226   .0333406   388.78   0.000     12.89691     13.0276
     ------------------------------------------------------------------------------
-    Underidentification test (Kleibergen-Paap rk LM statistic):             10.319
-                                                       Chi-sq(1) P-val =    0.0013
+    Underidentification test (Kleibergen-Paap rk LM statistic):              1.000
+                                                       Chi-sq(1) P-val =    0.3173
     ------------------------------------------------------------------------------
-    Weak identification test (Cragg-Donald Wald F statistic):               41.567
-                             (Kleibergen-Paap rk Wald F statistic):         42.390
+    Weak identification test (Kleibergen-Paap rk Wald F statistic):              .
     Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
                                              15% maximal IV size              8.96
                                              20% maximal IV size              6.66
@@ -3443,8 +3416,7 @@ forvalues i = 1/6   {
     NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
     ------------------------------------------------------------------------------
     Warning: estimated covariance matrix of moment conditions not of full rank.
-             overidentification statistic not reported, and standard errors and
-             model tests should be interpreted with caution.
+             standard errors and model tests should be interpreted with caution.
     Possible causes:
              number of clusters insufficient to calculate robust covariance matrix
              singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
@@ -3457,7 +3429,6 @@ forvalues i = 1/6   {
                           dmdumiso14 dmdumiso15 dmdumiso16
     Excluded instruments: F.total
     ------------------------------------------------------------------------------
-    Warning: time variable year has 1 gap(s) in relevant range
     
     IV (2SLS) estimation
     --------------------
@@ -3465,7 +3436,7 @@ forvalues i = 1/6   {
     Estimates efficient for homoskedasticity only
     Statistics robust to heteroskedasticity and clustering on iso
     
-    Number of clusters (iso) =          17                Number of obs =      389
+    Number of clusters (iso) = 17                         Number of obs =      389
                                                           F( 20,    16) =   346.04
                                                           Prob > F      =   0.0000
     Total (centered) SS     =  176154.2849                Centered R2   =   0.8714
@@ -3498,11 +3469,10 @@ forvalues i = 1/6   {
       dmdumiso16 |  -4.403118   .7377145    -5.97   0.000    -5.849012   -2.957224
            _cons |   38.39977   .0988163   388.60   0.000     38.20609    38.59344
     ------------------------------------------------------------------------------
-    Underidentification test (Kleibergen-Paap rk LM statistic):             11.646
-                                                       Chi-sq(1) P-val =    0.0006
+    Underidentification test (Kleibergen-Paap rk LM statistic):              1.000
+                                                       Chi-sq(1) P-val =    0.3173
     ------------------------------------------------------------------------------
-    Weak identification test (Cragg-Donald Wald F statistic):               47.695
-                             (Kleibergen-Paap rk Wald F statistic):         30.778
+    Weak identification test (Kleibergen-Paap rk Wald F statistic):              .
     Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
                                              15% maximal IV size              8.96
                                              20% maximal IV size              6.66
@@ -3511,8 +3481,7 @@ forvalues i = 1/6   {
     NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
     ------------------------------------------------------------------------------
     Warning: estimated covariance matrix of moment conditions not of full rank.
-             overidentification statistic not reported, and standard errors and
-             model tests should be interpreted with caution.
+             standard errors and model tests should be interpreted with caution.
     Possible causes:
              number of clusters insufficient to calculate robust covariance matrix
              singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
@@ -3525,7 +3494,6 @@ forvalues i = 1/6   {
                           dmdumiso14 dmdumiso15 dmdumiso16
     Excluded instruments: F.treatment
     ------------------------------------------------------------------------------
-    Warning: time variable year has 1 gap(s) in relevant range
     
     IV (2SLS) estimation
     --------------------
@@ -3533,7 +3501,7 @@ forvalues i = 1/6   {
     Estimates efficient for homoskedasticity only
     Statistics robust to heteroskedasticity and clustering on iso
     
-    Number of clusters (iso) =          17                Number of obs =      389
+    Number of clusters (iso) = 17                         Number of obs =      389
                                                           F( 20,    16) =   338.39
                                                           Prob > F      =   0.0000
     Total (centered) SS     =  176154.2849                Centered R2   =   0.8759
@@ -3566,11 +3534,10 @@ forvalues i = 1/6   {
       dmdumiso16 |  -4.515806   .7435347    -6.07   0.000    -5.973107   -3.058504
            _cons |   38.38234   .1088982   352.46   0.000      38.1689    38.59577
     ------------------------------------------------------------------------------
-    Underidentification test (Kleibergen-Paap rk LM statistic):             10.319
-                                                       Chi-sq(1) P-val =    0.0013
+    Underidentification test (Kleibergen-Paap rk LM statistic):              1.000
+                                                       Chi-sq(1) P-val =    0.3173
     ------------------------------------------------------------------------------
-    Weak identification test (Cragg-Donald Wald F statistic):               41.567
-                             (Kleibergen-Paap rk Wald F statistic):         42.390
+    Weak identification test (Kleibergen-Paap rk Wald F statistic):              .
     Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
                                              15% maximal IV size              8.96
                                              20% maximal IV size              6.66
@@ -3579,8 +3546,7 @@ forvalues i = 1/6   {
     NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
     ------------------------------------------------------------------------------
     Warning: estimated covariance matrix of moment conditions not of full rank.
-             overidentification statistic not reported, and standard errors and
-             model tests should be interpreted with caution.
+             standard errors and model tests should be interpreted with caution.
     Possible causes:
              number of clusters insufficient to calculate robust covariance matrix
              singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
@@ -3654,7 +3620,7 @@ forvalues i = 1/6   {
     Estimates efficient for homoskedasticity only
     Statistics robust to heteroskedasticity and clustering on iso
     
-    Number of clusters (iso) =          17                Number of obs =      222
+    Number of clusters (iso) = 17                         Number of obs =      222
                                                           F( 20,    16) =     6.49
                                                           Prob > F      =   0.0002
     Total (centered) SS     =  841.2086444                Centered R2   =   0.4100
@@ -3687,11 +3653,10 @@ forvalues i = 1/6   {
       dmdumiso16 |   .3876572   .0827894     4.68   0.000     .2253929    .5499214
            _cons |   2.819585   .1094683    25.76   0.000     2.605031    3.034139
     ------------------------------------------------------------------------------
-    Underidentification test (Kleibergen-Paap rk LM statistic):              7.284
-                                                       Chi-sq(1) P-val =    0.0070
+    Underidentification test (Kleibergen-Paap rk LM statistic):              1.000
+                                                       Chi-sq(1) P-val =    0.3173
     ------------------------------------------------------------------------------
-    Weak identification test (Cragg-Donald Wald F statistic):               10.448
-                             (Kleibergen-Paap rk Wald F statistic):         11.602
+    Weak identification test (Kleibergen-Paap rk Wald F statistic):              .
     Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
                                              15% maximal IV size              8.96
                                              20% maximal IV size              6.66
@@ -3700,8 +3665,7 @@ forvalues i = 1/6   {
     NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
     ------------------------------------------------------------------------------
     Warning: estimated covariance matrix of moment conditions not of full rank.
-             overidentification statistic not reported, and standard errors and
-             model tests should be interpreted with caution.
+             standard errors and model tests should be interpreted with caution.
     Possible causes:
              number of clusters insufficient to calculate robust covariance matrix
              singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
@@ -3724,7 +3688,7 @@ forvalues i = 1/6   {
     Estimates efficient for homoskedasticity only
     Statistics robust to heteroskedasticity and clustering on iso
     
-    Number of clusters (iso) =          17                Number of obs =      235
+    Number of clusters (iso) = 17                         Number of obs =      235
                                                           F( 20,    16) =    21.42
                                                           Prob > F      =   0.0000
     Total (centered) SS     =  745.7133475                Centered R2   =   0.6240
@@ -3757,11 +3721,10 @@ forvalues i = 1/6   {
       dmdumiso16 |  -.1263474   .2056055    -0.61   0.539    -.5293268    .2766321
            _cons |    2.46157   .1532954    16.06   0.000     2.161117    2.762024
     ------------------------------------------------------------------------------
-    Underidentification test (Kleibergen-Paap rk LM statistic):             12.310
-                                                       Chi-sq(1) P-val =    0.0005
+    Underidentification test (Kleibergen-Paap rk LM statistic):              1.000
+                                                       Chi-sq(1) P-val =    0.3173
     ------------------------------------------------------------------------------
-    Weak identification test (Cragg-Donald Wald F statistic):               40.007
-                             (Kleibergen-Paap rk Wald F statistic):         32.446
+    Weak identification test (Kleibergen-Paap rk Wald F statistic):              .
     Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
                                              15% maximal IV size              8.96
                                              20% maximal IV size              6.66
@@ -3770,8 +3733,7 @@ forvalues i = 1/6   {
     NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
     ------------------------------------------------------------------------------
     Warning: estimated covariance matrix of moment conditions not of full rank.
-             overidentification statistic not reported, and standard errors and
-             model tests should be interpreted with caution.
+             standard errors and model tests should be interpreted with caution.
     Possible causes:
              number of clusters insufficient to calculate robust covariance matrix
              singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
@@ -3794,7 +3756,7 @@ forvalues i = 1/6   {
     Estimates efficient for homoskedasticity only
     Statistics robust to heteroskedasticity and clustering on iso
     
-    Number of clusters (iso) =          17                Number of obs =      205
+    Number of clusters (iso) = 17                         Number of obs =      205
                                                           F( 20,    16) =     5.91
                                                           Prob > F      =   0.0004
     Total (centered) SS     =  2283.818034                Centered R2   =   0.6656
@@ -3827,11 +3789,10 @@ forvalues i = 1/6   {
       dmdumiso16 |    .390287   .1384247     2.82   0.005     .1189795    .6615945
            _cons |   5.777758   .2550482    22.65   0.000     5.277873    6.277643
     ------------------------------------------------------------------------------
-    Underidentification test (Kleibergen-Paap rk LM statistic):              6.706
-                                                       Chi-sq(1) P-val =    0.0096
+    Underidentification test (Kleibergen-Paap rk LM statistic):              1.000
+                                                       Chi-sq(1) P-val =    0.3173
     ------------------------------------------------------------------------------
-    Weak identification test (Cragg-Donald Wald F statistic):                8.859
-                             (Kleibergen-Paap rk Wald F statistic):         10.217
+    Weak identification test (Kleibergen-Paap rk Wald F statistic):              .
     Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
                                              15% maximal IV size              8.96
                                              20% maximal IV size              6.66
@@ -3840,8 +3801,7 @@ forvalues i = 1/6   {
     NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
     ------------------------------------------------------------------------------
     Warning: estimated covariance matrix of moment conditions not of full rank.
-             overidentification statistic not reported, and standard errors and
-             model tests should be interpreted with caution.
+             standard errors and model tests should be interpreted with caution.
     Possible causes:
              number of clusters insufficient to calculate robust covariance matrix
              singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
@@ -3864,7 +3824,7 @@ forvalues i = 1/6   {
     Estimates efficient for homoskedasticity only
     Statistics robust to heteroskedasticity and clustering on iso
     
-    Number of clusters (iso) =          17                Number of obs =      235
+    Number of clusters (iso) = 17                         Number of obs =      235
                                                           F( 20,    16) =    33.81
                                                           Prob > F      =   0.0000
     Total (centered) SS     =  2138.177252                Centered R2   =   0.6861
@@ -3897,11 +3857,10 @@ forvalues i = 1/6   {
       dmdumiso16 |   .4913737   .3325228     1.48   0.139     -.160359    1.143106
            _cons |   5.392704   .1688363    31.94   0.000     5.061791    5.723617
     ------------------------------------------------------------------------------
-    Underidentification test (Kleibergen-Paap rk LM statistic):             12.310
-                                                       Chi-sq(1) P-val =    0.0005
+    Underidentification test (Kleibergen-Paap rk LM statistic):              1.000
+                                                       Chi-sq(1) P-val =    0.3173
     ------------------------------------------------------------------------------
-    Weak identification test (Cragg-Donald Wald F statistic):               40.007
-                             (Kleibergen-Paap rk Wald F statistic):         32.446
+    Weak identification test (Kleibergen-Paap rk Wald F statistic):              .
     Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
                                              15% maximal IV size              8.96
                                              20% maximal IV size              6.66
@@ -3910,8 +3869,7 @@ forvalues i = 1/6   {
     NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
     ------------------------------------------------------------------------------
     Warning: estimated covariance matrix of moment conditions not of full rank.
-             overidentification statistic not reported, and standard errors and
-             model tests should be interpreted with caution.
+             standard errors and model tests should be interpreted with caution.
     Possible causes:
              number of clusters insufficient to calculate robust covariance matrix
              singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
@@ -3934,7 +3892,7 @@ forvalues i = 1/6   {
     Estimates efficient for homoskedasticity only
     Statistics robust to heteroskedasticity and clustering on iso
     
-    Number of clusters (iso) =          17                Number of obs =      192
+    Number of clusters (iso) = 17                         Number of obs =      192
                                                           F( 20,    16) =    24.38
                                                           Prob > F      =   0.0000
     Total (centered) SS     =  3476.505858                Centered R2   =   0.8166
@@ -3967,11 +3925,10 @@ forvalues i = 1/6   {
       dmdumiso16 |  -.1969052   .1306797    -1.51   0.132    -.4530326    .0592222
            _cons |     8.5865    .363283    23.64   0.000     7.874478    9.298521
     ------------------------------------------------------------------------------
-    Underidentification test (Kleibergen-Paap rk LM statistic):              5.724
-                                                       Chi-sq(1) P-val =    0.0167
+    Underidentification test (Kleibergen-Paap rk LM statistic):              1.000
+                                                       Chi-sq(1) P-val =    0.3173
     ------------------------------------------------------------------------------
-    Weak identification test (Cragg-Donald Wald F statistic):                8.642
-                             (Kleibergen-Paap rk Wald F statistic):          8.162
+    Weak identification test (Kleibergen-Paap rk Wald F statistic):              .
     Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
                                              15% maximal IV size              8.96
                                              20% maximal IV size              6.66
@@ -3980,8 +3937,7 @@ forvalues i = 1/6   {
     NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
     ------------------------------------------------------------------------------
     Warning: estimated covariance matrix of moment conditions not of full rank.
-             overidentification statistic not reported, and standard errors and
-             model tests should be interpreted with caution.
+             standard errors and model tests should be interpreted with caution.
     Possible causes:
              number of clusters insufficient to calculate robust covariance matrix
              singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
@@ -4004,7 +3960,7 @@ forvalues i = 1/6   {
     Estimates efficient for homoskedasticity only
     Statistics robust to heteroskedasticity and clustering on iso
     
-    Number of clusters (iso) =          17                Number of obs =      231
+    Number of clusters (iso) = 17                         Number of obs =      231
                                                           F( 20,    16) =    20.82
                                                           Prob > F      =   0.0000
     Total (centered) SS     =  3918.949552                Centered R2   =   0.7723
@@ -4037,11 +3993,10 @@ forvalues i = 1/6   {
       dmdumiso16 |   .1158106   .4020463     0.29   0.773    -.6721857    .9038069
            _cons |   8.281639    .221265    37.43   0.000     7.847967     8.71531
     ------------------------------------------------------------------------------
-    Underidentification test (Kleibergen-Paap rk LM statistic):             11.264
-                                                       Chi-sq(1) P-val =    0.0008
+    Underidentification test (Kleibergen-Paap rk LM statistic):              1.000
+                                                       Chi-sq(1) P-val =    0.3173
     ------------------------------------------------------------------------------
-    Weak identification test (Cragg-Donald Wald F statistic):               36.423
-                             (Kleibergen-Paap rk Wald F statistic):         27.741
+    Weak identification test (Kleibergen-Paap rk Wald F statistic):              .
     Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
                                              15% maximal IV size              8.96
                                              20% maximal IV size              6.66
@@ -4050,8 +4005,7 @@ forvalues i = 1/6   {
     NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
     ------------------------------------------------------------------------------
     Warning: estimated covariance matrix of moment conditions not of full rank.
-             overidentification statistic not reported, and standard errors and
-             model tests should be interpreted with caution.
+             standard errors and model tests should be interpreted with caution.
     Possible causes:
              number of clusters insufficient to calculate robust covariance matrix
              singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
@@ -4074,7 +4028,7 @@ forvalues i = 1/6   {
     Estimates efficient for homoskedasticity only
     Statistics robust to heteroskedasticity and clustering on iso
     
-    Number of clusters (iso) =          17                Number of obs =      180
+    Number of clusters (iso) = 17                         Number of obs =      180
                                                           F( 20,    16) =    61.60
                                                           Prob > F      =   0.0000
     Total (centered) SS     =  4188.436097                Centered R2   =   0.8155
@@ -4107,11 +4061,10 @@ forvalues i = 1/6   {
       dmdumiso16 |  -1.713346   .2762785    -6.20   0.000    -2.254842    -1.17185
            _cons |   10.71685   .4302485    24.91   0.000     9.873583    11.56013
     ------------------------------------------------------------------------------
-    Underidentification test (Kleibergen-Paap rk LM statistic):              6.869
-                                                       Chi-sq(1) P-val =    0.0088
+    Underidentification test (Kleibergen-Paap rk LM statistic):              1.000
+                                                       Chi-sq(1) P-val =    0.3173
     ------------------------------------------------------------------------------
-    Weak identification test (Cragg-Donald Wald F statistic):                9.642
-                             (Kleibergen-Paap rk Wald F statistic):         11.669
+    Weak identification test (Kleibergen-Paap rk Wald F statistic):              .
     Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
                                              15% maximal IV size              8.96
                                              20% maximal IV size              6.66
@@ -4120,8 +4073,7 @@ forvalues i = 1/6   {
     NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
     ------------------------------------------------------------------------------
     Warning: estimated covariance matrix of moment conditions not of full rank.
-             overidentification statistic not reported, and standard errors and
-             model tests should be interpreted with caution.
+             standard errors and model tests should be interpreted with caution.
     Possible causes:
              number of clusters insufficient to calculate robust covariance matrix
              singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
@@ -4144,7 +4096,7 @@ forvalues i = 1/6   {
     Estimates efficient for homoskedasticity only
     Statistics robust to heteroskedasticity and clustering on iso
     
-    Number of clusters (iso) =          17                Number of obs =      226
+    Number of clusters (iso) = 17                         Number of obs =      226
                                                           F( 20,    16) =    64.22
                                                           Prob > F      =   0.0000
     Total (centered) SS     =  6079.066274                Centered R2   =   0.8324
@@ -4177,11 +4129,10 @@ forvalues i = 1/6   {
       dmdumiso16 |  -.6006169   .4087068    -1.47   0.142    -1.401668    .2004338
            _cons |   10.92661   .3277608    33.34   0.000     10.28421    11.56901
     ------------------------------------------------------------------------------
-    Underidentification test (Kleibergen-Paap rk LM statistic):             11.701
-                                                       Chi-sq(1) P-val =    0.0006
+    Underidentification test (Kleibergen-Paap rk LM statistic):              1.000
+                                                       Chi-sq(1) P-val =    0.3173
     ------------------------------------------------------------------------------
-    Weak identification test (Cragg-Donald Wald F statistic):               41.698
-                             (Kleibergen-Paap rk Wald F statistic):         28.345
+    Weak identification test (Kleibergen-Paap rk Wald F statistic):              .
     Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
                                              15% maximal IV size              8.96
                                              20% maximal IV size              6.66
@@ -4190,8 +4141,7 @@ forvalues i = 1/6   {
     NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
     ------------------------------------------------------------------------------
     Warning: estimated covariance matrix of moment conditions not of full rank.
-             overidentification statistic not reported, and standard errors and
-             model tests should be interpreted with caution.
+             standard errors and model tests should be interpreted with caution.
     Possible causes:
              number of clusters insufficient to calculate robust covariance matrix
              singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
@@ -4214,7 +4164,7 @@ forvalues i = 1/6   {
     Estimates efficient for homoskedasticity only
     Statistics robust to heteroskedasticity and clustering on iso
     
-    Number of clusters (iso) =          17                Number of obs =      175
+    Number of clusters (iso) = 17                         Number of obs =      175
                                                           F( 20,    16) =    38.72
                                                           Prob > F      =   0.0000
     Total (centered) SS     =  5077.430846                Centered R2   =   0.7486
@@ -4247,11 +4197,10 @@ forvalues i = 1/6   {
       dmdumiso16 |   -2.85041   .4775352    -5.97   0.000    -3.786362   -1.914458
            _cons |   12.45284   .4019433    30.98   0.000     11.66505    13.24064
     ------------------------------------------------------------------------------
-    Underidentification test (Kleibergen-Paap rk LM statistic):              6.988
-                                                       Chi-sq(1) P-val =    0.0082
+    Underidentification test (Kleibergen-Paap rk LM statistic):              1.000
+                                                       Chi-sq(1) P-val =    0.3173
     ------------------------------------------------------------------------------
-    Weak identification test (Cragg-Donald Wald F statistic):                9.892
-                             (Kleibergen-Paap rk Wald F statistic):         11.867
+    Weak identification test (Kleibergen-Paap rk Wald F statistic):              .
     Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
                                              15% maximal IV size              8.96
                                              20% maximal IV size              6.66
@@ -4260,8 +4209,7 @@ forvalues i = 1/6   {
     NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
     ------------------------------------------------------------------------------
     Warning: estimated covariance matrix of moment conditions not of full rank.
-             overidentification statistic not reported, and standard errors and
-             model tests should be interpreted with caution.
+             standard errors and model tests should be interpreted with caution.
     Possible causes:
              number of clusters insufficient to calculate robust covariance matrix
              singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
@@ -4284,7 +4232,7 @@ forvalues i = 1/6   {
     Estimates efficient for homoskedasticity only
     Statistics robust to heteroskedasticity and clustering on iso
     
-    Number of clusters (iso) =          17                Number of obs =      214
+    Number of clusters (iso) = 17                         Number of obs =      214
                                                           F( 20,    16) =    58.49
                                                           Prob > F      =   0.0000
     Total (centered) SS     =  8121.787859                Centered R2   =   0.8216
@@ -4317,11 +4265,10 @@ forvalues i = 1/6   {
       dmdumiso16 |  -1.316697   .5345672    -2.46   0.014     -2.36443   -.2689646
            _cons |   13.40886   .3934463    34.08   0.000     12.63772    14.18001
     ------------------------------------------------------------------------------
-    Underidentification test (Kleibergen-Paap rk LM statistic):             11.353
-                                                       Chi-sq(1) P-val =    0.0008
+    Underidentification test (Kleibergen-Paap rk LM statistic):              1.000
+                                                       Chi-sq(1) P-val =    0.3173
     ------------------------------------------------------------------------------
-    Weak identification test (Cragg-Donald Wald F statistic):               41.867
-                             (Kleibergen-Paap rk Wald F statistic):         28.104
+    Weak identification test (Kleibergen-Paap rk Wald F statistic):              .
     Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
                                              15% maximal IV size              8.96
                                              20% maximal IV size              6.66
@@ -4330,8 +4277,7 @@ forvalues i = 1/6   {
     NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
     ------------------------------------------------------------------------------
     Warning: estimated covariance matrix of moment conditions not of full rank.
-             overidentification statistic not reported, and standard errors and
-             model tests should be interpreted with caution.
+             standard errors and model tests should be interpreted with caution.
     Possible causes:
              number of clusters insufficient to calculate robust covariance matrix
              singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
@@ -4354,7 +4300,7 @@ forvalues i = 1/6   {
     Estimates efficient for homoskedasticity only
     Statistics robust to heteroskedasticity and clustering on iso
     
-    Number of clusters (iso) =          17                Number of obs =      175
+    Number of clusters (iso) = 17                         Number of obs =      175
                                                           F( 20,    16) =    64.81
                                                           Prob > F      =   0.0000
     Total (centered) SS     =  55881.87671                Centered R2   =   0.8706
@@ -4387,11 +4333,10 @@ forvalues i = 1/6   {
       dmdumiso16 |  -4.480815   .8714003    -5.14   0.000    -6.188729   -2.772902
            _cons |   39.30789   1.563127    25.15   0.000     36.24422    42.37157
     ------------------------------------------------------------------------------
-    Underidentification test (Kleibergen-Paap rk LM statistic):              6.988
-                                                       Chi-sq(1) P-val =    0.0082
+    Underidentification test (Kleibergen-Paap rk LM statistic):              1.000
+                                                       Chi-sq(1) P-val =    0.3173
     ------------------------------------------------------------------------------
-    Weak identification test (Cragg-Donald Wald F statistic):                9.892
-                             (Kleibergen-Paap rk Wald F statistic):         11.867
+    Weak identification test (Kleibergen-Paap rk Wald F statistic):              .
     Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
                                              15% maximal IV size              8.96
                                              20% maximal IV size              6.66
@@ -4400,8 +4345,7 @@ forvalues i = 1/6   {
     NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
     ------------------------------------------------------------------------------
     Warning: estimated covariance matrix of moment conditions not of full rank.
-             overidentification statistic not reported, and standard errors and
-             model tests should be interpreted with caution.
+             standard errors and model tests should be interpreted with caution.
     Possible causes:
              number of clusters insufficient to calculate robust covariance matrix
              singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
@@ -4424,7 +4368,7 @@ forvalues i = 1/6   {
     Estimates efficient for homoskedasticity only
     Statistics robust to heteroskedasticity and clustering on iso
     
-    Number of clusters (iso) =          17                Number of obs =      214
+    Number of clusters (iso) = 17                         Number of obs =      214
                                                           F( 20,    16) =    89.47
                                                           Prob > F      =   0.0000
     Total (centered) SS     =  81046.40543                Centered R2   =   0.8643
@@ -4457,11 +4401,10 @@ forvalues i = 1/6   {
       dmdumiso16 |  -2.667215   1.454244    -1.83   0.067    -5.517481    .1830522
            _cons |   39.76873   1.053467    37.75   0.000     37.70397    41.83349
     ------------------------------------------------------------------------------
-    Underidentification test (Kleibergen-Paap rk LM statistic):             11.353
-                                                       Chi-sq(1) P-val =    0.0008
+    Underidentification test (Kleibergen-Paap rk LM statistic):              1.000
+                                                       Chi-sq(1) P-val =    0.3173
     ------------------------------------------------------------------------------
-    Weak identification test (Cragg-Donald Wald F statistic):               41.867
-                             (Kleibergen-Paap rk Wald F statistic):         28.104
+    Weak identification test (Kleibergen-Paap rk Wald F statistic):              .
     Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
                                              15% maximal IV size              8.96
                                              20% maximal IV size              6.66
@@ -4470,8 +4413,7 @@ forvalues i = 1/6   {
     NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
     ------------------------------------------------------------------------------
     Warning: estimated covariance matrix of moment conditions not of full rank.
-             overidentification statistic not reported, and standard errors and
-             model tests should be interpreted with caution.
+             standard errors and model tests should be interpreted with caution.
     Possible causes:
              number of clusters insufficient to calculate robust covariance matrix
              singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
@@ -4529,7 +4471,7 @@ forvalues i = 1/6   {
     Estimates efficient for homoskedasticity only
     Statistics robust to heteroskedasticity and clustering on iso
     
-    Number of clusters (iso) =          17                Number of obs =      222
+    Number of clusters (iso) = 17                         Number of obs =      222
                                                           F( 21,    16) =    14.11
                                                           Prob > F      =   0.0000
     Total (centered) SS     =  841.2086444                Centered R2   =   0.4642
@@ -4563,11 +4505,10 @@ forvalues i = 1/6   {
       dmdumiso16 |   .4620693   .0857349     5.39   0.000      .294032    .6301065
            _cons |   1.393791   .2458352     5.67   0.000     .9119625    1.875619
     ------------------------------------------------------------------------------
-    Underidentification test (Kleibergen-Paap rk LM statistic):              7.274
-                                                       Chi-sq(1) P-val =    0.0070
+    Underidentification test (Kleibergen-Paap rk LM statistic):              1.000
+                                                       Chi-sq(1) P-val =    0.3173
     ------------------------------------------------------------------------------
-    Weak identification test (Cragg-Donald Wald F statistic):               10.405
-                             (Kleibergen-Paap rk Wald F statistic):         11.504
+    Weak identification test (Kleibergen-Paap rk Wald F statistic):              .
     Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
                                              15% maximal IV size              8.96
                                              20% maximal IV size              6.66
@@ -4576,8 +4517,7 @@ forvalues i = 1/6   {
     NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
     ------------------------------------------------------------------------------
     Warning: estimated covariance matrix of moment conditions not of full rank.
-             overidentification statistic not reported, and standard errors and
-             model tests should be interpreted with caution.
+             standard errors and model tests should be interpreted with caution.
     Possible causes:
              number of clusters insufficient to calculate robust covariance matrix
              singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
@@ -4600,7 +4540,7 @@ forvalues i = 1/6   {
     Estimates efficient for homoskedasticity only
     Statistics robust to heteroskedasticity and clustering on iso
     
-    Number of clusters (iso) =          17                Number of obs =      235
+    Number of clusters (iso) = 17                         Number of obs =      235
                                                           F( 21,    16) =    31.86
                                                           Prob > F      =   0.0000
     Total (centered) SS     =  745.7133475                Centered R2   =   0.6259
@@ -4634,11 +4574,10 @@ forvalues i = 1/6   {
       dmdumiso16 |  -.1588354   .2172271    -0.73   0.465    -.5845927    .2669219
            _cons |   2.210789   .3028499     7.30   0.000     1.617214    2.804364
     ------------------------------------------------------------------------------
-    Underidentification test (Kleibergen-Paap rk LM statistic):             12.311
-                                                       Chi-sq(1) P-val =    0.0005
+    Underidentification test (Kleibergen-Paap rk LM statistic):              1.000
+                                                       Chi-sq(1) P-val =    0.3173
     ------------------------------------------------------------------------------
-    Weak identification test (Cragg-Donald Wald F statistic):               40.105
-                             (Kleibergen-Paap rk Wald F statistic):         32.893
+    Weak identification test (Kleibergen-Paap rk Wald F statistic):              .
     Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
                                              15% maximal IV size              8.96
                                              20% maximal IV size              6.66
@@ -4647,8 +4586,7 @@ forvalues i = 1/6   {
     NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
     ------------------------------------------------------------------------------
     Warning: estimated covariance matrix of moment conditions not of full rank.
-             overidentification statistic not reported, and standard errors and
-             model tests should be interpreted with caution.
+             standard errors and model tests should be interpreted with caution.
     Possible causes:
              number of clusters insufficient to calculate robust covariance matrix
              singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
@@ -4671,7 +4609,7 @@ forvalues i = 1/6   {
     Estimates efficient for homoskedasticity only
     Statistics robust to heteroskedasticity and clustering on iso
     
-    Number of clusters (iso) =          17                Number of obs =      205
+    Number of clusters (iso) = 17                         Number of obs =      205
                                                           F( 21,    16) =    16.26
                                                           Prob > F      =   0.0000
     Total (centered) SS     =  2283.818034                Centered R2   =   0.6787
@@ -4705,11 +4643,10 @@ forvalues i = 1/6   {
       dmdumiso16 |   .4071206   .1502175     2.71   0.007     .1126997    .7015415
            _cons |   4.066012   .5319504     7.64   0.000     3.023408    5.108615
     ------------------------------------------------------------------------------
-    Underidentification test (Kleibergen-Paap rk LM statistic):              6.746
-                                                       Chi-sq(1) P-val =    0.0094
+    Underidentification test (Kleibergen-Paap rk LM statistic):              1.000
+                                                       Chi-sq(1) P-val =    0.3173
     ------------------------------------------------------------------------------
-    Weak identification test (Cragg-Donald Wald F statistic):                8.850
-                             (Kleibergen-Paap rk Wald F statistic):         10.312
+    Weak identification test (Kleibergen-Paap rk Wald F statistic):              .
     Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
                                              15% maximal IV size              8.96
                                              20% maximal IV size              6.66
@@ -4718,8 +4655,7 @@ forvalues i = 1/6   {
     NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
     ------------------------------------------------------------------------------
     Warning: estimated covariance matrix of moment conditions not of full rank.
-             overidentification statistic not reported, and standard errors and
-             model tests should be interpreted with caution.
+             standard errors and model tests should be interpreted with caution.
     Possible causes:
              number of clusters insufficient to calculate robust covariance matrix
              singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
@@ -4742,7 +4678,7 @@ forvalues i = 1/6   {
     Estimates efficient for homoskedasticity only
     Statistics robust to heteroskedasticity and clustering on iso
     
-    Number of clusters (iso) =          17                Number of obs =      235
+    Number of clusters (iso) = 17                         Number of obs =      235
                                                           F( 21,    16) =    39.82
                                                           Prob > F      =   0.0000
     Total (centered) SS     =  2138.177252                Centered R2   =   0.6860
@@ -4776,11 +4712,10 @@ forvalues i = 1/6   {
       dmdumiso16 |   .5200999   .3367559     1.54   0.122    -.1399295    1.180129
            _cons |   5.614446   .3052944    18.39   0.000      5.01608    6.212812
     ------------------------------------------------------------------------------
-    Underidentification test (Kleibergen-Paap rk LM statistic):             12.311
-                                                       Chi-sq(1) P-val =    0.0005
+    Underidentification test (Kleibergen-Paap rk LM statistic):              1.000
+                                                       Chi-sq(1) P-val =    0.3173
     ------------------------------------------------------------------------------
-    Weak identification test (Cragg-Donald Wald F statistic):               40.105
-                             (Kleibergen-Paap rk Wald F statistic):         32.893
+    Weak identification test (Kleibergen-Paap rk Wald F statistic):              .
     Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
                                              15% maximal IV size              8.96
                                              20% maximal IV size              6.66
@@ -4789,8 +4724,7 @@ forvalues i = 1/6   {
     NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
     ------------------------------------------------------------------------------
     Warning: estimated covariance matrix of moment conditions not of full rank.
-             overidentification statistic not reported, and standard errors and
-             model tests should be interpreted with caution.
+             standard errors and model tests should be interpreted with caution.
     Possible causes:
              number of clusters insufficient to calculate robust covariance matrix
              singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
@@ -4813,7 +4747,7 @@ forvalues i = 1/6   {
     Estimates efficient for homoskedasticity only
     Statistics robust to heteroskedasticity and clustering on iso
     
-    Number of clusters (iso) =          17                Number of obs =      192
+    Number of clusters (iso) = 17                         Number of obs =      192
                                                           F( 21,    16) =    27.92
                                                           Prob > F      =   0.0000
     Total (centered) SS     =  3476.505858                Centered R2   =   0.8170
@@ -4847,11 +4781,10 @@ forvalues i = 1/6   {
       dmdumiso16 |  -.1933783   .1315975    -1.47   0.142    -.4513047    .0645481
            _cons |   8.053205   .6850247    11.76   0.000     6.710581    9.395829
     ------------------------------------------------------------------------------
-    Underidentification test (Kleibergen-Paap rk LM statistic):              6.041
-                                                       Chi-sq(1) P-val =    0.0140
+    Underidentification test (Kleibergen-Paap rk LM statistic):              1.000
+                                                       Chi-sq(1) P-val =    0.3173
     ------------------------------------------------------------------------------
-    Weak identification test (Cragg-Donald Wald F statistic):                8.985
-                             (Kleibergen-Paap rk Wald F statistic):          9.031
+    Weak identification test (Kleibergen-Paap rk Wald F statistic):              .
     Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
                                              15% maximal IV size              8.96
                                              20% maximal IV size              6.66
@@ -4860,8 +4793,7 @@ forvalues i = 1/6   {
     NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
     ------------------------------------------------------------------------------
     Warning: estimated covariance matrix of moment conditions not of full rank.
-             overidentification statistic not reported, and standard errors and
-             model tests should be interpreted with caution.
+             standard errors and model tests should be interpreted with caution.
     Possible causes:
              number of clusters insufficient to calculate robust covariance matrix
              singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
@@ -4884,7 +4816,7 @@ forvalues i = 1/6   {
     Estimates efficient for homoskedasticity only
     Statistics robust to heteroskedasticity and clustering on iso
     
-    Number of clusters (iso) =          17                Number of obs =      231
+    Number of clusters (iso) = 17                         Number of obs =      231
                                                           F( 21,    16) =    21.01
                                                           Prob > F      =   0.0000
     Total (centered) SS     =  3918.949552                Centered R2   =   0.7722
@@ -4918,11 +4850,10 @@ forvalues i = 1/6   {
       dmdumiso16 |   .1269584   .3828482     0.33   0.740    -.6234102     .877327
            _cons |   8.362997   .4785944    17.47   0.000     7.424969    9.301025
     ------------------------------------------------------------------------------
-    Underidentification test (Kleibergen-Paap rk LM statistic):             11.248
-                                                       Chi-sq(1) P-val =    0.0008
+    Underidentification test (Kleibergen-Paap rk LM statistic):              1.000
+                                                       Chi-sq(1) P-val =    0.3173
     ------------------------------------------------------------------------------
-    Weak identification test (Cragg-Donald Wald F statistic):               36.536
-                             (Kleibergen-Paap rk Wald F statistic):         27.990
+    Weak identification test (Kleibergen-Paap rk Wald F statistic):              .
     Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
                                              15% maximal IV size              8.96
                                              20% maximal IV size              6.66
@@ -4931,8 +4862,7 @@ forvalues i = 1/6   {
     NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
     ------------------------------------------------------------------------------
     Warning: estimated covariance matrix of moment conditions not of full rank.
-             overidentification statistic not reported, and standard errors and
-             model tests should be interpreted with caution.
+             standard errors and model tests should be interpreted with caution.
     Possible causes:
              number of clusters insufficient to calculate robust covariance matrix
              singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
@@ -4955,7 +4885,7 @@ forvalues i = 1/6   {
     Estimates efficient for homoskedasticity only
     Statistics robust to heteroskedasticity and clustering on iso
     
-    Number of clusters (iso) =          17                Number of obs =      180
+    Number of clusters (iso) = 17                         Number of obs =      180
                                                           F( 21,    16) =    30.42
                                                           Prob > F      =   0.0000
     Total (centered) SS     =  4188.436097                Centered R2   =   0.8246
@@ -4989,11 +4919,10 @@ forvalues i = 1/6   {
       dmdumiso16 |  -1.706953   .2633318    -6.48   0.000    -2.223074   -1.190832
            _cons |   11.90457   .8166288    14.58   0.000     10.30401    13.50513
     ------------------------------------------------------------------------------
-    Underidentification test (Kleibergen-Paap rk LM statistic):              7.552
-                                                       Chi-sq(1) P-val =    0.0060
+    Underidentification test (Kleibergen-Paap rk LM statistic):              1.000
+                                                       Chi-sq(1) P-val =    0.3173
     ------------------------------------------------------------------------------
-    Weak identification test (Cragg-Donald Wald F statistic):               10.697
-                             (Kleibergen-Paap rk Wald F statistic):         14.427
+    Weak identification test (Kleibergen-Paap rk Wald F statistic):              .
     Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
                                              15% maximal IV size              8.96
                                              20% maximal IV size              6.66
@@ -5002,8 +4931,7 @@ forvalues i = 1/6   {
     NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
     ------------------------------------------------------------------------------
     Warning: estimated covariance matrix of moment conditions not of full rank.
-             overidentification statistic not reported, and standard errors and
-             model tests should be interpreted with caution.
+             standard errors and model tests should be interpreted with caution.
     Possible causes:
              number of clusters insufficient to calculate robust covariance matrix
              singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
@@ -5026,7 +4954,7 @@ forvalues i = 1/6   {
     Estimates efficient for homoskedasticity only
     Statistics robust to heteroskedasticity and clustering on iso
     
-    Number of clusters (iso) =          17                Number of obs =      226
+    Number of clusters (iso) = 17                         Number of obs =      226
                                                           F( 21,    16) =    76.67
                                                           Prob > F      =   0.0000
     Total (centered) SS     =  6079.066274                Centered R2   =   0.8323
@@ -5060,11 +4988,10 @@ forvalues i = 1/6   {
       dmdumiso16 |  -.5793081    .347568    -1.67   0.096    -1.260529    .1019126
            _cons |   11.07666   .7009114    15.80   0.000     9.702896    12.45042
     ------------------------------------------------------------------------------
-    Underidentification test (Kleibergen-Paap rk LM statistic):             11.719
-                                                       Chi-sq(1) P-val =    0.0006
+    Underidentification test (Kleibergen-Paap rk LM statistic):              1.000
+                                                       Chi-sq(1) P-val =    0.3173
     ------------------------------------------------------------------------------
-    Weak identification test (Cragg-Donald Wald F statistic):               41.613
-                             (Kleibergen-Paap rk Wald F statistic):         28.816
+    Weak identification test (Kleibergen-Paap rk Wald F statistic):              .
     Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
                                              15% maximal IV size              8.96
                                              20% maximal IV size              6.66
@@ -5073,8 +5000,7 @@ forvalues i = 1/6   {
     NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
     ------------------------------------------------------------------------------
     Warning: estimated covariance matrix of moment conditions not of full rank.
-             overidentification statistic not reported, and standard errors and
-             model tests should be interpreted with caution.
+             standard errors and model tests should be interpreted with caution.
     Possible causes:
              number of clusters insufficient to calculate robust covariance matrix
              singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
@@ -5097,7 +5023,7 @@ forvalues i = 1/6   {
     Estimates efficient for homoskedasticity only
     Statistics robust to heteroskedasticity and clustering on iso
     
-    Number of clusters (iso) =          17                Number of obs =      175
+    Number of clusters (iso) = 17                         Number of obs =      175
                                                           F( 21,    16) =    33.77
                                                           Prob > F      =   0.0000
     Total (centered) SS     =  5077.430846                Centered R2   =   0.7769
@@ -5131,11 +5057,10 @@ forvalues i = 1/6   {
       dmdumiso16 |  -2.833869   .4449277    -6.37   0.000    -3.705911   -1.961827
            _cons |   14.90486   .9907541    15.04   0.000     12.96301     16.8467
     ------------------------------------------------------------------------------
-    Underidentification test (Kleibergen-Paap rk LM statistic):              7.755
-                                                       Chi-sq(1) P-val =    0.0054
+    Underidentification test (Kleibergen-Paap rk LM statistic):              1.000
+                                                       Chi-sq(1) P-val =    0.3173
     ------------------------------------------------------------------------------
-    Weak identification test (Cragg-Donald Wald F statistic):               11.344
-                             (Kleibergen-Paap rk Wald F statistic):         14.748
+    Weak identification test (Kleibergen-Paap rk Wald F statistic):              .
     Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
                                              15% maximal IV size              8.96
                                              20% maximal IV size              6.66
@@ -5144,8 +5069,7 @@ forvalues i = 1/6   {
     NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
     ------------------------------------------------------------------------------
     Warning: estimated covariance matrix of moment conditions not of full rank.
-             overidentification statistic not reported, and standard errors and
-             model tests should be interpreted with caution.
+             standard errors and model tests should be interpreted with caution.
     Possible causes:
              number of clusters insufficient to calculate robust covariance matrix
              singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
@@ -5168,7 +5092,7 @@ forvalues i = 1/6   {
     Estimates efficient for homoskedasticity only
     Statistics robust to heteroskedasticity and clustering on iso
     
-    Number of clusters (iso) =          17                Number of obs =      214
+    Number of clusters (iso) = 17                         Number of obs =      214
                                                           F( 21,    16) =    59.15
                                                           Prob > F      =   0.0000
     Total (centered) SS     =  8121.787859                Centered R2   =   0.8230
@@ -5202,11 +5126,10 @@ forvalues i = 1/6   {
       dmdumiso16 |  -1.161474   .4871111    -2.38   0.017    -2.116194   -.2067537
            _cons |    14.4158   .8729989    16.51   0.000     12.70476    16.12685
     ------------------------------------------------------------------------------
-    Underidentification test (Kleibergen-Paap rk LM statistic):             11.382
-                                                       Chi-sq(1) P-val =    0.0007
+    Underidentification test (Kleibergen-Paap rk LM statistic):              1.000
+                                                       Chi-sq(1) P-val =    0.3173
     ------------------------------------------------------------------------------
-    Weak identification test (Cragg-Donald Wald F statistic):               41.728
-                             (Kleibergen-Paap rk Wald F statistic):         28.555
+    Weak identification test (Kleibergen-Paap rk Wald F statistic):              .
     Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
                                              15% maximal IV size              8.96
                                              20% maximal IV size              6.66
@@ -5215,8 +5138,7 @@ forvalues i = 1/6   {
     NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
     ------------------------------------------------------------------------------
     Warning: estimated covariance matrix of moment conditions not of full rank.
-             overidentification statistic not reported, and standard errors and
-             model tests should be interpreted with caution.
+             standard errors and model tests should be interpreted with caution.
     Possible causes:
              number of clusters insufficient to calculate robust covariance matrix
              singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
@@ -5239,7 +5161,7 @@ forvalues i = 1/6   {
     Estimates efficient for homoskedasticity only
     Statistics robust to heteroskedasticity and clustering on iso
     
-    Number of clusters (iso) =          17                Number of obs =      175
+    Number of clusters (iso) = 17                         Number of obs =      175
                                                           F( 21,    16) =   111.84
                                                           Prob > F      =   0.0000
     Total (centered) SS     =  55881.87671                Centered R2   =   0.8773
@@ -5273,11 +5195,10 @@ forvalues i = 1/6   {
       dmdumiso16 |  -4.458392   .8496793    -5.25   0.000    -6.123732   -2.793051
            _cons |   42.63202   2.998416    14.22   0.000     36.75524    48.50881
     ------------------------------------------------------------------------------
-    Underidentification test (Kleibergen-Paap rk LM statistic):              7.755
-                                                       Chi-sq(1) P-val =    0.0054
+    Underidentification test (Kleibergen-Paap rk LM statistic):              1.000
+                                                       Chi-sq(1) P-val =    0.3173
     ------------------------------------------------------------------------------
-    Weak identification test (Cragg-Donald Wald F statistic):               11.344
-                             (Kleibergen-Paap rk Wald F statistic):         14.748
+    Weak identification test (Kleibergen-Paap rk Wald F statistic):              .
     Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
                                              15% maximal IV size              8.96
                                              20% maximal IV size              6.66
@@ -5286,8 +5207,7 @@ forvalues i = 1/6   {
     NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
     ------------------------------------------------------------------------------
     Warning: estimated covariance matrix of moment conditions not of full rank.
-             overidentification statistic not reported, and standard errors and
-             model tests should be interpreted with caution.
+             standard errors and model tests should be interpreted with caution.
     Possible causes:
              number of clusters insufficient to calculate robust covariance matrix
              singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
@@ -5310,7 +5230,7 @@ forvalues i = 1/6   {
     Estimates efficient for homoskedasticity only
     Statistics robust to heteroskedasticity and clustering on iso
     
-    Number of clusters (iso) =          17                Number of obs =      214
+    Number of clusters (iso) = 17                         Number of obs =      214
                                                           F( 21,    16) =   105.03
                                                           Prob > F      =   0.0000
     Total (centered) SS     =  81046.40543                Centered R2   =   0.8649
@@ -5344,11 +5264,10 @@ forvalues i = 1/6   {
       dmdumiso16 |  -2.279411   1.240389    -1.84   0.066    -4.710528    .1517061
            _cons |   42.28442   2.160711    19.57   0.000     38.04951    46.51934
     ------------------------------------------------------------------------------
-    Underidentification test (Kleibergen-Paap rk LM statistic):             11.382
-                                                       Chi-sq(1) P-val =    0.0007
+    Underidentification test (Kleibergen-Paap rk LM statistic):              1.000
+                                                       Chi-sq(1) P-val =    0.3173
     ------------------------------------------------------------------------------
-    Weak identification test (Cragg-Donald Wald F statistic):               41.728
-                             (Kleibergen-Paap rk Wald F statistic):         28.555
+    Weak identification test (Kleibergen-Paap rk Wald F statistic):              .
     Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
                                              15% maximal IV size              8.96
                                              20% maximal IV size              6.66
@@ -5357,8 +5276,7 @@ forvalues i = 1/6   {
     NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
     ------------------------------------------------------------------------------
     Warning: estimated covariance matrix of moment conditions not of full rank.
-             overidentification statistic not reported, and standard errors and
-             model tests should be interpreted with caution.
+             standard errors and model tests should be interpreted with caution.
     Possible causes:
              number of clusters insufficient to calculate robust covariance matrix
              singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
@@ -5482,19 +5400,19 @@ estpost ttest debtgdp hply dly treatment, by(fcontrol)
         Ha: diff < 0                 Ha: diff != 0                 Ha: diff > 0
      Pr(T < t) = 1.0000         Pr(|T| > |t|) = 0.0000          Pr(T > t) = 0.0000
     
-                 |      e(b)   e(count)      e(se)       e(t)    e(df_t)     e(p_l)       e(p)     e(p_u) 
-    -------------+----------------------------------------------------------------------------------------
-         debtgdp |  .1290433        487   .0270042   4.778633        485   .9999988   2.34e-06   1.17e-06 
-            hply | -.7158577        491   .1962289  -3.648074        489   .0001463   .0002926   .9998537 
-             dly | -.6327237        491   .1792239  -3.530353        489   .0002271   .0004543   .9997729 
-       treatment |  .5640964        491   .0371835    15.1706        489          1   7.03e-43   3.51e-43 
+                 |      e(b)   e(count)      e(se)       e(t)    e(df_t)     e(p_l)       e(p)     e(p_u)     e(N_1) 
+    -------------+---------------------------------------------------------------------------------------------------
+         debtgdp |  .1290433        487   .0270042   4.778633        485   .9999988   2.34e-06   1.17e-06        168 
+            hply | -.7158577        491   .1962289  -3.648074        489   .0001463   .0002926   .9998537        169 
+             dly | -.6327237        491   .1792239  -3.530353        489   .0002271   .0004543   .9997729        169 
+       treatment |  .5640964        491   .0371835    15.1706        489          1   7.03e-43   3.51e-43        169 
     
-                 |    e(N_1)    e(mu_1)     e(N_2)    e(mu_2) 
-    -------------+--------------------------------------------
-         debtgdp |       168   .6863568        319   .5573135 
-            hply |       169  -.4157567        322    .300101 
-             dly |       169   2.172349        322   2.805073 
-       treatment |       169   .7100592        322   .1459627 
+                 |   e(mu_1)     e(N_2)    e(mu_2) 
+    -------------+---------------------------------
+         debtgdp |  .6863568        319   .5573135 
+            hply | -.4157567        322    .300101 
+             dly |  2.172349        322   2.805073 
+       treatment |  .7100592        322   .1459627 
     
     
 
@@ -5850,7 +5768,7 @@ list var ols iv_treatment iv_total if _n < `count'
     Estimates efficient for homoskedasticity only
     Statistics robust to heteroskedasticity and clustering on iso
     
-    Number of clusters (iso) =          17                Number of obs =      457
+    Number of clusters (iso) = 17                         Number of obs =      457
                                                           F(  4,    16) =   164.92
                                                           Prob > F      =   0.0000
     Total (centered) SS     =  1404.141801                Centered R2   =   0.3792
@@ -5866,11 +5784,10 @@ list var ols iv_treatment iv_total if _n < `count'
              dly |   .6293041   .0562929    11.18   0.000     .5189721    .7396361
             ldly |   .2001712   .0351336     5.70   0.000     .1313105    .2690318
     ------------------------------------------------------------------------------
-    Underidentification test (Kleibergen-Paap rk LM statistic):             12.247
-                                                       Chi-sq(1) P-val =    0.0005
+    Underidentification test (Kleibergen-Paap rk LM statistic):              1.000
+                                                       Chi-sq(1) P-val =    0.3173
     ------------------------------------------------------------------------------
-    Weak identification test (Cragg-Donald Wald F statistic):               45.907
-                             (Kleibergen-Paap rk Wald F statistic):         34.134
+    Weak identification test (Kleibergen-Paap rk Wald F statistic):              .
     Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
                                              15% maximal IV size              8.96
                                              20% maximal IV size              6.66
@@ -5905,7 +5822,7 @@ list var ols iv_treatment iv_total if _n < `count'
     Estimates efficient for homoskedasticity only
     Statistics robust to heteroskedasticity and clustering on iso
     
-    Number of clusters (iso) =          17                Number of obs =      457
+    Number of clusters (iso) = 17                         Number of obs =      457
                                                           F(  4,    16) =    52.56
                                                           Prob > F      =   0.0000
     Total (centered) SS     =  1404.141801                Centered R2   =  -0.4893
@@ -5921,11 +5838,10 @@ list var ols iv_treatment iv_total if _n < `count'
            drprv |   .0046284   .0043593     1.06   0.288    -.0039157    .0131725
           ldrprv |   .0022166   .0020832     1.06   0.287    -.0018663    .0062996
     ------------------------------------------------------------------------------
-    Underidentification test (Kleibergen-Paap rk LM statistic):             11.369
-                                                       Chi-sq(1) P-val =    0.0007
+    Underidentification test (Kleibergen-Paap rk LM statistic):              1.000
+                                                       Chi-sq(1) P-val =    0.3173
     ------------------------------------------------------------------------------
-    Weak identification test (Cragg-Donald Wald F statistic):               37.811
-                             (Kleibergen-Paap rk Wald F statistic):         28.284
+    Weak identification test (Kleibergen-Paap rk Wald F statistic):              .
     Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
                                              15% maximal IV size              8.96
                                              20% maximal IV size              6.66
@@ -5960,7 +5876,7 @@ list var ols iv_treatment iv_total if _n < `count'
     Estimates efficient for homoskedasticity only
     Statistics robust to heteroskedasticity and clustering on iso
     
-    Number of clusters (iso) =          17                Number of obs =      457
+    Number of clusters (iso) = 17                         Number of obs =      457
                                                           F(  4,    16) =    60.05
                                                           Prob > F      =   0.0000
     Total (centered) SS     =  1404.141801                Centered R2   =  -0.4694
@@ -5976,11 +5892,10 @@ list var ols iv_treatment iv_total if _n < `count'
            dlcpi |  -.0992728   .0528313    -1.88   0.060    -.2028202    .0042747
           ldlcpi |  -.0742577   .0774387    -0.96   0.338    -.2260349    .0775194
     ------------------------------------------------------------------------------
-    Underidentification test (Kleibergen-Paap rk LM statistic):             11.210
-                                                       Chi-sq(1) P-val =    0.0008
+    Underidentification test (Kleibergen-Paap rk LM statistic):              1.000
+                                                       Chi-sq(1) P-val =    0.3173
     ------------------------------------------------------------------------------
-    Weak identification test (Cragg-Donald Wald F statistic):               37.310
-                             (Kleibergen-Paap rk Wald F statistic):         27.259
+    Weak identification test (Kleibergen-Paap rk Wald F statistic):              .
     Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
                                              15% maximal IV size              8.96
                                              20% maximal IV size              6.66
@@ -6015,7 +5930,7 @@ list var ols iv_treatment iv_total if _n < `count'
     Estimates efficient for homoskedasticity only
     Statistics robust to heteroskedasticity and clustering on iso
     
-    Number of clusters (iso) =          17                Number of obs =      457
+    Number of clusters (iso) = 17                         Number of obs =      457
                                                           F(  4,    16) =   131.66
                                                           Prob > F      =   0.0000
     Total (centered) SS     =  1404.141801                Centered R2   =   0.2781
@@ -6031,11 +5946,10 @@ list var ols iv_treatment iv_total if _n < `count'
            dlriy |   .1539347   .0191845     8.02   0.000     .1163337    .1915357
           ldlriy |   .0565123   .0134176     4.21   0.000     .0302143    .0828103
     ------------------------------------------------------------------------------
-    Underidentification test (Kleibergen-Paap rk LM statistic):             12.140
-                                                       Chi-sq(1) P-val =    0.0005
+    Underidentification test (Kleibergen-Paap rk LM statistic):              1.000
+                                                       Chi-sq(1) P-val =    0.3173
     ------------------------------------------------------------------------------
-    Weak identification test (Cragg-Donald Wald F statistic):               47.904
-                             (Kleibergen-Paap rk Wald F statistic):         32.505
+    Weak identification test (Kleibergen-Paap rk Wald F statistic):              .
     Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
                                              15% maximal IV size              8.96
                                              20% maximal IV size              6.66
@@ -6070,7 +5984,7 @@ list var ols iv_treatment iv_total if _n < `count'
     Estimates efficient for homoskedasticity only
     Statistics robust to heteroskedasticity and clustering on iso
     
-    Number of clusters (iso) =          17                Number of obs =      457
+    Number of clusters (iso) = 17                         Number of obs =      457
                                                           F(  4,    16) =    50.53
                                                           Prob > F      =   0.0000
     Total (centered) SS     =  1404.141801                Centered R2   =  -0.3213
@@ -6086,11 +6000,10 @@ list var ols iv_treatment iv_total if _n < `count'
             stir |  -.2124223   .0519388    -4.09   0.000    -.3142204   -.1106242
            lstir |   .0920947   .0654363     1.41   0.159     -.036158    .2203475
     ------------------------------------------------------------------------------
-    Underidentification test (Kleibergen-Paap rk LM statistic):             11.535
-                                                       Chi-sq(1) P-val =    0.0007
+    Underidentification test (Kleibergen-Paap rk LM statistic):              1.000
+                                                       Chi-sq(1) P-val =    0.3173
     ------------------------------------------------------------------------------
-    Weak identification test (Cragg-Donald Wald F statistic):               38.618
-                             (Kleibergen-Paap rk Wald F statistic):         28.195
+    Weak identification test (Kleibergen-Paap rk Wald F statistic):              .
     Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
                                              15% maximal IV size              8.96
                                              20% maximal IV size              6.66
@@ -6125,7 +6038,7 @@ list var ols iv_treatment iv_total if _n < `count'
     Estimates efficient for homoskedasticity only
     Statistics robust to heteroskedasticity and clustering on iso
     
-    Number of clusters (iso) =          17                Number of obs =      457
+    Number of clusters (iso) = 17                         Number of obs =      457
                                                           F(  4,    16) =    44.84
                                                           Prob > F      =   0.0000
     Total (centered) SS     =  1404.141801                Centered R2   =  -0.3665
@@ -6141,11 +6054,10 @@ list var ols iv_treatment iv_total if _n < `count'
           ltrate |  -.1557986   .0779107    -2.00   0.046    -.3085007   -.0030965
          lltrate |   .0343746   .0765632     0.45   0.653    -.1156865    .1844356
     ------------------------------------------------------------------------------
-    Underidentification test (Kleibergen-Paap rk LM statistic):             11.586
-                                                       Chi-sq(1) P-val =    0.0007
+    Underidentification test (Kleibergen-Paap rk LM statistic):              1.000
+                                                       Chi-sq(1) P-val =    0.3173
     ------------------------------------------------------------------------------
-    Weak identification test (Cragg-Donald Wald F statistic):               36.997
-                             (Kleibergen-Paap rk Wald F statistic):         28.929
+    Weak identification test (Kleibergen-Paap rk Wald F statistic):              .
     Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
                                              15% maximal IV size              8.96
                                              20% maximal IV size              6.66
@@ -6180,7 +6092,7 @@ list var ols iv_treatment iv_total if _n < `count'
     Estimates efficient for homoskedasticity only
     Statistics robust to heteroskedasticity and clustering on iso
     
-    Number of clusters (iso) =          17                Number of obs =      457
+    Number of clusters (iso) = 17                         Number of obs =      457
                                                           F(  4,    16) =    92.37
                                                           Prob > F      =   0.0000
     Total (centered) SS     =  1404.141801                Centered R2   =   0.0253
@@ -6196,11 +6108,10 @@ list var ols iv_treatment iv_total if _n < `count'
              cay |  -.1602428   .0801621    -2.00   0.046    -.3173576    -.003128
             lcay |   .3881709   .0742406     5.23   0.000      .242662    .5336797
     ------------------------------------------------------------------------------
-    Underidentification test (Kleibergen-Paap rk LM statistic):             11.658
-                                                       Chi-sq(1) P-val =    0.0006
+    Underidentification test (Kleibergen-Paap rk LM statistic):              1.000
+                                                       Chi-sq(1) P-val =    0.3173
     ------------------------------------------------------------------------------
-    Weak identification test (Cragg-Donald Wald F statistic):               37.372
-                             (Kleibergen-Paap rk Wald F statistic):         28.257
+    Weak identification test (Kleibergen-Paap rk Wald F statistic):              .
     Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
                                              15% maximal IV size              8.96
                                              20% maximal IV size              6.66
@@ -6235,7 +6146,7 @@ list var ols iv_treatment iv_total if _n < `count'
     Estimates efficient for homoskedasticity only
     Statistics robust to heteroskedasticity and clustering on iso
     
-    Number of clusters (iso) =          17                Number of obs =      457
+    Number of clusters (iso) = 17                         Number of obs =      457
                                                           F(  4,    16) =    95.90
                                                           Prob > F      =   0.0000
     Total (centered) SS     =  1404.141801                Centered R2   =   0.2815
@@ -6251,11 +6162,10 @@ list var ols iv_treatment iv_total if _n < `count'
              dly |   .6432928   .0625471    10.28   0.000     .5207028    .7658828
             ldly |   .2058743   .0389949     5.28   0.000     .1294457     .282303
     ------------------------------------------------------------------------------
-    Underidentification test (Kleibergen-Paap rk LM statistic):             10.796
-                                                       Chi-sq(1) P-val =    0.0010
+    Underidentification test (Kleibergen-Paap rk LM statistic):              1.000
+                                                       Chi-sq(1) P-val =    0.3173
     ------------------------------------------------------------------------------
-    Weak identification test (Cragg-Donald Wald F statistic):               45.052
-                             (Kleibergen-Paap rk Wald F statistic):         56.003
+    Weak identification test (Kleibergen-Paap rk Wald F statistic):              .
     Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
                                              15% maximal IV size              8.96
                                              20% maximal IV size              6.66
@@ -6290,7 +6200,7 @@ list var ols iv_treatment iv_total if _n < `count'
     Estimates efficient for homoskedasticity only
     Statistics robust to heteroskedasticity and clustering on iso
     
-    Number of clusters (iso) =          17                Number of obs =      457
+    Number of clusters (iso) = 17                         Number of obs =      457
                                                           F(  4,    16) =    17.60
                                                           Prob > F      =   0.0000
     Total (centered) SS     =  1404.141801                Centered R2   =  -1.1078
@@ -6306,11 +6216,10 @@ list var ols iv_treatment iv_total if _n < `count'
            drprv |   .0047944   .0047151     1.02   0.309    -.0044471    .0140358
           ldrprv |   .0021223   .0019197     1.11   0.269    -.0016403    .0058848
     ------------------------------------------------------------------------------
-    Underidentification test (Kleibergen-Paap rk LM statistic):              9.439
-                                                       Chi-sq(1) P-val =    0.0021
+    Underidentification test (Kleibergen-Paap rk LM statistic):              1.000
+                                                       Chi-sq(1) P-val =    0.3173
     ------------------------------------------------------------------------------
-    Weak identification test (Cragg-Donald Wald F statistic):               32.767
-                             (Kleibergen-Paap rk Wald F statistic):         27.519
+    Weak identification test (Kleibergen-Paap rk Wald F statistic):              .
     Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
                                              15% maximal IV size              8.96
                                              20% maximal IV size              6.66
@@ -6345,7 +6254,7 @@ list var ols iv_treatment iv_total if _n < `count'
     Estimates efficient for homoskedasticity only
     Statistics robust to heteroskedasticity and clustering on iso
     
-    Number of clusters (iso) =          17                Number of obs =      457
+    Number of clusters (iso) = 17                         Number of obs =      457
                                                           F(  4,    16) =    40.19
                                                           Prob > F      =   0.0000
     Total (centered) SS     =  1404.141801                Centered R2   =  -0.8222
@@ -6361,11 +6270,10 @@ list var ols iv_treatment iv_total if _n < `count'
            dlcpi |  -.1107086   .0582368    -1.90   0.057    -.2248505    .0034334
           ldlcpi |  -.0686917   .0833086    -0.82   0.410    -.2319735    .0945902
     ------------------------------------------------------------------------------
-    Underidentification test (Kleibergen-Paap rk LM statistic):              9.675
-                                                       Chi-sq(1) P-val =    0.0019
+    Underidentification test (Kleibergen-Paap rk LM statistic):              1.000
+                                                       Chi-sq(1) P-val =    0.3173
     ------------------------------------------------------------------------------
-    Weak identification test (Cragg-Donald Wald F statistic):               34.321
-                             (Kleibergen-Paap rk Wald F statistic):         25.724
+    Weak identification test (Kleibergen-Paap rk Wald F statistic):              .
     Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
                                              15% maximal IV size              8.96
                                              20% maximal IV size              6.66
@@ -6400,7 +6308,7 @@ list var ols iv_treatment iv_total if _n < `count'
     Estimates efficient for homoskedasticity only
     Statistics robust to heteroskedasticity and clustering on iso
     
-    Number of clusters (iso) =          17                Number of obs =      457
+    Number of clusters (iso) = 17                         Number of obs =      457
                                                           F(  4,    16) =    90.51
                                                           Prob > F      =   0.0000
     Total (centered) SS     =  1404.141801                Centered R2   =   0.1599
@@ -6416,11 +6324,10 @@ list var ols iv_treatment iv_total if _n < `count'
            dlriy |    .159139   .0217384     7.32   0.000     .1165325    .2017456
           ldlriy |    .058762   .0146584     4.01   0.000      .030032     .087492
     ------------------------------------------------------------------------------
-    Underidentification test (Kleibergen-Paap rk LM statistic):             10.664
-                                                       Chi-sq(1) P-val =    0.0011
+    Underidentification test (Kleibergen-Paap rk LM statistic):              1.000
+                                                       Chi-sq(1) P-val =    0.3173
     ------------------------------------------------------------------------------
-    Weak identification test (Cragg-Donald Wald F statistic):               47.954
-                             (Kleibergen-Paap rk Wald F statistic):         51.507
+    Weak identification test (Kleibergen-Paap rk Wald F statistic):              .
     Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
                                              15% maximal IV size              8.96
                                              20% maximal IV size              6.66
@@ -6455,7 +6362,7 @@ list var ols iv_treatment iv_total if _n < `count'
     Estimates efficient for homoskedasticity only
     Statistics robust to heteroskedasticity and clustering on iso
     
-    Number of clusters (iso) =          17                Number of obs =      457
+    Number of clusters (iso) = 17                         Number of obs =      457
                                                           F(  4,    16) =    47.66
                                                           Prob > F      =   0.0000
     Total (centered) SS     =  1404.141801                Centered R2   =  -0.6535
@@ -6471,11 +6378,10 @@ list var ols iv_treatment iv_total if _n < `count'
             stir |  -.2171625   .0557814    -3.89   0.000     -.326492    -.107833
            lstir |   .0931966   .0705825     1.32   0.187    -.0451426    .2315359
     ------------------------------------------------------------------------------
-    Underidentification test (Kleibergen-Paap rk LM statistic):              9.734
-                                                       Chi-sq(1) P-val =    0.0018
+    Underidentification test (Kleibergen-Paap rk LM statistic):              1.000
+                                                       Chi-sq(1) P-val =    0.3173
     ------------------------------------------------------------------------------
-    Weak identification test (Cragg-Donald Wald F statistic):               35.456
-                             (Kleibergen-Paap rk Wald F statistic):         27.029
+    Weak identification test (Kleibergen-Paap rk Wald F statistic):              .
     Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
                                              15% maximal IV size              8.96
                                              20% maximal IV size              6.66
@@ -6510,7 +6416,7 @@ list var ols iv_treatment iv_total if _n < `count'
     Estimates efficient for homoskedasticity only
     Statistics robust to heteroskedasticity and clustering on iso
     
-    Number of clusters (iso) =          17                Number of obs =      457
+    Number of clusters (iso) = 17                         Number of obs =      457
                                                           F(  4,    16) =    27.73
                                                           Prob > F      =   0.0000
     Total (centered) SS     =  1404.141801                Centered R2   =  -0.7341
@@ -6526,11 +6432,10 @@ list var ols iv_treatment iv_total if _n < `count'
           ltrate |  -.1773631   .1007746    -1.76   0.078    -.3748777    .0201514
          lltrate |   .0558698   .0959719     0.58   0.560    -.1322316    .2439711
     ------------------------------------------------------------------------------
-    Underidentification test (Kleibergen-Paap rk LM statistic):              9.619
-                                                       Chi-sq(1) P-val =    0.0019
+    Underidentification test (Kleibergen-Paap rk LM statistic):              1.000
+                                                       Chi-sq(1) P-val =    0.3173
     ------------------------------------------------------------------------------
-    Weak identification test (Cragg-Donald Wald F statistic):               34.199
-                             (Kleibergen-Paap rk Wald F statistic):         30.593
+    Weak identification test (Kleibergen-Paap rk Wald F statistic):              .
     Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
                                              15% maximal IV size              8.96
                                              20% maximal IV size              6.66
@@ -6565,7 +6470,7 @@ list var ols iv_treatment iv_total if _n < `count'
     Estimates efficient for homoskedasticity only
     Statistics robust to heteroskedasticity and clustering on iso
     
-    Number of clusters (iso) =          17                Number of obs =      457
+    Number of clusters (iso) = 17                         Number of obs =      457
                                                           F(  4,    16) =    85.90
                                                           Prob > F      =   0.0000
     Total (centered) SS     =  1404.141801                Centered R2   =  -0.1992
@@ -6581,11 +6486,10 @@ list var ols iv_treatment iv_total if _n < `count'
              cay |  -.1750259   .0821308    -2.13   0.033    -.3359992   -.0140526
             lcay |    .396527    .075688     5.24   0.000     .2481812    .5448728
     ------------------------------------------------------------------------------
-    Underidentification test (Kleibergen-Paap rk LM statistic):             10.038
-                                                       Chi-sq(1) P-val =    0.0015
+    Underidentification test (Kleibergen-Paap rk LM statistic):              1.000
+                                                       Chi-sq(1) P-val =    0.3173
     ------------------------------------------------------------------------------
-    Weak identification test (Cragg-Donald Wald F statistic):               33.493
-                             (Kleibergen-Paap rk Wald F statistic):         31.027
+    Weak identification test (Kleibergen-Paap rk Wald F statistic):              .
     Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
                                              15% maximal IV size              8.96
                                              20% maximal IV size              6.66
@@ -7660,19 +7564,27 @@ restore
     
 
 
+    
 ![png](output_46_1.png)
+    
 
 
 
+    
 ![png](output_46_2.png)
+    
 
 
 
+    
 ![png](output_46_3.png)
+    
 
 
 
+    
 ![png](output_46_4.png)
+    
 
 
 <a class='anchor' id='fig2'></a>
@@ -7700,10 +7612,1185 @@ twoway (kdensity pihat0 if ftreatment==1, lpattern(dash) color(red) lwidth(medth
 ```
 
 
+    
 ![png](output_48_0.png)
+    
+
+
+<a class='anchor' id='fig3'></a>
+[Go to Table of Contents](#table_of_contents)
+
+---
+# Figure 3 (figure3.do)
+---
+
+![](https://github.com/htdanil/referenced_to_github/raw/master/GF0004_Jorda_Taylor_%282016%29_The_time_for_austerity__REPLICATION_WORK/results/Fig3.PNG)
+
+
+```python
+%%stata -os -o df_non_cummulative
+* #================================================================================================
+* # Figure3 replication
+* #================================================================================================
+* # ===========================================================================================
+**** #first pass: use level impacts in each year
+* # ===========================================================================================
+
+* #----------------------------------------------------------------------------------------------------
+* # creating columns for storing results
+* #----------------------------------------------------------------------------------------------------
+capture drop LPIV* LPIP* _Year
+gen LPIVboom  = .
+gen LPIVslump = .
+gen LPIVboomse  = .
+gen LPIVslumpse = .
+gen LPIPboom  = .
+gen LPIPslump = .
+gen LPIPboomse  = .
+gen LPIPslumpse = .
+gen _Year = _n if _n <=5
+label var _Year "Year"
+
+* #----------------------------------------------------------------------------------------------------
+* # Copied code from table 9
+* #----------------------------------------------------------------------------------------------------
+
+* #DR - IPWRA - ATE weighted by IPWT (Davidian/Lunt) WITH DIFFERENT SLOPE/CFEs (beta1.NEQ.beta0)
+* #ATE split by bin
+* #no truncations (use phat0)
+capture drop a invwt
+gen a=ftreatment // #define treatment indicator as a from Lunt et al.
+gen invwt=a/pihat0 + (1-a)/(1-pihat0) if pihat~=. // #invwt from Lunt et al.
+
+forvalues i=1/5 {
+	* #SAME OUTCOME REG IN BOTH T&C THIS TIME, REST ALL THE SAME
+	capture drop mu1 mu0
+	gen mu0=.
+	gen mu1=.
+	foreach bin in boom slump {
+	
+		quietly reg ly`i'  hply dml0dly  dml1dly dmdumiso1-dmdumiso16 [pweight=invwt] ///
+			if year>=1980 & year<=2007 & `bin'==1 & ftreatment==0,  cluster(iso)
+		capture drop temp
+		predict temp
+		replace mu0 = temp if year>=1980 & year<=2007 & `bin'==1  
+
+		
+		quietly reg ly`i'  hply dml0dly  dml1dly dmdumiso1-dmdumiso16 [pweight=invwt] ///
+			if year>=1980 & year<=2007 & `bin'==1 & ftreatment==1,  cluster(iso)
+		capture drop temp
+		predict temp
+		replace mu1 = temp if year>=1980 & year<=2007 & `bin'==1  
+		}
+		
+	* #from Lunt et al
+	generate mdiff1=(-(a-pihat0)*mu1/pihat0)-((a-pihat0)*mu0/(1-pihat0))
+	generate iptw=(2*a-1)*ly`i'*invwt
+	generate dr1 = iptw + mdiff1
+	
+
+	qui gen ATE_IPWRA_boom  = boom  // #constant for convenience in next reg to get mean
+	qui gen ATE_IPWRA_slump  = slump  // #constant for convenience in next reg to get mean
+	quietly reg dr1 ATE_IPWRA_boom ATE_IPWRA_slump , nocons cluster(iso)
+	
+	* #store for charts
+	replace LPIPboom     = _b[ATE_IPWRA_boom]    if _Year==`i'
+	replace LPIPslump    = _b[ATE_IPWRA_slump]   if _Year==`i'
+	replace LPIPboomse 	 = _se[ATE_IPWRA_boom]   if _Year==`i'
+	replace LPIPslumpse  = _se[ATE_IPWRA_slump]   if _Year==`i'
+
+
+	drop iptw mdiff1 dr1 mu1 mu0 ATE_IPWRA*
+}
+
+
+* #----------------------------------------------------------------------------------------------------
+* #Table 4: Fiscal multiplier, d.CAPB, IV estimate (binary), boom/slump
+* #----------------------------------------------------------------------------------------------------
+capture drop zboom zslump
+foreach c in boom slump {
+    gen z`c'=f.treatment*`c'
+}
+
+forvalues i = 1/5   {
+    foreach c in boom slump {
+        * #the dummy for the U.S. is dropped to avoid collinearity with the constant
+        quietly ivreg2 ly`i'   (fAA= zboom zslump) ///
+            hply dml0dly dml1dly dmdumiso1-dmdumiso16 ///
+            if `c'==1 & year>=1980 & year<=2007,  cluster(iso) 
+		
+		* #store for charts
+		replace LPIV`c'    = _b[fAA]       if _Year==`i'
+		replace LPIV`c'se  = _se[fAA]      if _Year==`i'
+    }
+}
+
+
+* #----------------------------------------------------------------------------------------------------
+* # Chart work start
+* #----------------------------------------------------------------------------------------------------
+capture drop x_* up_* dn_* up10_* dn10_*
+
+* # SCALE UP GIVEN AVG TREATMENT SIZE IN EACH BIN
+local scaling_LPIPboom   1.00/0.9726035
+local scaling_LPIPslump  1.00/0.9726035
+local scaling_LPIVboom   1.00
+local scaling_LPIVslump  1.00
+
+foreach s in LPIPboom LPIPslump LPIVboom LPIVslump {
+		gen x_`s'      = `scaling_`s'' * `s' //# main IRF
+		gen up_`s'     = `scaling_`s'' * (`s' + 1.96 * `s'se) //# 5% level of significance
+		gen dn_`s'     = `scaling_`s'' * (`s' - 1.96 * `s'se) //# 5% level of significance
+		gen up10_`s'   = `scaling_`s'' * (`s' + 1.64 * `s'se) //# 10% level of significance
+		gen dn10_`s'   = `scaling_`s'' * (`s' - 1.64 * `s'se) //# 10% level of significance
+	}
+	
+capture drop _Zero
+gen _Zero = 0
+
+
+twoway	(rarea up_LPIPboom dn_LPIPboom _Year, ///
+				fcolor(gs14) lcolor(gs14) lpattern(solid)) ///
+		(rarea up10_LPIPboom dn10_LPIPboom _Year, ///
+				fcolor(gs11) lcolor(gs14) lpattern(solid)) ///
+		(line x_LPIPboom _Year, lcolor(red) lpattern(solid) lwidth(thick)) ///
+		(line _Zero _Year, lcolor(black) lpattern(dash) lwidth(med)) ///
+		, legend(off) title("AIPW estimates: boom")
+		graph rename g1a
+
+twoway	(rarea up_LPIVboom dn_LPIVboom _Year, ///
+				fcolor(gs14) lcolor(gs14) lpattern(solid)) ///
+		(rarea up10_LPIVboom dn10_LPIVboom _Year, ///
+				fcolor(gs11) lcolor(gs14) lpattern(solid)) ///
+		(line x_LPIVboom _Year, lcolor(blue) lpattern(solid) lwidth(thick)) ///
+		(line _Zero _Year, lcolor(black) lpattern(dash) lwidth(med)) ///
+		, legend(off) title("IV estimates: boom")
+		graph rename g2a
+
+		
+twoway	(rarea up_LPIPslump dn_LPIPslump _Year, ///
+				fcolor(gs14) lcolor(gs14) lpattern(solid)) ///
+		(rarea up10_LPIPslump dn10_LPIPslump _Year, ///
+				fcolor(gs11) lcolor(gs14) lpattern(solid)) ///
+		(line x_LPIPslump _Year, lcolor(red) lpattern(solid) lwidth(thick)) ///
+		(line _Zero _Year, lcolor(black) lpattern(dash) lwidth(med)) ///
+		, legend(off) title("AIPW estimates: slump")
+		graph rename g3a
+		
+
+twoway	(rarea up_LPIVslump dn_LPIVslump _Year, ///
+				fcolor(gs14) lcolor(gs14) lpattern(solid)) ///
+		(rarea up10_LPIVslump dn10_LPIVslump _Year, ///
+				fcolor(gs11) lcolor(gs14) lpattern(solid)) ///
+		(line x_LPIVslump _Year, lcolor(blue) lpattern(solid) lwidth(thick)) ///
+		(line _Zero _Year, lcolor(black) lpattern(dash) lwidth(med)) ///
+		, legend(off) title("IV estimates: slump")
+		graph rename g4a
+	
+
+gr combine g1a g2a g3a g4a, ycommon title("(a) Year-by-year ATE output losses")
+graph rename ga
+```
+
+    
+    (510 missing values generated)
+    
+    (510 missing values generated)
+    
+    (510 missing values generated)
+    
+    (510 missing values generated)
+    
+    (510 missing values generated)
+    
+    (510 missing values generated)
+    
+    (510 missing values generated)
+    
+    (510 missing values generated)
+    
+    (505 missing values generated)
+    
+    (19 missing values generated)
+    
+    (39 missing values generated)
+    
+    . forvalues i=1/5 {
+      2. * #SAME OUTCOME REG IN BOTH T&C THIS TIME, REST ALL THE SAME
+      3. gen mu0=.
+      4. gen mu1=.
+      5. foreach bin in boom slump {
+      6. 
+      7. capture drop temp
+      8. predict temp
+      9. replace mu0 = temp if year>=1980 & year<=2007 & `bin'==1  
+     10. 
+     11. capture drop temp
+     12. predict temp
+     13. replace mu1 = temp if year>=1980 & year<=2007 & `bin'==1  
+     14. }
+     15. 
+     16. generate iptw=(2*a-1)*ly`i'*invwt
+     17. generate dr1 = iptw + mdiff1
+     18. 
+     19. qui gen ATE_IPWRA_slump  = slump
+     20. quietly reg dr1 ATE_IPWRA_boom ATE_IPWRA_slump , nocons cluster(iso)
+     21. 
+     22. replace LPIPslump    = _b[ATE_IPWRA_slump]   if _Year==`i'
+     23. replace LPIPboomse  = _se[ATE_IPWRA_boom]   if _Year==`i'
+     24. replace LPIPslumpse  = _se[ATE_IPWRA_slump]   if _Year==`i'
+     25. 
+     26. }
+    (510 missing values generated)
+    (510 missing values generated)
+    (option xb assumed; fitted values)
+    (17 missing values generated)
+    (241 real changes made)
+    (option xb assumed; fitted values)
+    (17 missing values generated)
+    (241 real changes made)
+    (option xb assumed; fitted values)
+    (17 missing values generated)
+    (235 real changes made)
+    (option xb assumed; fitted values)
+    (17 missing values generated)
+    (235 real changes made)
+    (54 missing values generated)
+    (39 missing values generated)
+    (54 missing values generated)
+    (1 real change made)
+    (1 real change made)
+    (1 real change made)
+    (1 real change made)
+    (510 missing values generated)
+    (510 missing values generated)
+    (option xb assumed; fitted values)
+    (17 missing values generated)
+    (241 real changes made)
+    (option xb assumed; fitted values)
+    (17 missing values generated)
+    (241 real changes made)
+    (option xb assumed; fitted values)
+    (17 missing values generated)
+    (235 real changes made)
+    (option xb assumed; fitted values)
+    (17 missing values generated)
+    (235 real changes made)
+    (54 missing values generated)
+    (56 missing values generated)
+    (71 missing values generated)
+    (1 real change made)
+    (1 real change made)
+    (1 real change made)
+    (1 real change made)
+    (510 missing values generated)
+    (510 missing values generated)
+    (option xb assumed; fitted values)
+    (17 missing values generated)
+    (241 real changes made)
+    (option xb assumed; fitted values)
+    (17 missing values generated)
+    (241 real changes made)
+    (option xb assumed; fitted values)
+    (17 missing values generated)
+    (235 real changes made)
+    (option xb assumed; fitted values)
+    (17 missing values generated)
+    (235 real changes made)
+    (54 missing values generated)
+    (72 missing values generated)
+    (87 missing values generated)
+    (1 real change made)
+    (1 real change made)
+    (1 real change made)
+    (1 real change made)
+    (510 missing values generated)
+    (510 missing values generated)
+    (option xb assumed; fitted values)
+    (17 missing values generated)
+    (241 real changes made)
+    (option xb assumed; fitted values)
+    (17 missing values generated)
+    (241 real changes made)
+    (option xb assumed; fitted values)
+    (17 missing values generated)
+    (235 real changes made)
+    (option xb assumed; fitted values)
+    (17 missing values generated)
+    (235 real changes made)
+    (54 missing values generated)
+    (89 missing values generated)
+    (104 missing values generated)
+    (1 real change made)
+    (1 real change made)
+    (1 real change made)
+    (1 real change made)
+    (510 missing values generated)
+    (510 missing values generated)
+    (option xb assumed; fitted values)
+    (17 missing values generated)
+    (241 real changes made)
+    (option xb assumed; fitted values)
+    (17 missing values generated)
+    (241 real changes made)
+    (option xb assumed; fitted values)
+    (17 missing values generated)
+    (235 real changes made)
+    (option xb assumed; fitted values)
+    (17 missing values generated)
+    (235 real changes made)
+    (54 missing values generated)
+    (106 missing values generated)
+    (121 missing values generated)
+    (1 real change made)
+    (1 real change made)
+    (1 real change made)
+    (1 real change made)
+    
+    (17 missing values generated)
+    (17 missing values generated)
+    
+    . forvalues i = 1/5   {
+      2.     foreach c in boom slump {
+      3.         * #the dummy for the U.S. is dropped to avoid collinearity with the constant
+      4. 
+      5. replace LPIV`c'se  = _se[fAA]      if _Year==`i'
+      6.     }
+      7. }
+    Warning: estimated covariance matrix of moment conditions not of full rank.
+             standard errors and model tests should be interpreted with caution.
+    Possible causes:
+             number of clusters insufficient to calculate robust covariance matrix
+             singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
+    partial option may address problem.
+    (1 real change made)
+    (1 real change made)
+    Warning: estimated covariance matrix of moment conditions not of full rank.
+             standard errors and model tests should be interpreted with caution.
+    Possible causes:
+             number of clusters insufficient to calculate robust covariance matrix
+             singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
+    partial option may address problem.
+    (1 real change made)
+    (1 real change made)
+    Warning: estimated covariance matrix of moment conditions not of full rank.
+             standard errors and model tests should be interpreted with caution.
+    Possible causes:
+             number of clusters insufficient to calculate robust covariance matrix
+             singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
+    partial option may address problem.
+    (1 real change made)
+    (1 real change made)
+    Warning: estimated covariance matrix of moment conditions not of full rank.
+             standard errors and model tests should be interpreted with caution.
+    Possible causes:
+             number of clusters insufficient to calculate robust covariance matrix
+             singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
+    partial option may address problem.
+    (1 real change made)
+    (1 real change made)
+    Warning: estimated covariance matrix of moment conditions not of full rank.
+             standard errors and model tests should be interpreted with caution.
+    Possible causes:
+             number of clusters insufficient to calculate robust covariance matrix
+             singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
+    partial option may address problem.
+    (1 real change made)
+    (1 real change made)
+    Warning: estimated covariance matrix of moment conditions not of full rank.
+             standard errors and model tests should be interpreted with caution.
+    Possible causes:
+             number of clusters insufficient to calculate robust covariance matrix
+             singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
+    partial option may address problem.
+    (1 real change made)
+    (1 real change made)
+    Warning: estimated covariance matrix of moment conditions not of full rank.
+             standard errors and model tests should be interpreted with caution.
+    Possible causes:
+             number of clusters insufficient to calculate robust covariance matrix
+             singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
+    partial option may address problem.
+    (1 real change made)
+    (1 real change made)
+    Warning: estimated covariance matrix of moment conditions not of full rank.
+             standard errors and model tests should be interpreted with caution.
+    Possible causes:
+             number of clusters insufficient to calculate robust covariance matrix
+             singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
+    partial option may address problem.
+    (1 real change made)
+    (1 real change made)
+    Warning: estimated covariance matrix of moment conditions not of full rank.
+             standard errors and model tests should be interpreted with caution.
+    Possible causes:
+             number of clusters insufficient to calculate robust covariance matrix
+             singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
+    partial option may address problem.
+    (1 real change made)
+    (1 real change made)
+    Warning: estimated covariance matrix of moment conditions not of full rank.
+             standard errors and model tests should be interpreted with caution.
+    Possible causes:
+             number of clusters insufficient to calculate robust covariance matrix
+             singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
+    partial option may address problem.
+    (1 real change made)
+    (1 real change made)
+    
+    (505 missing values generated)
+    (505 missing values generated)
+    (505 missing values generated)
+    (505 missing values generated)
+    (505 missing values generated)
+    (505 missing values generated)
+    (505 missing values generated)
+    (505 missing values generated)
+    (505 missing values generated)
+    (505 missing values generated)
+    (505 missing values generated)
+    (505 missing values generated)
+    (505 missing values generated)
+    (505 missing values generated)
+    (505 missing values generated)
+    (505 missing values generated)
+    (505 missing values generated)
+    (505 missing values generated)
+    (505 missing values generated)
+    (505 missing values generated)
+    
+    (note:  named style med not found in class linewidth, default attributes used)
+    (note:  linewidth not found in scheme, default attributes used)
+    (note:  named style med not found in class linewidth, default attributes used)
+    (note:  linewidth not found in scheme, default attributes used)
+    
+    (note:  named style med not found in class linewidth, default attributes used)
+    (note:  linewidth not found in scheme, default attributes used)
+    (note:  named style med not found in class linewidth, default attributes used)
+    (note:  linewidth not found in scheme, default attributes used)
+    
+    (note:  named style med not found in class linewidth, default attributes used)
+    (note:  linewidth not found in scheme, default attributes used)
+    (note:  named style med not found in class linewidth, default attributes used)
+    (note:  linewidth not found in scheme, default attributes used)
+    
+    (note:  named style med not found in class linewidth, default attributes used)
+    (note:  linewidth not found in scheme, default attributes used)
+    (note:  named style med not found in class linewidth, default attributes used)
+    (note:  linewidth not found in scheme, default attributes used)
+    
+    (note:  named style med not found in class linewidth, default attributes used)
+    (note:  linewidth not found in scheme, default attributes used)
+    (note:  named style med not found in class linewidth, default attributes used)
+    (note:  linewidth not found in scheme, default attributes used)
+    (note:  named style med not found in class linewidth, default attributes used)
+    (note:  linewidth not found in scheme, default attributes used)
+    (note:  named style med not found in class linewidth, default attributes used)
+    (note:  linewidth not found in scheme, default attributes used)
+    (note:  named style med not found in class linewidth, default attributes used)
+    (note:  linewidth not found in scheme, default attributes used)
+    (note:  named style med not found in class linewidth, default attributes used)
+    (note:  linewidth not found in scheme, default attributes used)
+    (note:  named style med not found in class linewidth, default attributes used)
+    (note:  linewidth not found in scheme, default attributes used)
+    (note:  named style med not found in class linewidth, default attributes used)
+    (note:  linewidth not found in scheme, default attributes used)
+    
+    
+
+
+    
+![png](output_50_1.png)
+    
+
+
+
+    
+![png](output_50_2.png)
+    
+
+
+
+    
+![png](output_50_3.png)
+    
+
+
+
+    
+![png](output_50_4.png)
+    
+
+
+
+    
+![png](output_50_5.png)
+    
 
 
 
 ```python
+%%stata -os -o df_cummulative
+* # ===========================================================================================
+**** #second pass: use cumulative impacts up to each year
+* # ===========================================================================================
+replace ly2 = ly1 + ly2
+replace ly3 = ly2 + ly3
+replace ly4 = ly3 + ly4
+replace ly5 = ly4 + ly5
 
+* #----------------------------------------------------------------------------------------------------
+* # creating columns for storing results
+* #----------------------------------------------------------------------------------------------------
+capture drop LPIV* LPIP* _Year
+gen LPIVboom  = .
+gen LPIVslump = .
+gen LPIVboomse  = .
+gen LPIVslumpse = .
+gen LPIPboom  = .
+gen LPIPslump = .
+gen LPIPboomse  = .
+gen LPIPslumpse = .
+gen _Year = _n if _n <=5
+label var _Year "Year"
+
+* #----------------------------------------------------------------------------------------------------
+* # Copied code from table 9
+* #----------------------------------------------------------------------------------------------------
+
+* #DR - IPWRA - ATE weighted by IPWT (Davidian/Lunt) WITH DIFFERENT SLOPE/CFEs (beta1.NEQ.beta0)
+* #ATE split by bin
+* #no truncations (use phat0)
+capture drop a invwt
+gen a=ftreatment // #define treatment indicator as a from Lunt et al.
+gen invwt=a/pihat0 + (1-a)/(1-pihat0) if pihat~=. // #invwt from Lunt et al.
+
+forvalues i=1/5 {
+	* #SAME OUTCOME REG IN BOTH T&C THIS TIME, REST ALL THE SAME
+	capture drop mu1 mu0
+	gen mu0=.
+	gen mu1=.
+	foreach bin in boom slump {
+	
+		quietly reg ly`i'  hply dml0dly  dml1dly dmdumiso1-dmdumiso16 [pweight=invwt] ///
+			if year>=1980 & year<=2007 & `bin'==1 & ftreatment==0,  cluster(iso)
+		capture drop temp
+		predict temp
+		replace mu0 = temp if year>=1980 & year<=2007 & `bin'==1  
+
+		
+		quietly reg ly`i'  hply dml0dly  dml1dly dmdumiso1-dmdumiso16 [pweight=invwt] ///
+			if year>=1980 & year<=2007 & `bin'==1 & ftreatment==1,  cluster(iso)
+		capture drop temp
+		predict temp
+		replace mu1 = temp if year>=1980 & year<=2007 & `bin'==1  
+		}
+		
+	* #from Lunt et al
+	generate mdiff1=(-(a-pihat0)*mu1/pihat0)-((a-pihat0)*mu0/(1-pihat0))
+	generate iptw=(2*a-1)*ly`i'*invwt
+	generate dr1 = iptw + mdiff1
+	
+
+	qui gen ATE_IPWRA_boom  = boom  // #constant for convenience in next reg to get mean
+	qui gen ATE_IPWRA_slump  = slump  // #constant for convenience in next reg to get mean
+	quietly reg dr1 ATE_IPWRA_boom ATE_IPWRA_slump , nocons cluster(iso)
+	
+	* #store for charts
+	replace LPIPboom     = _b[ATE_IPWRA_boom]    if _Year==`i'
+	replace LPIPslump    = _b[ATE_IPWRA_slump]   if _Year==`i'
+	replace LPIPboomse 	 = _se[ATE_IPWRA_boom]   if _Year==`i'
+	replace LPIPslumpse  = _se[ATE_IPWRA_slump]   if _Year==`i'
+
+
+	drop iptw mdiff1 dr1 mu1 mu0 ATE_IPWRA*
+}
+
+
+* #----------------------------------------------------------------------------------------------------
+* #Table 4: Fiscal multiplier, d.CAPB, IV estimate (binary), boom/slump
+* #----------------------------------------------------------------------------------------------------
+capture drop zboom zslump
+foreach c in boom slump {
+    gen z`c'=f.treatment*`c'
+}
+
+forvalues i = 1/5   {
+    foreach c in boom slump {
+        * #the dummy for the U.S. is dropped to avoid collinearity with the constant
+        quietly ivreg2 ly`i'   (fAA= zboom zslump) ///
+            hply dml0dly dml1dly dmdumiso1-dmdumiso16 ///
+            if `c'==1 & year>=1980 & year<=2007,  cluster(iso) 
+		
+		* #store for charts
+		replace LPIV`c'    = _b[fAA]       if _Year==`i'
+		replace LPIV`c'se  = _se[fAA]      if _Year==`i'
+    }
+}
+
+
+
+* #----------------------------------------------------------------------------------------------------
+* # Chart work start
+* #----------------------------------------------------------------------------------------------------
+capture drop x_* up_* dn_* up10_* dn10_*
+
+* # SCALE UP GIVEN AVG TREATMENT SIZE IN EACH BIN
+local scaling_LPIPboom   1.00/0.9726035
+local scaling_LPIPslump  1.00/0.9726035
+local scaling_LPIVboom   1.00
+local scaling_LPIVslump  1.00
+
+foreach s in LPIPboom LPIPslump LPIVboom LPIVslump {
+		gen x_`s'      = `scaling_`s'' * `s' //# main IRF
+		gen up_`s'     = `scaling_`s'' * (`s' + 1.96 * `s'se) //# 5% level of significance
+		gen dn_`s'     = `scaling_`s'' * (`s' - 1.96 * `s'se) //# 5% level of significance
+		gen up10_`s'   = `scaling_`s'' * (`s' + 1.64 * `s'se) //# 10% level of significance
+		gen dn10_`s'   = `scaling_`s'' * (`s' - 1.64 * `s'se) //# 10% level of significance
+	}
+	
+capture drop _Zero
+gen _Zero = 0
+
+twoway	(rarea up_LPIPboom dn_LPIPboom _Year, ///
+				fcolor(gs14) lcolor(gs14) lpattern(solid)) ///
+		(rarea up10_LPIPboom dn10_LPIPboom _Year, ///
+				fcolor(gs11) lcolor(gs14) lpattern(solid)) ///
+		(line x_LPIPboom _Year, lcolor(red) lpattern(solid) lwidth(thick)) ///
+		(line _Zero _Year, lcolor(black) lpattern(dash) lwidth(med)) ///
+		, legend(off) title("AIPW estimates: boom")
+		graph rename g1b
+
+twoway	(rarea up_LPIVboom dn_LPIVboom _Year, ///
+				fcolor(gs14) lcolor(gs14) lpattern(solid)) ///
+		(rarea up10_LPIVboom dn10_LPIVboom _Year, ///
+				fcolor(gs11) lcolor(gs14) lpattern(solid)) ///
+		(line x_LPIVboom _Year, lcolor(blue) lpattern(solid) lwidth(thick)) ///
+		(line _Zero _Year, lcolor(black) lpattern(dash) lwidth(med)) ///
+		, legend(off) title("IV estimates: boom")
+		graph rename g2b
+
+		
+twoway	(rarea up_LPIPslump dn_LPIPslump _Year, ///
+				fcolor(gs14) lcolor(gs14) lpattern(solid)) ///
+		(rarea up10_LPIPslump dn10_LPIPslump _Year, ///
+				fcolor(gs11) lcolor(gs14) lpattern(solid)) ///
+		(line x_LPIPslump _Year, lcolor(red) lpattern(solid) lwidth(thick)) ///
+		(line _Zero _Year, lcolor(black) lpattern(dash) lwidth(med)) ///
+		, legend(off) title("AIPW estimates: slump")
+		graph rename g3b
+		
+
+twoway	(rarea up_LPIVslump dn_LPIVslump _Year, ///
+				fcolor(gs14) lcolor(gs14) lpattern(solid)) ///
+		(rarea up10_LPIVslump dn10_LPIVslump _Year, ///
+				fcolor(gs11) lcolor(gs14) lpattern(solid)) ///
+		(line x_LPIVslump _Year, lcolor(blue) lpattern(solid) lwidth(thick)) ///
+		(line _Zero _Year, lcolor(black) lpattern(dash) lwidth(med)) ///
+		, legend(off) title("IV estimates: slump")
+		graph rename g4b
+	
+gr combine g1b g2b g3b g4b, ycommon title("(b) Cumulative ATE output losses")
+graph rename gb
+
+gr combine ga gb , // #no title
+
+* #graph drop _all
 ```
+
+    (476 real changes made)
+    
+    (459 real changes made)
+    
+    (442 real changes made)
+    
+    (425 real changes made)
+    
+    (510 missing values generated)
+    
+    (510 missing values generated)
+    
+    (510 missing values generated)
+    
+    (510 missing values generated)
+    
+    (510 missing values generated)
+    
+    (510 missing values generated)
+    
+    (510 missing values generated)
+    
+    (510 missing values generated)
+    
+    (505 missing values generated)
+    
+    (19 missing values generated)
+    
+    (39 missing values generated)
+    
+    . forvalues i=1/5 {
+      2. * #SAME OUTCOME REG IN BOTH T&C THIS TIME, REST ALL THE SAME
+      3. gen mu0=.
+      4. gen mu1=.
+      5. foreach bin in boom slump {
+      6. 
+      7. capture drop temp
+      8. predict temp
+      9. replace mu0 = temp if year>=1980 & year<=2007 & `bin'==1  
+     10. 
+     11. capture drop temp
+     12. predict temp
+     13. replace mu1 = temp if year>=1980 & year<=2007 & `bin'==1  
+     14. }
+     15. 
+     16. generate iptw=(2*a-1)*ly`i'*invwt
+     17. generate dr1 = iptw + mdiff1
+     18. 
+     19. qui gen ATE_IPWRA_slump  = slump
+     20. quietly reg dr1 ATE_IPWRA_boom ATE_IPWRA_slump , nocons cluster(iso)
+     21. 
+     22. replace LPIPslump    = _b[ATE_IPWRA_slump]   if _Year==`i'
+     23. replace LPIPboomse  = _se[ATE_IPWRA_boom]   if _Year==`i'
+     24. replace LPIPslumpse  = _se[ATE_IPWRA_slump]   if _Year==`i'
+     25. 
+     26. }
+    (510 missing values generated)
+    (510 missing values generated)
+    (option xb assumed; fitted values)
+    (17 missing values generated)
+    (241 real changes made)
+    (option xb assumed; fitted values)
+    (17 missing values generated)
+    (241 real changes made)
+    (option xb assumed; fitted values)
+    (17 missing values generated)
+    (235 real changes made)
+    (option xb assumed; fitted values)
+    (17 missing values generated)
+    (235 real changes made)
+    (54 missing values generated)
+    (39 missing values generated)
+    (54 missing values generated)
+    (1 real change made)
+    (1 real change made)
+    (1 real change made)
+    (1 real change made)
+    (510 missing values generated)
+    (510 missing values generated)
+    (option xb assumed; fitted values)
+    (17 missing values generated)
+    (241 real changes made)
+    (option xb assumed; fitted values)
+    (17 missing values generated)
+    (241 real changes made)
+    (option xb assumed; fitted values)
+    (17 missing values generated)
+    (235 real changes made)
+    (option xb assumed; fitted values)
+    (17 missing values generated)
+    (235 real changes made)
+    (54 missing values generated)
+    (56 missing values generated)
+    (71 missing values generated)
+    (1 real change made)
+    (1 real change made)
+    (1 real change made)
+    (1 real change made)
+    (510 missing values generated)
+    (510 missing values generated)
+    (option xb assumed; fitted values)
+    (17 missing values generated)
+    (241 real changes made)
+    (option xb assumed; fitted values)
+    (17 missing values generated)
+    (241 real changes made)
+    (option xb assumed; fitted values)
+    (17 missing values generated)
+    (235 real changes made)
+    (option xb assumed; fitted values)
+    (17 missing values generated)
+    (235 real changes made)
+    (54 missing values generated)
+    (72 missing values generated)
+    (87 missing values generated)
+    (1 real change made)
+    (1 real change made)
+    (1 real change made)
+    (1 real change made)
+    (510 missing values generated)
+    (510 missing values generated)
+    (option xb assumed; fitted values)
+    (17 missing values generated)
+    (241 real changes made)
+    (option xb assumed; fitted values)
+    (17 missing values generated)
+    (241 real changes made)
+    (option xb assumed; fitted values)
+    (17 missing values generated)
+    (235 real changes made)
+    (option xb assumed; fitted values)
+    (17 missing values generated)
+    (235 real changes made)
+    (54 missing values generated)
+    (89 missing values generated)
+    (104 missing values generated)
+    (1 real change made)
+    (1 real change made)
+    (1 real change made)
+    (1 real change made)
+    (510 missing values generated)
+    (510 missing values generated)
+    (option xb assumed; fitted values)
+    (17 missing values generated)
+    (241 real changes made)
+    (option xb assumed; fitted values)
+    (17 missing values generated)
+    (241 real changes made)
+    (option xb assumed; fitted values)
+    (17 missing values generated)
+    (235 real changes made)
+    (option xb assumed; fitted values)
+    (17 missing values generated)
+    (235 real changes made)
+    (54 missing values generated)
+    (106 missing values generated)
+    (121 missing values generated)
+    (1 real change made)
+    (1 real change made)
+    (1 real change made)
+    (1 real change made)
+    
+    (17 missing values generated)
+    (17 missing values generated)
+    
+    . forvalues i = 1/5   {
+      2.     foreach c in boom slump {
+      3.         * #the dummy for the U.S. is dropped to avoid collinearity with the constant
+      4. 
+      5. replace LPIV`c'se  = _se[fAA]      if _Year==`i'
+      6.     }
+      7. }
+    Warning: estimated covariance matrix of moment conditions not of full rank.
+             standard errors and model tests should be interpreted with caution.
+    Possible causes:
+             number of clusters insufficient to calculate robust covariance matrix
+             singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
+    partial option may address problem.
+    (1 real change made)
+    (1 real change made)
+    Warning: estimated covariance matrix of moment conditions not of full rank.
+             standard errors and model tests should be interpreted with caution.
+    Possible causes:
+             number of clusters insufficient to calculate robust covariance matrix
+             singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
+    partial option may address problem.
+    (1 real change made)
+    (1 real change made)
+    Warning: estimated covariance matrix of moment conditions not of full rank.
+             standard errors and model tests should be interpreted with caution.
+    Possible causes:
+             number of clusters insufficient to calculate robust covariance matrix
+             singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
+    partial option may address problem.
+    (1 real change made)
+    (1 real change made)
+    Warning: estimated covariance matrix of moment conditions not of full rank.
+             standard errors and model tests should be interpreted with caution.
+    Possible causes:
+             number of clusters insufficient to calculate robust covariance matrix
+             singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
+    partial option may address problem.
+    (1 real change made)
+    (1 real change made)
+    Warning: estimated covariance matrix of moment conditions not of full rank.
+             standard errors and model tests should be interpreted with caution.
+    Possible causes:
+             number of clusters insufficient to calculate robust covariance matrix
+             singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
+    partial option may address problem.
+    (1 real change made)
+    (1 real change made)
+    Warning: estimated covariance matrix of moment conditions not of full rank.
+             standard errors and model tests should be interpreted with caution.
+    Possible causes:
+             number of clusters insufficient to calculate robust covariance matrix
+             singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
+    partial option may address problem.
+    (1 real change made)
+    (1 real change made)
+    Warning: estimated covariance matrix of moment conditions not of full rank.
+             standard errors and model tests should be interpreted with caution.
+    Possible causes:
+             number of clusters insufficient to calculate robust covariance matrix
+             singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
+    partial option may address problem.
+    (1 real change made)
+    (1 real change made)
+    Warning: estimated covariance matrix of moment conditions not of full rank.
+             standard errors and model tests should be interpreted with caution.
+    Possible causes:
+             number of clusters insufficient to calculate robust covariance matrix
+             singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
+    partial option may address problem.
+    (1 real change made)
+    (1 real change made)
+    Warning: estimated covariance matrix of moment conditions not of full rank.
+             standard errors and model tests should be interpreted with caution.
+    Possible causes:
+             number of clusters insufficient to calculate robust covariance matrix
+             singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
+    partial option may address problem.
+    (1 real change made)
+    (1 real change made)
+    Warning: estimated covariance matrix of moment conditions not of full rank.
+             standard errors and model tests should be interpreted with caution.
+    Possible causes:
+             number of clusters insufficient to calculate robust covariance matrix
+             singleton dummy variable (dummy with one 1 and N-1 0s or vice versa)
+    partial option may address problem.
+    (1 real change made)
+    (1 real change made)
+    
+    (505 missing values generated)
+    (505 missing values generated)
+    (505 missing values generated)
+    (505 missing values generated)
+    (505 missing values generated)
+    (505 missing values generated)
+    (505 missing values generated)
+    (505 missing values generated)
+    (505 missing values generated)
+    (505 missing values generated)
+    (505 missing values generated)
+    (505 missing values generated)
+    (505 missing values generated)
+    (505 missing values generated)
+    (505 missing values generated)
+    (505 missing values generated)
+    (505 missing values generated)
+    (505 missing values generated)
+    (505 missing values generated)
+    (505 missing values generated)
+    
+    (note:  named style med not found in class linewidth, default attributes used)
+    (note:  linewidth not found in scheme, default attributes used)
+    (note:  named style med not found in class linewidth, default attributes used)
+    (note:  linewidth not found in scheme, default attributes used)
+    
+    (note:  named style med not found in class linewidth, default attributes used)
+    (note:  linewidth not found in scheme, default attributes used)
+    (note:  named style med not found in class linewidth, default attributes used)
+    (note:  linewidth not found in scheme, default attributes used)
+    
+    (note:  named style med not found in class linewidth, default attributes used)
+    (note:  linewidth not found in scheme, default attributes used)
+    (note:  named style med not found in class linewidth, default attributes used)
+    (note:  linewidth not found in scheme, default attributes used)
+    
+    (note:  named style med not found in class linewidth, default attributes used)
+    (note:  linewidth not found in scheme, default attributes used)
+    (note:  named style med not found in class linewidth, default attributes used)
+    (note:  linewidth not found in scheme, default attributes used)
+    
+    (note:  named style med not found in class linewidth, default attributes used)
+    (note:  linewidth not found in scheme, default attributes used)
+    (note:  named style med not found in class linewidth, default attributes used)
+    (note:  linewidth not found in scheme, default attributes used)
+    (note:  named style med not found in class linewidth, default attributes used)
+    (note:  linewidth not found in scheme, default attributes used)
+    (note:  named style med not found in class linewidth, default attributes used)
+    (note:  linewidth not found in scheme, default attributes used)
+    (note:  named style med not found in class linewidth, default attributes used)
+    (note:  linewidth not found in scheme, default attributes used)
+    (note:  named style med not found in class linewidth, default attributes used)
+    (note:  linewidth not found in scheme, default attributes used)
+    (note:  named style med not found in class linewidth, default attributes used)
+    (note:  linewidth not found in scheme, default attributes used)
+    (note:  named style med not found in class linewidth, default attributes used)
+    (note:  linewidth not found in scheme, default attributes used)
+    
+    (note:  named style med not found in class linewidth, default attributes used)
+    (note:  linewidth not found in scheme, default attributes used)
+    (note:  named style med not found in class linewidth, default attributes used)
+    (note:  linewidth not found in scheme, default attributes used)
+    (note:  named style med not found in class linewidth, default attributes used)
+    (note:  linewidth not found in scheme, default attributes used)
+    (note:  named style med not found in class linewidth, default attributes used)
+    (note:  linewidth not found in scheme, default attributes used)
+    (note:  named style med not found in class linewidth, default attributes used)
+    (note:  linewidth not found in scheme, default attributes used)
+    (note:  named style med not found in class linewidth, default attributes used)
+    (note:  linewidth not found in scheme, default attributes used)
+    (note:  named style med not found in class linewidth, default attributes used)
+    (note:  linewidth not found in scheme, default attributes used)
+    (note:  named style med not found in class linewidth, default attributes used)
+    (note:  linewidth not found in scheme, default attributes used)
+    (note:  named style med not found in class linewidth, default attributes used)
+    (note:  linewidth not found in scheme, default attributes used)
+    (note:  named style med not found in class linewidth, default attributes used)
+    (note:  linewidth not found in scheme, default attributes used)
+    (note:  named style med not found in class linewidth, default attributes used)
+    (note:  linewidth not found in scheme, default attributes used)
+    (note:  named style med not found in class linewidth, default attributes used)
+    (note:  linewidth not found in scheme, default attributes used)
+    (note:  named style med not found in class linewidth, default attributes used)
+    (note:  linewidth not found in scheme, default attributes used)
+    (note:  named style med not found in class linewidth, default attributes used)
+    (note:  linewidth not found in scheme, default attributes used)
+    (note:  named style med not found in class linewidth, default attributes used)
+    (note:  linewidth not found in scheme, default attributes used)
+    (note:  named style med not found in class linewidth, default attributes used)
+    (note:  linewidth not found in scheme, default attributes used)
+    
+    
+
+
+    
+![png](output_51_1.png)
+    
+
+
+
+    
+![png](output_51_2.png)
+    
+
+
+
+    
+![png](output_51_3.png)
+    
+
+
+
+    
+![png](output_51_4.png)
+    
+
+
+
+    
+![png](output_51_5.png)
+    
+
+
+
+    
+![png](output_51_6.png)
+    
+
+
+<a class='anchor' id='fig3_python'></a>
+[Go to Table of Contents](#table_of_contents)
+
+---
+# Figure 3 (Using Python)
+---
+
+
+```python
+columns_to_retain = [x for x in df_non_cummulative if 'x_' in x or 'up' in x or 'dn' in x]
+columns_to_retain.append('_Year')
+
+df_non_cummulative = df_non_cummulative[columns_to_retain].head(5)
+df_cummulative = df_cummulative[columns_to_retain].head(5)
+```
+
+
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+
+x = [1,2,3,4,5]
+
+fig = plt.figure(figsize=(16,15))
+fig.suptitle("(a) Year-by-year ATE Output losses",size=20)
+ax1 = fig.add_subplot(2,2,1)
+ax2 = fig.add_subplot(2,2,2)
+ax3 = fig.add_subplot(2,2,3)
+ax4 = fig.add_subplot(2,2,4)
+
+ax1.plot(x, list(df_non_cummulative['x_LPIPboom']), color='red', linewidth=3)
+ax1.fill_between(x, list(df_non_cummulative['up_LPIPboom']), list(df_non_cummulative['dn_LPIPboom']), color='grey', alpha=0.2)
+ax1.fill_between(x, list(df_non_cummulative['up10_LPIPboom']), list(df_non_cummulative['dn10_LPIPboom']), color='grey', alpha=0.2)
+ax1.axhline(0, color='black', linestyle=':', linewidth=2)
+ax1.set_title('AIPW Estimates : Boom')
+ax1.set_xticks(x, minor=False)
+
+ax2.plot(x, list(df_non_cummulative['x_LPIVboom']), color='blue', linewidth=3)
+ax2.fill_between(x, list(df_non_cummulative['up_LPIVboom']), list(df_non_cummulative['dn_LPIVboom']), color='grey', alpha=0.2)
+ax2.fill_between(x, list(df_non_cummulative['up10_LPIVboom']), list(df_non_cummulative['dn10_LPIVboom']), color='grey', alpha=0.2)
+ax2.axhline(0, color='black', linestyle=':', linewidth=2)
+ax2.set_title('IV Estimates : Boom')
+ax2.set_xticks(x, minor=False)
+
+ax3.plot(x,list(df_non_cummulative['x_LPIPslump']), color='red', linewidth=3)
+ax3.fill_between(x, list(df_non_cummulative['up_LPIPslump']), list(df_non_cummulative['dn_LPIPslump']), color='grey', alpha=0.2)
+ax3.fill_between(x, list(df_non_cummulative['up10_LPIPslump']), list(df_non_cummulative['dn10_LPIPslump']), color='grey', alpha=0.2)
+ax3.axhline(0, color='black', linestyle=':', linewidth=2)
+ax3.set_title('AIPW Estimates : Slump')
+ax3.set_xticks(x, minor=False)
+
+ax4.plot(x, list(df_non_cummulative['x_LPIVslump']), color='blue', linewidth=3)
+ax4.fill_between(x, list(df_non_cummulative['up_LPIVslump']), list(df_non_cummulative['dn_LPIVslump']), color='grey', alpha=0.2)
+ax4.fill_between(x, list(df_non_cummulative['up10_LPIVslump']), list(df_non_cummulative['dn10_LPIVslump']), color='grey', alpha=0.2)
+ax4.axhline(0, color='black', linestyle=':', linewidth=2)
+ax4.set_title('IV Estimates : Slump')
+ax4.set_xticks(x, minor=False)
+
+plt.show()
+```
+
+
+    
+![png](output_54_0.png)
+    
+
+
+
+```python
+x = [1,2,3,4,5]
+
+fig = plt.figure(figsize=(16,15))
+fig.suptitle("(b) Cummulative ATE Output losses",size=20)
+ax1 = fig.add_subplot(2,2,1)
+ax2 = fig.add_subplot(2,2,2)
+ax3 = fig.add_subplot(2,2,3)
+ax4 = fig.add_subplot(2,2,4)
+
+ax1.plot(x, list(df_cummulative['x_LPIPboom']), color='red', linewidth=3)
+ax1.fill_between(x, list(df_cummulative['up_LPIPboom']), list(df_cummulative['dn_LPIPboom']), color='grey', alpha=0.2)
+ax1.fill_between(x, list(df_cummulative['up10_LPIPboom']), list(df_cummulative['dn10_LPIPboom']), color='grey', alpha=0.2)
+ax1.axhline(0, color='black', linestyle=':', linewidth=2)
+ax1.set_title('AIPW Estimates : Boom')
+ax1.set_xticks(x, minor=False)
+
+ax2.plot(x, list(df_cummulative['x_LPIVboom']), color='blue', linewidth=3)
+ax2.fill_between(x, list(df_cummulative['up_LPIVboom']), list(df_cummulative['dn_LPIVboom']), color='grey', alpha=0.2)
+ax2.fill_between(x, list(df_cummulative['up10_LPIVboom']), list(df_cummulative['dn10_LPIVboom']), color='grey', alpha=0.2)
+ax2.axhline(0, color='black', linestyle=':', linewidth=2)
+ax2.set_title('IV Estimates : Boom')
+ax2.set_xticks(x, minor=False)
+
+ax3.plot(x,list(df_cummulative['x_LPIPslump']), color='red', linewidth=3)
+ax3.fill_between(x, list(df_cummulative['up_LPIPslump']), list(df_cummulative['dn_LPIPslump']), color='grey', alpha=0.2)
+ax3.fill_between(x, list(df_cummulative['up10_LPIPslump']), list(df_cummulative['dn10_LPIPslump']), color='grey', alpha=0.2)
+ax3.axhline(0, color='black', linestyle=':', linewidth=2)
+ax3.set_title('AIPW Estimates : Slump')
+ax3.set_xticks(x, minor=False)
+
+ax4.plot(x, list(df_cummulative['x_LPIVslump']), color='blue', linewidth=3)
+ax4.fill_between(x, list(df_cummulative['up_LPIVslump']), list(df_cummulative['dn_LPIVslump']), color='grey', alpha=0.2)
+ax4.fill_between(x, list(df_cummulative['up10_LPIVslump']), list(df_cummulative['dn10_LPIVslump']), color='grey', alpha=0.2)
+ax4.axhline(0, color='black', linestyle=':', linewidth=2)
+ax4.set_title('IV Estimates : Slump')
+ax4.set_xticks(x, minor=False)
+
+plt.show()
+```
+
+
+    
+![png](output_55_0.png)
+    
+
