@@ -22,7 +22,7 @@ import ipystata
 
 ```python
 %%stata -cwd -os
-use https://github.com/htdanil/referenced_to_github/raw/master/GF0003_wooldridge_datasets/3rd%20edition/stata/FERTIL1.DTA
+use https://github.com/htdanil/referenced_to_github/raw/master/GF0003_wooldridge_datasets/3rd%20edition/stata/FERTIL1.DTA, clear
 reg kids educ age agesq black east northcen west farm othrural town smcity y74 y76 y78 y80 y82 y84
 ```
 
@@ -86,8 +86,8 @@ test y74 y76 y78 y80 y82 y84
 ```r
 %%R
 library(wooldridge)
-df_fertil1 <- wooldridge::fertil1
-model <- lm(kids ~ educ+age+agesq+black+east+northcen+west+farm+othrural+town+smcity+y74+y76+y78+y80+y82+y84, data = df_fertil1)
+df <- wooldridge::fertil1
+model <- lm(kids ~ educ+age+agesq+black+east+northcen+west+farm+othrural+town+smcity+y74+y76+y78+y80+y82+y84, data = df)
 
 summary(model)
 ```
@@ -96,7 +96,7 @@ summary(model)
     Call:
     lm(formula = kids ~ educ + age + agesq + black + east + northcen + 
         west + farm + othrural + town + smcity + y74 + y76 + y78 + 
-        y80 + y82 + y84, data = df_fertil1)
+        y80 + y82 + y84, data = df)
     
     Residuals:
         Min      1Q  Median      3Q     Max 
@@ -158,4 +158,80 @@ car::linearHypothesis(model, c("y74=0", "y76=0", "y78=0","y80=0", "y82=0", "y84=
     2   1111 2685.9  6    85.139 5.8695 4.855e-06 ***
     ---
     Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    
+
+# Example 13.2 : Changes to the Return to Education and the Gender Wage Gap
+
+## (STATA)
+
+
+```python
+%%stata -os
+use https://github.com/htdanil/referenced_to_github/raw/master/GF0003_wooldridge_datasets/3rd%20edition/stata/CPS78_85.DTA, clear
+
+reg lwage y85 educ y85educ exper expersq union female y85fem
+```
+
+          Source |       SS           df       MS      Number of obs   =     1,084
+    -------------+----------------------------------   F(8, 1075)      =     99.80
+           Model |  135.992074         8  16.9990092   Prob > F        =    0.0000
+        Residual |  183.099094     1,075  .170324738   R-squared       =    0.4262
+    -------------+----------------------------------   Adj R-squared   =    0.4219
+           Total |  319.091167     1,083   .29463635   Root MSE        =     .4127
+    
+    ------------------------------------------------------------------------------
+           lwage |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+    -------------+----------------------------------------------------------------
+             y85 |   .1178062   .1237817     0.95   0.341     -.125075    .3606874
+            educ |   .0747209   .0066764    11.19   0.000     .0616206    .0878212
+         y85educ |   .0184605   .0093542     1.97   0.049      .000106     .036815
+           exper |   .0295843   .0035673     8.29   0.000     .0225846     .036584
+         expersq |  -.0003994   .0000775    -5.15   0.000    -.0005516   -.0002473
+           union |   .2021319   .0302945     6.67   0.000     .1426888    .2615749
+          female |  -.3167086   .0366215    -8.65   0.000    -.3885663    -.244851
+          y85fem |    .085052    .051309     1.66   0.098    -.0156251     .185729
+           _cons |   .4589329   .0934485     4.91   0.000     .2755707     .642295
+    ------------------------------------------------------------------------------
+    
+    
+
+## (R)
+
+
+```r
+%%R
+library(wooldridge)
+df <- wooldridge::cps78_85
+model <- lm(lwage ~ y85*(educ+female) + exper + I(exper^2) + union, data = df)
+
+summary(model)
+```
+
+    
+    Call:
+    lm(formula = lwage ~ y85 * (educ + female) + exper + I(exper^2) + 
+        union, data = df)
+    
+    Residuals:
+         Min       1Q   Median       3Q      Max 
+    -2.56098 -0.25828  0.00864  0.26571  2.11669 
+    
+    Coefficients:
+                  Estimate Std. Error t value Pr(>|t|)    
+    (Intercept)  4.589e-01  9.345e-02   4.911 1.05e-06 ***
+    y85          1.178e-01  1.238e-01   0.952   0.3415    
+    educ         7.472e-02  6.676e-03  11.192  < 2e-16 ***
+    female      -3.167e-01  3.662e-02  -8.648  < 2e-16 ***
+    exper        2.958e-02  3.567e-03   8.293 3.27e-16 ***
+    I(exper^2)  -3.994e-04  7.754e-05  -5.151 3.08e-07 ***
+    union        2.021e-01  3.029e-02   6.672 4.03e-11 ***
+    y85:educ     1.846e-02  9.354e-03   1.974   0.0487 *  
+    y85:female   8.505e-02  5.131e-02   1.658   0.0977 .  
+    ---
+    Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    
+    Residual standard error: 0.4127 on 1075 degrees of freedom
+    Multiple R-squared:  0.4262,	Adjusted R-squared:  0.4219 
+    F-statistic:  99.8 on 8 and 1075 DF,  p-value: < 2.2e-16
+    
     
